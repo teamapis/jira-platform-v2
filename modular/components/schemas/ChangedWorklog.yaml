@@ -1,0 +1,20 @@
+type: object
+properties:
+  worklogId:
+    type: integer
+    description: The ID of the worklog.
+    format: int64
+    readOnly: true
+  updatedTime:
+    type: integer
+    description: The datetime of the change.
+    format: int64
+    readOnly: true
+  properties:
+    type: array
+    description: Details of properties associated with the change.
+    readOnly: true
+    items:
+      $ref: ./EntityProperty.yaml
+additionalProperties: false
+description: Details of a changed worklog.

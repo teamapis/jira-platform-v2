@@ -1,0 +1,10 @@
+type: object
+properties:
+  issueSecuritySchemes:
+    type: array
+    description: List of security schemes.
+    readOnly: true
+    items:
+      $ref: ./SecurityScheme.yaml
+additionalProperties: false
+description: List of security schemes.

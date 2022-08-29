@@ -1,0 +1,32 @@
+required:
+  - id
+  - name
+  - self
+  - statuses
+  - subtask
+type: object
+properties:
+  self:
+    type: string
+    description: The URL of the issue type's status details.
+    readOnly: true
+  id:
+    type: string
+    description: The ID of the issue type.
+    readOnly: true
+  name:
+    type: string
+    description: The name of the issue type.
+    readOnly: true
+  subtask:
+    type: boolean
+    description: Whether this issue type represents subtasks.
+    readOnly: true
+  statuses:
+    type: array
+    description: List of status details for the issue type.
+    readOnly: true
+    items:
+      $ref: ./StatusDetails.yaml
+additionalProperties: false
+description: Status details for an issue type.

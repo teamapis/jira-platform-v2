@@ -1,0 +1,23 @@
+type: object
+properties:
+  modifiedIssues:
+    type: array
+    description: The IDs of the modified issues.
+    items:
+      type: integer
+      format: int64
+  unmodifiedIssues:
+    type: array
+    description: >-
+      The IDs of the unchanged issues, those issues where errors prevent
+      modification.
+    items:
+      type: integer
+      format: int64
+  errors:
+    description: >-
+      A collection of errors related to unchanged issues. The collection size is
+      limited, which means not all errors may be returned.
+    allOf:
+      - $ref: ./SimpleErrorCollection.yaml
+additionalProperties: false

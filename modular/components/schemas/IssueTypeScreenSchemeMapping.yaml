@@ -1,0 +1,21 @@
+required:
+  - issueTypeId
+  - screenSchemeId
+type: object
+properties:
+  issueTypeId:
+    type: string
+    description: >-
+      The ID of the issue type or *default*. Only issue types used in classic
+      projects are accepted. An entry for *default* must be provided and defines
+      the mapping for all issue types without a screen scheme.
+    writeOnly: true
+  screenSchemeId:
+    type: string
+    description: >-
+      The ID of the screen scheme. Only screen schemes used in classic projects
+      are accepted.
+    writeOnly: true
+additionalProperties: false
+description: The IDs of the screen schemes for the issue type IDs.
+writeOnly: true

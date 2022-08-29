@@ -1,0 +1,10 @@
+type: object
+properties:
+  options:
+    type: array
+    description: Details of options to create.
+    items:
+      $ref: ./CustomFieldOptionCreate.yaml
+additionalProperties: false
+description: Details of the options to create for a custom field.
+writeOnly: true

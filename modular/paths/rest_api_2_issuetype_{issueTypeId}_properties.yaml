@@ -1,0 +1,65 @@
+get:
+  tags:
+    - Issue type properties
+  summary: Get issue type property keys
+  description: >-
+    Returns all the [issue type
+    property](https://developer.atlassian.com/cloud/jira/platform/storing-data-without-a-database/#a-id-jira-entity-properties-a-jira-entity-properties)
+    keys of the issue type.
+
+
+    This operation can be accessed anonymously.
+
+
+    **[Permissions](#permissions) required:**
+
+     *  *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg) to get the property keys of any issue type.
+     *  *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) to get the property keys of any issue types associated with the projects the user has permission to browse.
+  operationId: getIssueTypePropertyKeys
+  parameters:
+    - name: issueTypeId
+      in: path
+      description: The ID of the issue type.
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/PropertyKeys.yaml
+          example: >-
+            {"keys":[{"self":"https://your-domain.atlassian.net/rest/api/2/issue/EX-2/properties/issue.support","key":"issue.support"}]}
+    '400':
+      description: Returned if the issue type ID is invalid.
+    '404':
+      description: |-
+        Returned if:
+
+         *  the issue type is not found.
+         *  the user does not have the required permissions.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - read:jira-work
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - read:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:issue-type.property:jira
+        - read:comment.property:jira
+        - read:dashboard.property:jira
+        - read:issue-worklog.property:jira
+        - read:issue.property:jira
+        - read:project.property:jira
+        - read:user.property:jira
+        - read:workflow.property:jira
+  x-atlassian-connect-scope: READ

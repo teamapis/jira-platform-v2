@@ -1,0 +1,123 @@
+get:
+  tags:
+    - Dynamic modules
+  summary: Get modules
+  description: >-
+    Returns all modules registered dynamically by the calling app.
+
+
+    **[Permissions](#permissions) required:** Only Connect apps can make this
+    request.
+  operationId: DynamicModulesResource.getModules_get
+  parameters: []
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ConnectModules.yaml
+    '401':
+      description: Returned if the call is not from a Connect app.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ErrorMessage.yaml
+          example:
+            message: The request is not from a Connect app.
+  deprecated: false
+  x-experimental: true
+  x-atlassian-connect-scope: NONE
+post:
+  tags:
+    - Dynamic modules
+  summary: Register modules
+  description: >-
+    Registers a list of modules.
+
+
+    **[Permissions](#permissions) required:** Only Connect apps can make this
+    request.
+  operationId: DynamicModulesResource.registerModules_post
+  parameters: []
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/ConnectModules.yaml
+    required: true
+  responses:
+    '200':
+      description: Returned if the request is successful.
+    '400':
+      description: >-
+        Returned if:
+
+        * any of the provided modules is invalid. For example, required
+        properties are missing.
+
+        * any of the modules conflict with registered dynamic modules or modules
+        defined in the app descriptor. For example, there are duplicate keys.
+
+
+        Details of the issues encountered are included in the error message.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ErrorMessage.yaml
+          example:
+            message: >-
+              Installation failed. The app com.example.app.key has duplicate
+              module keys: [module-key]. Please contact the app vendor.
+    '401':
+      description: Returned if the call is not from a Connect app.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ErrorMessage.yaml
+          example:
+            message: The request is not from a Connect app.
+  deprecated: false
+  x-experimental: true
+  x-atlassian-connect-scope: NONE
+delete:
+  tags:
+    - Dynamic modules
+  summary: Remove modules
+  description: >-
+    Remove all or a list of modules registered by the calling app.
+
+
+    **[Permissions](#permissions) required:** Only Connect apps can make this
+    request.
+  operationId: DynamicModulesResource.removeModules_delete
+  parameters:
+    - name: moduleKey
+      in: query
+      description: >-
+        The key of the module to remove. To include multiple module keys,
+        provide multiple copies of this parameter.
+
+        For example,
+        `moduleKey=dynamic-attachment-entity-property&moduleKey=dynamic-select-field`.
+
+        Nonexistent keys are ignored.
+      required: false
+      schema:
+        type: array
+        items:
+          type: string
+  responses:
+    '204':
+      description: Returned if the request is successful.
+    '401':
+      description: Returned if the call is not from a Connect app.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ErrorMessage.yaml
+          example:
+            message: The request is not from a Connect app.
+  deprecated: false
+  x-experimental: true
+  x-atlassian-connect-scope: NONE

@@ -1,0 +1,135 @@
+get:
+  tags:
+    - Avatars
+  summary: Get avatar image by owner
+  description: |-
+    Returns the avatar image for a project or issue type.
+
+    This operation can be accessed anonymously.
+
+    **[Permissions](#permissions) required:**
+
+     *  For system avatars, none.
+     *  For custom project avatars, *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project the avatar belongs to.
+     *  For custom issue type avatars, *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for at least one project the issue type is used in.
+  operationId: getAvatarImageByOwner
+  parameters:
+    - name: type
+      in: path
+      description: The icon type of the avatar.
+      required: true
+      schema:
+        type: string
+        enum:
+          - issuetype
+          - project
+      x-showInExample: 'true'
+    - name: entityId
+      in: path
+      description: The ID of the project or issue type the avatar belongs to.
+      required: true
+      schema:
+        type: string
+      x-showInExample: 'true'
+    - name: size
+      in: query
+      description: >-
+        The size of the avatar image. If not provided the default size is
+        returned.
+      schema:
+        type: string
+        enum:
+          - xsmall
+          - small
+          - medium
+          - large
+          - xlarge
+      x-showInExample: 'true'
+    - name: format
+      in: query
+      description: >-
+        The format to return the avatar image in. If not provided the original
+        content format is returned.
+      schema:
+        type: string
+        enum:
+          - png
+          - svg
+      x-showInExample: 'true'
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            type: object
+        image/png: {}
+        image/svg+xml: {}
+        '*/*': {}
+    '400':
+      description: Returned if the request is not valid.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ErrorCollection.yaml
+        image/png:
+          example: '{"errorMessages":["Human readable error message"],"errors":{}}'
+        image/svg+xml:
+          example: '{"errorMessages":["Human readable error message"],"errors":{}}'
+        '*/*':
+          example: '{"errorMessages":["Human readable error message"],"errors":{}}'
+    '401':
+      description: Returned if the authentication credentials are incorrect.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ErrorCollection.yaml
+        image/png:
+          example: '{"errorMessages":["Human readable error message"],"errors":{}}'
+        image/svg+xml:
+          example: '{"errorMessages":["Human readable error message"],"errors":{}}'
+        '*/*':
+          example: '{"errorMessages":["Human readable error message"],"errors":{}}'
+    '403':
+      description: Returned if the user does not have the necessary permission.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ErrorCollection.yaml
+        image/png:
+          example: '{"errorMessages":["Human readable error message"],"errors":{}}'
+        image/svg+xml:
+          example: '{"errorMessages":["Human readable error message"],"errors":{}}'
+        '*/*':
+          example: '{"errorMessages":["Human readable error message"],"errors":{}}'
+    '404':
+      description: >-
+        Returned if an avatar is not found or an avatar matching the requested
+        size is not found.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ErrorCollection.yaml
+        image/png:
+          example: '{"errorMessages":["Human readable error message"],"errors":{}}'
+        image/svg+xml:
+          example: '{"errorMessages":["Human readable error message"],"errors":{}}'
+        '*/*':
+          example: '{"errorMessages":["Human readable error message"],"errors":{}}'
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - read:jira-work
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - read:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:avatar:jira
+  x-experimental: true
+  x-atlassian-connect-scope: READ

@@ -1,0 +1,12 @@
+required:
+  - fieldConfigurationItems
+type: object
+properties:
+  fieldConfigurationItems:
+    type: array
+    description: Details of fields in a field configuration.
+    writeOnly: true
+    items:
+      $ref: ./FieldConfigurationItem.yaml
+additionalProperties: false
+description: Details of field configuration items.

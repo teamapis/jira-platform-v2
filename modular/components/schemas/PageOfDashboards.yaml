@@ -1,0 +1,33 @@
+type: object
+properties:
+  startAt:
+    type: integer
+    description: The index of the first item returned on the page.
+    format: int32
+    readOnly: true
+  maxResults:
+    type: integer
+    description: The maximum number of results that could be on the page.
+    format: int32
+    readOnly: true
+  total:
+    type: integer
+    description: The number of results on the page.
+    format: int32
+    readOnly: true
+  prev:
+    type: string
+    description: The URL of the previous page of results, if any.
+    readOnly: true
+  next:
+    type: string
+    description: The URL of the next page of results, if any.
+    readOnly: true
+  dashboards:
+    type: array
+    description: List of dashboards.
+    readOnly: true
+    items:
+      $ref: ./Dashboard.yaml
+additionalProperties: false
+description: A page containing dashboard details.

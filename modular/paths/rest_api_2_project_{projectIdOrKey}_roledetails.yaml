@@ -1,0 +1,76 @@
+get:
+  tags:
+    - Project roles
+  summary: Get project role details
+  description: >-
+    Returns all [project roles](https://confluence.atlassian.com/x/3odKLg) and
+    the details for each role. Note that the list of project roles is common to
+    all projects.
+
+
+    This operation can be accessed anonymously.
+
+
+    **[Permissions](#permissions) required:** *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg) or *Administer
+    projects* [project permission](https://confluence.atlassian.com/x/yodKLg)
+    for the project.
+  operationId: getProjectRoleDetails
+  parameters:
+    - name: projectIdOrKey
+      in: path
+      description: The project ID or project key (case sensitive).
+      required: true
+      schema:
+        type: string
+    - name: currentMember
+      in: query
+      description: >-
+        Whether the roles should be filtered to include only those the user is
+        assigned to.
+      schema:
+        type: boolean
+        default: false
+    - name: excludeConnectAddons
+      in: query
+      schema:
+        type: boolean
+        default: false
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: ../components/schemas/ProjectRoleDetails.yaml
+          example: >-
+            [{"self":"https://your-domain.atlassian.net/rest/api/2/project/MKY/role/10360","name":"Developers","id":10360,"description":"A
+            project role that represents developers in a
+            project","admin":false,"default":true,"roleConfigurable":true,"translatedName":"Developers"}]
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '404':
+      description: >-
+        Returned if the project is not found or if the user does not have the
+        necessary permissions for the project.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - read:jira-work
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - read:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:project-category:jira
+        - read:project-role:jira
+        - read:project:jira
+        - read:avatar:jira
+  x-atlassian-connect-scope: READ

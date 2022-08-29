@@ -1,0 +1,15 @@
+type: object
+properties:
+  url16x16:
+    type: string
+    description: The URL of a 16x16 pixel icon.
+  title:
+    type: string
+    description: The title of the icon, for use as a tooltip on the icon.
+  link:
+    type: string
+    description: The URL of the tooltip, used only for a status icon.
+additionalProperties: false
+description: An icon.
+xml:
+  name: icon

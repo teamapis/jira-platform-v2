@@ -1,0 +1,49 @@
+post:
+  tags:
+    - Permissions
+  summary: Get permitted projects
+  description: >-
+    Returns all the projects where the user is granted a list of project
+    permissions.
+
+
+    This operation can be accessed anonymously.
+
+
+    **[Permissions](#permissions) required:** None.
+  operationId: getPermittedProjects
+  parameters: []
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/PermissionsKeysBean.yaml
+    required: true
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/PermittedProjects.yaml
+    '400':
+      description: Returned if a project permission is not found.
+      content:
+        application/json: {}
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2: []
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes: []
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:permission:jira
+        - read:project:jira
+  x-atlassian-connect-scope: READ

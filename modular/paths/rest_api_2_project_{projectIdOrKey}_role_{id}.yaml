@@ -1,0 +1,380 @@
+get:
+  tags:
+    - Project roles
+  summary: Get project role for project
+  description: >-
+    Returns a project role's details and actors associated with the project. The
+    list of actors is sorted by display name.
+
+
+    To check whether a user belongs to a role based on their group memberships,
+    use [Get user](#api-rest-api-2-user-get) with the `groups` expand parameter
+    selected. Then check whether the user keys and groups match with the actors
+    returned for the project.
+
+
+    This operation can be accessed anonymously.
+
+
+    **[Permissions](#permissions) required:** *Administer Projects* [project
+    permission](https://confluence.atlassian.com/x/yodKLg) for the project or
+    *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg).
+  operationId: getProjectRole
+  parameters:
+    - name: projectIdOrKey
+      in: path
+      description: The project ID or project key (case sensitive).
+      required: true
+      schema:
+        type: string
+    - name: id
+      in: path
+      description: >-
+        The ID of the project role. Use [Get all project
+        roles](#api-rest-api-2-role-get) to get a list of project role IDs.
+      required: true
+      schema:
+        type: integer
+        format: int64
+    - name: excludeInactiveUsers
+      in: query
+      description: Exclude inactive users.
+      schema:
+        type: boolean
+        default: false
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ProjectRole.yaml
+          example: >-
+            {"self":"https://your-domain.atlassian.net/rest/api/2/project/MKY/role/10360","name":"Developers","id":10360,"description":"A
+            project role that represents developers in a
+            project","actors":[{"id":10240,"displayName":"jira-developers","type":"atlassian-group-role-actor","name":"jira-developers","actorGroup":{"name":"jira-developers","displayName":"jira-developers","groupId":"952d12c3-5b5b-4d04-bb32-44d383afc4b2"}},{"id":10241,"displayName":"Mia
+            Krystof","type":"atlassian-user-role-actor","actorUser":{"accountId":"5b10a2844c20165700ede21g"}}],"scope":{"type":"PROJECT","project":{"id":"10000","key":"KEY","name":"Next
+            Gen Project"}}}
+    '400':
+      description: Returned if the request is not valid.
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '404':
+      description: |-
+        Returned if:
+
+         *  the project or project role is not found.
+         *  the user does not have administrative permission.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - read:jira-work
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - read:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:user:jira
+        - read:group:jira
+        - read:project-role:jira
+        - read:project:jira
+        - read:avatar:jira
+        - read:project-category:jira
+  x-atlassian-connect-scope: READ
+put:
+  tags:
+    - Project role actors
+  summary: Set actors for project role
+  description: >-
+    Sets the actors for a project role for a project, replacing all existing
+    actors.
+
+
+    To add actors to the project without overwriting the existing list, use [Add
+    actors to project
+    role](#api-rest-api-2-project-projectIdOrKey-role-id-post).
+
+
+    **[Permissions](#permissions) required:** *Administer Projects* [project
+    permission](https://confluence.atlassian.com/x/yodKLg) for the project or
+    *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg).
+  operationId: setActors
+  parameters:
+    - name: projectIdOrKey
+      in: path
+      description: The project ID or project key (case sensitive).
+      required: true
+      schema:
+        type: string
+    - name: id
+      in: path
+      description: >-
+        The ID of the project role. Use [Get all project
+        roles](#api-rest-api-2-role-get) to get a list of project role IDs.
+      required: true
+      schema:
+        type: integer
+        format: int64
+  requestBody:
+    description: >-
+      The groups or users to associate with the project role for this project.
+      Provide the user account ID, group name, or group ID. As a group's name
+      can change, use of group ID is recommended.
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/ProjectRoleActorsUpdateBean.yaml
+        example:
+          categorisedActors:
+            atlassian-group-role-actor-id:
+              - 952d12c3-5b5b-4d04-bb32-44d383afc4b2
+            atlassian-user-role-actor:
+              - 12345678-9abc-def1-2345-6789abcdef12
+    required: true
+  responses:
+    '200':
+      description: >-
+        Returned if the request is successful. The complete list of actors for
+        the project is returned.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ProjectRole.yaml
+          example: >-
+            {"self":"https://your-domain.atlassian.net/rest/api/2/project/MKY/role/10360","name":"Developers","id":10360,"description":"A
+            project role that represents developers in a
+            project","actors":[{"id":10240,"displayName":"jira-developers","type":"atlassian-group-role-actor","name":"jira-developers","actorGroup":{"name":"jira-developers","displayName":"jira-developers","groupId":"952d12c3-5b5b-4d04-bb32-44d383afc4b2"}},{"id":10241,"displayName":"Mia
+            Krystof","type":"atlassian-user-role-actor","actorUser":{"accountId":"5b10a2844c20165700ede21g"}}],"scope":{"type":"PROJECT","project":{"id":"10000","key":"KEY","name":"Next
+            Gen Project"}}}
+    '400':
+      description: Returned if the request is not valid.
+    '401':
+      description: >-
+        Returned if the authentication credentials are incorrect or missing or
+        if the calling user lacks administrative permissions for the project.
+    '404':
+      description: |-
+        Returned if:
+
+         *  the project is not found.
+         *  a user or group is not found.
+         *  a group or user is not active.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-project
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-project
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:user:jira
+        - read:group:jira
+        - read:project-role:jira
+        - read:project:jira
+        - write:project-role:jira
+        - read:avatar:jira
+        - read:project-category:jira
+  x-atlassian-connect-scope: PROJECT_ADMIN
+post:
+  tags:
+    - Project role actors
+  summary: Add actors to project role
+  description: >-
+    Adds actors to a project role for the project.
+
+
+    To replace all actors for the project, use [Set actors for project
+    role](#api-rest-api-2-project-projectIdOrKey-role-id-put).
+
+
+    This operation can be accessed anonymously.
+
+
+    **[Permissions](#permissions) required:** *Administer Projects* [project
+    permission](https://confluence.atlassian.com/x/yodKLg) for the project or
+    *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg).
+  operationId: addActorUsers
+  parameters:
+    - name: projectIdOrKey
+      in: path
+      description: The project ID or project key (case sensitive).
+      required: true
+      schema:
+        type: string
+    - name: id
+      in: path
+      description: >-
+        The ID of the project role. Use [Get all project
+        roles](#api-rest-api-2-role-get) to get a list of project role IDs.
+      required: true
+      schema:
+        type: integer
+        format: int64
+  requestBody:
+    description: >-
+      The groups or users to associate with the project role for this project.
+      Provide the user account ID, group name, or group ID. As a group's name
+      can change, use of group ID is recommended.
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/ActorsMap.yaml
+        example:
+          groupId:
+            - 952d12c3-5b5b-4d04-bb32-44d383afc4b2
+    required: true
+  responses:
+    '200':
+      description: >-
+        Returned if the request is successful. The complete list of actors for
+        the project is returned.
+
+
+        For example, the cURL request above adds a group, *jira-developers*. For
+        the response below to be returned as a result of that request, the user
+        *Mia Krystof* would have previously been added as a `user` actor for
+        this project.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ProjectRole.yaml
+          example: >-
+            {"self":"https://your-domain.atlassian.net/rest/api/2/project/MKY/role/10360","name":"Developers","id":10360,"description":"A
+            project role that represents developers in a
+            project","actors":[{"id":10240,"displayName":"jira-developers","type":"atlassian-group-role-actor","name":"jira-developers","actorGroup":{"name":"jira-developers","displayName":"jira-developers","groupId":"952d12c3-5b5b-4d04-bb32-44d383afc4b2"}},{"id":10241,"displayName":"Mia
+            Krystof","type":"atlassian-user-role-actor","actorUser":{"accountId":"5b10a2844c20165700ede21g"}}],"scope":{"type":"PROJECT","project":{"id":"10000","key":"KEY","name":"Next
+            Gen Project"}}}
+    '400':
+      description: Returned if the request is not valid.
+    '401':
+      description: >-
+        Returned if the authentication credentials are incorrect or missing or
+        if the calling user lacks administrative permissions for the project.
+    '404':
+      description: |-
+        Returned if:
+
+         *  the project is not found.
+         *  the user or group is not found.
+         *  the group or user is not active.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-configuration
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-configuration
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:user:jira
+        - read:group:jira
+        - read:project-role:jira
+        - read:project:jira
+        - write:project-role:jira
+        - read:avatar:jira
+        - read:project-category:jira
+  x-atlassian-connect-scope: PROJECT_ADMIN
+delete:
+  tags:
+    - Project role actors
+  summary: Delete actors from project role
+  description: >-
+    Deletes actors from a project role for the project.
+
+
+    To remove default actors from the project role, use [Delete default actors
+    from project role](#api-rest-api-2-role-id-actors-delete).
+
+
+    This operation can be accessed anonymously.
+
+
+    **[Permissions](#permissions) required:** *Administer Projects* [project
+    permission](https://confluence.atlassian.com/x/yodKLg) for the project or
+    *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg).
+  operationId: deleteActor
+  parameters:
+    - name: projectIdOrKey
+      in: path
+      description: The project ID or project key (case sensitive).
+      required: true
+      schema:
+        type: string
+    - name: id
+      in: path
+      description: >-
+        The ID of the project role. Use [Get all project
+        roles](#api-rest-api-2-role-get) to get a list of project role IDs.
+      required: true
+      schema:
+        type: integer
+        format: int64
+    - name: user
+      in: query
+      description: The user account ID of the user to remove from the project role.
+      schema:
+        type: string
+        example: 5b10ac8d82e05b22cc7d4ef5
+      x-showInExample: 'true'
+    - name: group
+      in: query
+      description: >-
+        The name of the group to remove from the project role. This parameter
+        cannot be used with the `groupId` parameter. As a group's name can
+        change, use of `groupId` is recommended.
+      schema:
+        type: string
+    - name: groupId
+      in: query
+      description: >-
+        The ID of the group to remove from the project role. This parameter
+        cannot be used with the `group` parameter.
+      schema:
+        type: string
+  responses:
+    '204':
+      description: Returned if the request is successful.
+    '400':
+      description: Returned if the request is not valid.
+    '404':
+      description: |-
+        Returned if:
+
+         *  the project or project role is not found.
+         *  the calling user does not have administrative permission.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-project
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-project
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - delete:project-role:jira
+  x-atlassian-connect-scope: PROJECT_ADMIN

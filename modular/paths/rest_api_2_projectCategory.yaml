@@ -1,0 +1,100 @@
+get:
+  tags:
+    - Project categories
+  summary: Get all project categories
+  description: |-
+    Returns all project categories.
+
+    **[Permissions](#permissions) required:** Permission to access Jira.
+  operationId: getAllProjectCategories
+  parameters: []
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: ../components/schemas/ProjectCategory.yaml
+          example: >-
+            [{"self":"https://your-domain.atlassian.net/rest/api/2/projectCategory/10000","id":"10000","name":"FIRST","description":"First
+            Project
+            Category"},{"self":"https://your-domain.atlassian.net/rest/api/2/projectCategory/10001","id":"10001","name":"SECOND","description":"Second
+            Project Category"}]
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - read:jira-work
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - read:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:project-category:jira
+  x-atlassian-connect-scope: READ
+post:
+  tags:
+    - Project categories
+  summary: Create project category
+  description: >-
+    Creates a project category.
+
+
+    **[Permissions](#permissions) required:** *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg).
+  operationId: createProjectCategory
+  parameters: []
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/ProjectCategory.yaml
+        example:
+          name: CREATED
+          description: Created Project Category
+    required: true
+  responses:
+    '201':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ProjectCategory.yaml
+          example: >-
+            {"self":"https://your-domain.atlassian.net/rest/api/2/projectCategory/10100","id":"10100","name":"CREATED","description":"Created
+            Project Category"}
+    '400':
+      description: |-
+        Returned if:
+
+         *  `name` is not provided or exceeds 255 characters.
+         *  `description` exceeds 1000 characters.
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: Returned if the user does not have the necessary permission.
+    '409':
+      description: Returned if the project category name is in use.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-project
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-project
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - write:project-category:jira
+        - read:project-category:jira
+  x-atlassian-connect-scope: ADMIN

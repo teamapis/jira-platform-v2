@@ -1,0 +1,64 @@
+post:
+  tags:
+    - Issue custom field values (apps)
+  summary: Update custom fields
+  description: >-
+    Updates the value of one or more custom fields on one or more issues.
+    Combinations of custom field and issue should be unique within the request.
+    Custom fields can only be updated by the Forge app that created them.
+
+
+    **[Permissions](#permissions) required:** Only the app that created the
+    custom field can update its values with this operation.
+  operationId: updateMultipleCustomFieldValues
+  parameters:
+    - name: generateChangelog
+      in: query
+      description: Whether to generate a changelog for this update.
+      schema:
+        type: boolean
+        default: true
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/MultipleCustomFieldValuesUpdateDetails.yaml
+        example:
+          updates:
+            - issueIds:
+                - 10010
+                - 10011
+              value: new value
+              customField: customfield_10010
+            - issueIds:
+                - 10010
+              value: 1000
+              customField: customfield_10011
+    required: true
+  responses:
+    '204':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema: {}
+    '400':
+      description: Returned if the request is invalid.
+    '403':
+      description: >-
+        Returned if the request is not authenticated as the app that provided
+        all the fields.
+    '404':
+      description: Returned if any field is not found.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2: []
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes: []
+    - state: Beta
+      scheme: OAuth2
+      scopes: []
+  x-experimental: true
+  x-atlassian-connect-scope: INACCESSIBLE

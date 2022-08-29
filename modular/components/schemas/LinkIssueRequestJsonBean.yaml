@@ -1,0 +1,15 @@
+required:
+  - inwardIssue
+  - outwardIssue
+  - type
+type: object
+properties:
+  type:
+    $ref: ./IssueLinkType.yaml
+  inwardIssue:
+    $ref: ./LinkedIssue.yaml
+  outwardIssue:
+    $ref: ./LinkedIssue.yaml
+  comment:
+    $ref: ./Comment.yaml
+additionalProperties: false

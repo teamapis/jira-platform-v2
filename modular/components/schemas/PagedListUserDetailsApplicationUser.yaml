@@ -1,0 +1,44 @@
+type: object
+properties:
+  size:
+    type: integer
+    description: The number of items on the page.
+    format: int32
+    readOnly: true
+    xml:
+      attribute: true
+  items:
+    type: array
+    description: The list of items.
+    readOnly: true
+    items:
+      $ref: ./UserDetails.yaml
+  max-results:
+    type: integer
+    description: The maximum number of results that could be on the page.
+    format: int32
+    readOnly: true
+    xml:
+      name: max-results
+      attribute: true
+  start-index:
+    type: integer
+    description: The index of the first item returned on the page.
+    format: int32
+    readOnly: true
+    xml:
+      name: start-index
+      attribute: true
+  end-index:
+    type: integer
+    description: The index of the last item returned on the page.
+    format: int32
+    readOnly: true
+    xml:
+      name: end-index
+      attribute: true
+additionalProperties: false
+description: >-
+  A paged list. To access additional details append `[start-index:end-index]` to
+  the expand request. For example, `?expand=sharedUsers[10:40]` returns a list
+  starting at item 10 and finishing at item 40.

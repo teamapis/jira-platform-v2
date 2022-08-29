@@ -1,0 +1,14 @@
+required:
+  - projectIds
+type: object
+properties:
+  fieldConfigurationScheme:
+    $ref: ./FieldConfigurationScheme.yaml
+  projectIds:
+    type: array
+    description: The IDs of projects using the field configuration scheme.
+    items:
+      type: string
+      description: The IDs of projects using the field configuration scheme.
+additionalProperties: false
+description: Project list with assigned field configuration schema.

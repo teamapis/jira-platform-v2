@@ -1,0 +1,24 @@
+type: object
+properties:
+  size:
+    type: integer
+    format: int32
+    xml:
+      attribute: true
+  items:
+    type: array
+    items:
+      $ref: ./ApplicationRole.yaml
+  pagingCallback:
+    $ref: ./ListWrapperCallbackApplicationRole.yaml
+  callback:
+    $ref: ./ListWrapperCallbackApplicationRole.yaml
+  max-results:
+    type: integer
+    format: int32
+    xml:
+      name: max-results
+      attribute: true
+additionalProperties: false
+xml:
+  name: list

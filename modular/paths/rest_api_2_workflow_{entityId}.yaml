@@ -1,0 +1,63 @@
+delete:
+  tags:
+    - Workflows
+  summary: Delete inactive workflow
+  description: >-
+    Deletes a workflow.
+
+
+    The workflow cannot be deleted if it is:
+
+     *  an active workflow.
+     *  a system workflow.
+     *  associated with any workflow scheme.
+     *  associated with any draft workflow scheme.
+
+    **[Permissions](#permissions) required:** *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg).
+  operationId: deleteInactiveWorkflow
+  parameters:
+    - name: entityId
+      in: path
+      description: The entity ID of the workflow.
+      required: true
+      schema:
+        type: string
+  responses:
+    '204':
+      description: Returned if the workflow is deleted.
+    '400':
+      description: Returned if the request is not valid.
+      content:
+        application/json:
+          example: '{"errorMessages":["Cannot delete an active workflow."],"errors":{}}'
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: Returned if the user does not have the required permissions.
+      content:
+        application/json:
+          example: >-
+            {"errorMessages":["Only Jira administrators can access the workflow
+            configuration."],"errors":{}}
+    '404':
+      description: Returned if the workflow is not found.
+      content:
+        application/json:
+          example: '{"errorMessages":["The workflow was not found."],"errors":{}}'
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-configuration
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-configuration
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - delete:workflow:jira
+  x-experimental: true
+  x-atlassian-connect-scope: ADMIN

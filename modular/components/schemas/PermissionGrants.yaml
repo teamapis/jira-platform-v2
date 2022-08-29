@@ -1,0 +1,16 @@
+type: object
+properties:
+  permissions:
+    type: array
+    description: Permission grants list.
+    readOnly: true
+    items:
+      $ref: ./PermissionGrant.yaml
+  expand:
+    type: string
+    description: >-
+      Expand options that include additional permission grant details in the
+      response.
+    readOnly: true
+additionalProperties: false
+description: List of permission grants.

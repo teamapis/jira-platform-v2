@@ -1,0 +1,10 @@
+required:
+  - accountId
+type: object
+properties:
+  accountId:
+    type: string
+    description: The account ID of the new owner.
+additionalProperties: false
+description: The account ID of the new owner.
+writeOnly: true

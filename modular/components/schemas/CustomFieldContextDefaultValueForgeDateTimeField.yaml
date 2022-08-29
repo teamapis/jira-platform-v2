@@ -1,0 +1,10 @@
+type: object
+properties:
+  dateTime:
+    type: string
+    description: The default date-time in ISO format. Ignored if `useCurrent` is true.
+  useCurrent:
+    type: boolean
+    description: Whether to use the current date.
+    default: false
+description: The default value for a Forge date time custom field.

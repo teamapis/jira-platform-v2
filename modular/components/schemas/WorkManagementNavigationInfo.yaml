@@ -1,0 +1,4 @@
+type: object
+properties:
+  boardName:
+    type: string

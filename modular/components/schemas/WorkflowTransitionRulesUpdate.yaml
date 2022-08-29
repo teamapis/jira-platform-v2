@@ -1,0 +1,11 @@
+required:
+  - workflows
+type: object
+properties:
+  workflows:
+    type: array
+    description: The list of workflows with transition rules to update.
+    items:
+      $ref: ./WorkflowTransitionRules.yaml
+additionalProperties: false
+description: Details about a workflow configuration update request.

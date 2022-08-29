@@ -1,0 +1,25 @@
+required:
+  - failureTime
+  - id
+  - url
+type: object
+properties:
+  id:
+    type: string
+    description: >-
+      The webhook ID, as sent in the `X-Atlassian-Webhook-Identifier` header
+      with the webhook.
+  body:
+    type: string
+    description: The webhook body.
+  url:
+    type: string
+    description: The original webhook destination.
+  failureTime:
+    type: integer
+    description: >-
+      The time the webhook was added to the list of failed webhooks (that is,
+      the time of the last failed retry).
+    format: int64
+additionalProperties: false
+description: Details about a failed webhook.

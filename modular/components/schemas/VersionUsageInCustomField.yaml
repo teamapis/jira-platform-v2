@@ -1,0 +1,18 @@
+type: object
+properties:
+  fieldName:
+    type: string
+    description: The name of the custom field.
+    readOnly: true
+  customFieldId:
+    type: integer
+    description: The ID of the custom field.
+    format: int64
+    readOnly: true
+  issueCountWithVersionInCustomField:
+    type: integer
+    description: Count of the issues where the custom field contains the version.
+    format: int64
+    readOnly: true
+additionalProperties: false
+description: List of custom fields using the version.

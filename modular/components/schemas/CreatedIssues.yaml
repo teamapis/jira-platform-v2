@@ -1,0 +1,16 @@
+type: object
+properties:
+  issues:
+    type: array
+    description: Details of the issues created.
+    readOnly: true
+    items:
+      $ref: ./CreatedIssue.yaml
+  errors:
+    type: array
+    description: Error details for failed issue creation requests.
+    readOnly: true
+    items:
+      $ref: ./BulkOperationErrorResult.yaml
+additionalProperties: false
+description: Details about the issues created and the errors for requests that failed.

@@ -1,0 +1,63 @@
+delete:
+  tags:
+    - Avatars
+  summary: Delete avatar
+  description: >-
+    Deletes an avatar from a project or issue type.
+
+
+    **[Permissions](#permissions) required:** *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg).
+  operationId: deleteAvatar
+  parameters:
+    - name: type
+      in: path
+      description: The avatar type.
+      required: true
+      schema:
+        type: string
+        enum:
+          - project
+          - issuetype
+    - name: owningObjectId
+      in: path
+      description: The ID of the item the avatar is associated with.
+      required: true
+      schema:
+        type: string
+    - name: id
+      in: path
+      description: The ID of the avatar.
+      required: true
+      schema:
+        type: integer
+        format: int64
+  responses:
+    '204':
+      description: Returned if the request is successful.
+    '400':
+      description: Returned if the request is invalid.
+    '403':
+      description: >-
+        Returned if the user does not have permission to delete the avatar, the
+        avatar is not deletable.
+    '404':
+      description: >-
+        Returned if the avatar type, associated item ID, or avatar ID is
+        invalid.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-configuration
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-configuration
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - delete:avatar:jira
+  x-atlassian-connect-scope: ADMIN

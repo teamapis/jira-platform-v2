@@ -1,0 +1,216 @@
+get:
+  tags:
+    - Webhooks
+  summary: Get dynamic webhooks for app
+  description: >-
+    Returns a [paginated](#pagination) list of the webhooks registered by the
+    calling app.
+
+
+    **[Permissions](#permissions) required:** Only
+    [Connect](https://developer.atlassian.com/cloud/jira/platform/#connect-apps)
+    and [OAuth
+    2.0](https://developer.atlassian.com/cloud/jira/platform/oauth-2-3lo-apps)
+    apps can use this operation.
+  operationId: getDynamicWebhooksForApp
+  parameters:
+    - name: startAt
+      in: query
+      description: >-
+        The index of the first item to return in a page of results (page
+        offset).
+      schema:
+        type: integer
+        format: int64
+        default: 0
+    - name: maxResults
+      in: query
+      description: The maximum number of items to return per page.
+      schema:
+        type: integer
+        format: int32
+        default: 100
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/PageBeanWebhook.yaml
+          example: >-
+            {"maxResults":3,"startAt":0,"total":3,"isLast":true,"values":[{"id":10000,"jqlFilter":"project
+            =
+            PRJ","fieldIdsFilter":["summary","customfield_10029"],"events":["jira:issue_updated","jira:issue_created"],"expirationDate":"2019-06-01T12:42:30.000+0000"},{"id":10001,"jqlFilter":"issuetype
+            =
+            Bug","events":["jira:issue_created"],"expirationDate":"2019-06-01T12:42:30.000+0000"},{"id":10002,"jqlFilter":"project
+            =
+            PRJ","issuePropertyKeysFilter":["my-issue-property-key"],"events":["issue_property_set"],"expirationDate":"2019-06-01T12:42:30.000+0000"}]}
+    '400':
+      description: Returned if the request is invalid.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ErrorCollection.yaml
+    '403':
+      description: Returned if the caller is not an app.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ErrorCollection.yaml
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - read:jira-work
+        - manage:jira-webhook
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - read:jira-work
+        - manage:jira-webhook
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:webhook:jira
+        - read:jql:jira
+  x-atlassian-connect-scope: READ
+post:
+  tags:
+    - Webhooks
+  summary: Register dynamic webhooks
+  description: >-
+    Registers webhooks.
+
+
+    **[Permissions](#permissions) required:** Only
+    [Connect](https://developer.atlassian.com/cloud/jira/platform/#connect-apps)
+    and [OAuth
+    2.0](https://developer.atlassian.com/cloud/jira/platform/oauth-2-3lo-apps)
+    apps can use this operation.
+  operationId: registerDynamicWebhooks
+  parameters: []
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/WebhookRegistrationDetails.yaml
+        example:
+          webhooks:
+            - jqlFilter: project = PROJ
+              fieldIdsFilter:
+                - summary
+                - customfield_10029
+              events:
+                - jira:issue_created
+                - jira:issue_updated
+            - jqlFilter: project IN (PROJ, EXP) AND status = done
+              events:
+                - jira:issue_deleted
+            - jqlFilter: project = PROJ
+              issuePropertyKeysFilter:
+                - my-issue-property-key
+              events:
+                - issue_property_set
+          url: https://your-app.example.com/webhook-received
+    required: true
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ContainerForRegisteredWebhooks.yaml
+          example: >-
+            {"webhookRegistrationResult":[{"createdWebhookId":1000},{"errors":["The
+            clause watchCount is unsupported"]},{"createdWebhookId":1001}]}
+    '400':
+      description: Returned if the request is invalid.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ErrorCollection.yaml
+    '403':
+      description: Returned if the caller is not an app.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ErrorCollection.yaml
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - read:jira-work
+        - manage:jira-webhook
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - read:jira-work
+        - manage:jira-webhook
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:field:jira
+        - read:project:jira
+        - write:webhook:jira
+  x-atlassian-connect-scope: READ
+delete:
+  tags:
+    - Webhooks
+  summary: Delete webhooks by ID
+  description: >-
+    Removes webhooks by ID. Only webhooks registered by the calling app are
+    removed. If webhooks created by other apps are specified, they are ignored.
+
+
+    **[Permissions](#permissions) required:** Only
+    [Connect](https://developer.atlassian.com/cloud/jira/platform/#connect-apps)
+    and [OAuth
+    2.0](https://developer.atlassian.com/cloud/jira/platform/oauth-2-3lo-apps)
+    apps can use this operation.
+  operationId: deleteWebhookById
+  parameters: []
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/ContainerForWebhookIDs.yaml
+        example:
+          webhookIds:
+            - 10000
+            - 10001
+            - 10042
+    required: true
+  responses:
+    '202':
+      description: Returned if the request is successful.
+    '400':
+      description: Returned if the list of webhook IDs is missing.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ErrorCollection.yaml
+    '403':
+      description: Returned if the caller is not an app.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ErrorCollection.yaml
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - read:jira-work
+        - manage:jira-webhook
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - read:jira-work
+        - manage:jira-webhook
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - delete:webhook:jira
+  x-atlassian-connect-scope: READ

@@ -1,0 +1,73 @@
+post:
+  tags:
+    - Tasks
+  summary: Cancel task
+  description: |-
+    Cancels a task.
+
+    **[Permissions](#permissions) required:** either of:
+
+     *  *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg).
+     *  Creator of the task.
+  operationId: cancelTask
+  parameters:
+    - name: taskId
+      in: path
+      description: The ID of the task.
+      required: true
+      schema:
+        type: string
+  responses:
+    '202':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema: {}
+    '400':
+      description: Returned if cancellation of the task is not possible.
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              type: string
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              type: string
+    '403':
+      description: Returned if the user does not have the necessary permission.
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              type: string
+    '404':
+      description: Returned if the task is not found.
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              type: string
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - write:jira-work
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - write:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - delete:async-task:jira
+  x-experimental: true
+  x-atlassian-connect-scope: NONE

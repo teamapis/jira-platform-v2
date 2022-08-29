@@ -1,0 +1,23 @@
+type: object
+properties:
+  operator:
+    type: string
+    description: The compound condition operator.
+    enum:
+      - AND
+      - OR
+  conditions:
+    type: array
+    description: The list of workflow conditions.
+    items:
+      $ref: ./CreateWorkflowCondition.yaml
+  type:
+    type: string
+    description: The type of the transition rule.
+  configuration:
+    type: object
+    additionalProperties:
+      description: EXPERIMENTAL. The configuration of the transition rule.
+    description: EXPERIMENTAL. The configuration of the transition rule.
+additionalProperties: false
+description: A workflow transition condition.

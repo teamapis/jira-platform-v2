@@ -1,0 +1,81 @@
+put:
+  tags:
+    - Issue type screen schemes
+  summary: Append mappings to issue type screen scheme
+  description: >-
+    Appends issue type to screen scheme mappings to an issue type screen scheme.
+
+
+    **[Permissions](#permissions) required:** *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg).
+  operationId: appendMappingsForIssueTypeScreenScheme
+  parameters:
+    - name: issueTypeScreenSchemeId
+      in: path
+      description: The ID of the issue type screen scheme.
+      required: true
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/IssueTypeScreenSchemeMappingDetails.yaml
+        example:
+          issueTypeMappings:
+            - issueTypeId: '10000'
+              screenSchemeId: '10001'
+            - issueTypeId: '10001'
+              screenSchemeId: '10002'
+            - issueTypeId: '10002'
+              screenSchemeId: '10002'
+    required: true
+  responses:
+    '204':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema: {}
+    '400':
+      description: Returned if the request is not valid.
+      content:
+        application/json:
+          example: '{"errorMessages":["A default mapping cannot be added."],"errors":{}}'
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: Returned if the user does not have the required permissions.
+    '404':
+      description: >-
+        Returned if the issue type screen scheme, issue type, or screen scheme
+        is not found.
+      content:
+        application/json:
+          example: >-
+            {"errorMessages":["The issue type screen scheme was not
+            found."],"errors":{}}
+    '409':
+      description: >-
+        Returned if the issue type is a sub-task, but sub-tasks are disabled in
+        Jira settings.
+      content:
+        application/json:
+          example: >-
+            {"errorMessages":["Sub-tasks are disabled in Jira. At least one of
+            the issue types is a sub-task."],"errors":{}}
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-configuration
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-configuration
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - write:issue-type-screen-scheme:jira
+  x-experimental: true
+  x-atlassian-connect-scope: ADMIN

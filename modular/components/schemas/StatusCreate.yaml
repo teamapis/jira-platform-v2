@@ -1,0 +1,21 @@
+required:
+  - name
+  - statusCategory
+type: object
+properties:
+  name:
+    maxLength: 255
+    type: string
+    description: The name of the status.
+  statusCategory:
+    type: string
+    description: The category of the status.
+    enum:
+      - TODO
+      - IN_PROGRESS
+      - DONE
+  description:
+    type: string
+    description: The description of the status.
+additionalProperties: false
+description: Details of the status being created.

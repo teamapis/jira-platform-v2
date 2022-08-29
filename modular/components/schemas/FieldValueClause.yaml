@@ -1,0 +1,29 @@
+required:
+  - field
+  - operand
+  - operator
+type: object
+properties:
+  field:
+    $ref: ./JqlQueryField.yaml
+  operator:
+    type: string
+    description: The operator between the field and operand.
+    enum:
+      - '='
+      - '!='
+      - '>'
+      - <
+      - '>='
+      - <=
+      - in
+      - not in
+      - '~'
+      - ~=
+      - is
+      - is not
+  operand:
+    $ref: ./JqlQueryClauseOperand.yaml
+description: >-
+  A clause that asserts the current value of a field. For example, `summary ~
+  test`.

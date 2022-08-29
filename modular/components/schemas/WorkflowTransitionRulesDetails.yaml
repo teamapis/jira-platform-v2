@@ -1,0 +1,16 @@
+required:
+  - workflowId
+  - workflowRuleIds
+type: object
+properties:
+  workflowId:
+    $ref: ./WorkflowId.yaml
+  workflowRuleIds:
+    uniqueItems: true
+    type: array
+    description: The list of connect workflow rule IDs.
+    items:
+      type: string
+      description: The list of connect workflow rule IDs.
+additionalProperties: false
+description: Details about a workflow configuration update request.

@@ -1,0 +1,219 @@
+get:
+  tags:
+    - Project role actors
+  summary: Get default actors for project role
+  description: >-
+    Returns the [default actors](#api-rest-api-2-resolution-get) for the project
+    role.
+
+
+    **[Permissions](#permissions) required:** *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg).
+  operationId: getProjectRoleActorsForRole
+  parameters:
+    - name: id
+      in: path
+      description: >-
+        The ID of the project role. Use [Get all project
+        roles](#api-rest-api-2-role-get) to get a list of project role IDs.
+      required: true
+      schema:
+        type: integer
+        format: int64
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ProjectRole.yaml
+          example: >-
+            {"actors":[{"id":10240,"displayName":"jira-developers","type":"atlassian-group-role-actor","name":"jira-developers","actorGroup":{"name":"jira-developers","displayName":"jira-developers","groupId":"952d12c3-5b5b-4d04-bb32-44d383afc4b2"}}]}
+    '400':
+      description: Returned if the request is invalid.
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: Returned if the user does not have administrative permissions.
+    '404':
+      description: Returned if the project role is not found.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-configuration
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-configuration
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:user:jira
+        - read:group:jira
+        - read:project-role:jira
+        - read:project:jira
+        - read:avatar:jira
+        - read:project-category:jira
+  x-atlassian-connect-scope: ADMIN
+post:
+  tags:
+    - Project role actors
+  summary: Add default actors to project role
+  description: >-
+    Adds [default actors](#api-rest-api-2-resolution-get) to a role. You may add
+    groups or users, but you cannot add groups and users in the same request.
+
+
+    Changing a project role's default actors does not affect project role
+    members for projects already created.
+
+
+    **[Permissions](#permissions) required:** *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg).
+  operationId: addProjectRoleActorsToRole
+  parameters:
+    - name: id
+      in: path
+      description: >-
+        The ID of the project role. Use [Get all project
+        roles](#api-rest-api-2-role-get) to get a list of project role IDs.
+      required: true
+      schema:
+        type: integer
+        format: int64
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/ActorInputBean.yaml
+        example:
+          user:
+            - admin
+    required: true
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ProjectRole.yaml
+          example: >-
+            {"actors":[{"id":10240,"displayName":"jira-developers","type":"atlassian-group-role-actor","name":"jira-developers","actorGroup":{"name":"jira-developers","displayName":"jira-developers","groupId":"952d12c3-5b5b-4d04-bb32-44d383afc4b2"}}]}
+    '400':
+      description: Returned if the request is invalid.
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: Returned if the user does not have administrative permissions.
+    '404':
+      description: Returned if the project role is not found.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-configuration
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-configuration
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:user:jira
+        - read:group:jira
+        - read:project-role:jira
+        - read:project:jira
+        - write:project-role:jira
+        - read:avatar:jira
+        - read:project-category:jira
+  x-atlassian-connect-scope: ADMIN
+delete:
+  tags:
+    - Project role actors
+  summary: Delete default actors from project role
+  description: >-
+    Deletes the [default actors](#api-rest-api-2-resolution-get) from a project
+    role. You may delete a group or user, but you cannot delete a group and a
+    user in the same request.
+
+
+    Changing a project role's default actors does not affect project role
+    members for projects already created.
+
+
+    **[Permissions](#permissions) required:** *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg).
+  operationId: deleteProjectRoleActorsFromRole
+  parameters:
+    - name: id
+      in: path
+      description: >-
+        The ID of the project role. Use [Get all project
+        roles](#api-rest-api-2-role-get) to get a list of project role IDs.
+      required: true
+      schema:
+        type: integer
+        format: int64
+    - name: user
+      in: query
+      description: The user account ID of the user to remove as a default actor.
+      schema:
+        type: string
+        example: 5b10ac8d82e05b22cc7d4ef5
+      x-showInExample: 'true'
+    - name: groupId
+      in: query
+      description: >-
+        The group ID of the group to be removed as a default actor. This
+        parameter cannot be used with the `group` parameter.
+      schema:
+        type: string
+    - name: group
+      in: query
+      description: >-
+        The group name of the group to be removed as a default actor.This
+        parameter cannot be used with the `groupId` parameter. As a group's name
+        can change, use of `groupId` is recommended.
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ProjectRole.yaml
+          example: >-
+            {"actors":[{"id":10240,"displayName":"jira-developers","type":"atlassian-group-role-actor","name":"jira-developers","actorGroup":{"name":"jira-developers","displayName":"jira-developers","groupId":"952d12c3-5b5b-4d04-bb32-44d383afc4b2"}}]}
+    '400':
+      description: Returned if the request is invalid.
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: Returned if the user does not have administrative permissions.
+    '404':
+      description: Returned if the project role is not found.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-configuration
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-configuration
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - write:project-role:jira
+        - read:user:jira
+        - read:group:jira
+        - read:project-role:jira
+        - read:project:jira
+        - read:avatar:jira
+        - read:project-category:jira
+  x-atlassian-connect-scope: ADMIN

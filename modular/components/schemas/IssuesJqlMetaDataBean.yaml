@@ -1,0 +1,32 @@
+required:
+  - count
+  - maxResults
+  - startAt
+  - totalCount
+type: object
+properties:
+  startAt:
+    type: integer
+    description: The index of the first issue.
+    format: int64
+  maxResults:
+    type: integer
+    description: The maximum number of issues that could be loaded in this evaluation.
+    format: int32
+  count:
+    type: integer
+    description: The number of issues that were loaded in this evaluation.
+    format: int32
+  totalCount:
+    type: integer
+    description: The total number of issues the JQL returned.
+    format: int64
+  validationWarnings:
+    type: array
+    description: >-
+      Any warnings related to the JQL query. Present only if the validation mode
+      was set to `warn`.
+    items:
+      type: string
+additionalProperties: false
+description: The description of the page of issues loaded by the provided JQL query.

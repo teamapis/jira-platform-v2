@@ -1,0 +1,15 @@
+required:
+  - id
+  - self
+type: object
+properties:
+  id:
+    type: string
+    description: The ID of the UI modification.
+    readOnly: true
+  self:
+    type: string
+    description: The URL of the UI modification.
+    readOnly: true
+additionalProperties: false
+description: Identifiers for a UI modification.

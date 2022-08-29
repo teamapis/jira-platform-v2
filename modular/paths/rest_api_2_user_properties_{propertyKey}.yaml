@@ -1,0 +1,266 @@
+get:
+  tags:
+    - User properties
+  summary: Get user property
+  description: >-
+    Returns the value of a user's property. If no property key is provided [Get
+    user property keys](#api-rest-api-2-user-properties-get) is called.
+
+
+    Note: This operation does not access the [user
+    properties](https://confluence.atlassian.com/x/8YxjL) created and maintained
+    in Jira.
+
+
+    **[Permissions](#permissions) required:**
+
+     *  *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg), to get a property from any user.
+     *  Access to Jira, to get a property from the calling user's record.
+  operationId: getUserProperty
+  parameters:
+    - name: accountId
+      in: query
+      description: >-
+        The account ID of the user, which uniquely identifies the user across
+        all Atlassian products. For example, *5b10ac8d82e05b22cc7d4ef5*.
+      schema:
+        maxLength: 128
+        type: string
+        example: 5b10ac8d82e05b22cc7d4ef5
+      x-showInExample: 'true'
+    - name: userKey
+      in: query
+      description: >-
+        This parameter is no longer available and will be removed from the
+        documentation soon. See the [deprecation
+        notice](https://developer.atlassian.com/cloud/jira/platform/deprecation-notice-user-privacy-api-migration-guide/)
+        for details.
+      schema:
+        type: string
+    - name: username
+      in: query
+      description: >-
+        This parameter is no longer available and will be removed from the
+        documentation soon. See the [deprecation
+        notice](https://developer.atlassian.com/cloud/jira/platform/deprecation-notice-user-privacy-api-migration-guide/)
+        for details.
+      schema:
+        type: string
+    - name: propertyKey
+      in: path
+      description: The key of the user's property.
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/EntityProperty.yaml
+          example: >-
+            {"key":"issue.support","value":{"system.conversation.id":"b1bf38be-5e94-4b40-a3b8-9278735ee1e6","system.support.time":"1m"}}
+    '400':
+      description: Returned if `accountId` is missing.
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: >-
+        Returned if the user does not have the necessary permission or is not
+        accessing their user record.
+    '404':
+      description: Returned if the user is not found.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - read:jira-user
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - read:jira-user
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:user.property:jira
+  x-atlassian-connect-scope: READ
+put:
+  tags:
+    - User properties
+  summary: Set user property
+  description: >-
+    Sets the value of a user's property. Use this resource to store custom data
+    against a user.
+
+
+    Note: This operation does not access the [user
+    properties](https://confluence.atlassian.com/x/8YxjL) created and maintained
+    in Jira.
+
+
+    **[Permissions](#permissions) required:**
+
+     *  *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg), to set a property on any user.
+     *  Access to Jira, to set a property on the calling user's record.
+  operationId: setUserProperty
+  parameters:
+    - name: accountId
+      in: query
+      description: >-
+        The account ID of the user, which uniquely identifies the user across
+        all Atlassian products. For example, *5b10ac8d82e05b22cc7d4ef5*.
+      schema:
+        maxLength: 128
+        type: string
+        example: 5b10ac8d82e05b22cc7d4ef5
+      x-showInExample: 'true'
+    - name: userKey
+      in: query
+      description: >-
+        This parameter is no longer available and will be removed from the
+        documentation soon. See the [deprecation
+        notice](https://developer.atlassian.com/cloud/jira/platform/deprecation-notice-user-privacy-api-migration-guide/)
+        for details.
+      schema:
+        type: string
+    - name: username
+      in: query
+      description: >-
+        This parameter is no longer available and will be removed from the
+        documentation soon. See the [deprecation
+        notice](https://developer.atlassian.com/cloud/jira/platform/deprecation-notice-user-privacy-api-migration-guide/)
+        for details.
+      schema:
+        type: string
+    - name: propertyKey
+      in: path
+      description: The key of the user's property. The maximum length is 255 characters.
+      required: true
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema: {}
+    required: true
+  responses:
+    '200':
+      description: Returned if the user property is updated.
+      content:
+        application/json:
+          schema: {}
+    '201':
+      description: Returned if the user property is created.
+      content:
+        application/json:
+          schema: {}
+    '400':
+      description: Returned if `accountId` is missing.
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: >-
+        Returned if the user does not have the necessary permission or is not
+        accessing their user record.
+    '404':
+      description: Returned if the user is not found.
+    '405':
+      description: Returned if the property key is not specified.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - write:jira-work
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - write:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - write:user.property:jira
+  x-atlassian-connect-scope: WRITE
+delete:
+  tags:
+    - User properties
+  summary: Delete user property
+  description: >-
+    Deletes a property from a user.
+
+
+    Note: This operation does not access the [user
+    properties](https://confluence.atlassian.com/x/8YxjL) created and maintained
+    in Jira.
+
+
+    **[Permissions](#permissions) required:**
+
+     *  *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg), to delete a property from any user.
+     *  Access to Jira, to delete a property from the calling user's record.
+  operationId: deleteUserProperty
+  parameters:
+    - name: accountId
+      in: query
+      description: >-
+        The account ID of the user, which uniquely identifies the user across
+        all Atlassian products. For example, *5b10ac8d82e05b22cc7d4ef5*.
+      schema:
+        maxLength: 128
+        type: string
+        example: 5b10ac8d82e05b22cc7d4ef5
+      x-showInExample: 'true'
+    - name: userKey
+      in: query
+      description: >-
+        This parameter is no longer available and will be removed from the
+        documentation soon. See the [deprecation
+        notice](https://developer.atlassian.com/cloud/jira/platform/deprecation-notice-user-privacy-api-migration-guide/)
+        for details.
+      schema:
+        type: string
+    - name: username
+      in: query
+      description: >-
+        This parameter is no longer available and will be removed from the
+        documentation soon. See the [deprecation
+        notice](https://developer.atlassian.com/cloud/jira/platform/deprecation-notice-user-privacy-api-migration-guide/)
+        for details.
+      schema:
+        type: string
+    - name: propertyKey
+      in: path
+      description: The key of the user's property.
+      required: true
+      schema:
+        type: string
+  responses:
+    '204':
+      description: Returned if the user property is deleted.
+    '400':
+      description: Returned if `accountId` is missing.
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: >-
+        Returned if the user does not have the necessary permission or is not
+        accessing their user record.
+    '404':
+      description: Returned if the user or the property is not found.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - write:jira-work
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - write:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - delete:user.property:jira
+  x-atlassian-connect-scope: DELETE

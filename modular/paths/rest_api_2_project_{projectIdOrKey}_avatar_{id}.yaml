@@ -1,0 +1,55 @@
+delete:
+  tags:
+    - Project avatars
+  summary: Delete project avatar
+  description: >-
+    Deletes a custom avatar from a project. Note that system avatars cannot be
+    deleted.
+
+
+    **[Permissions](#permissions) required:** *Administer projects* [project
+    permission](https://confluence.atlassian.com/x/yodKLg).
+  operationId: deleteProjectAvatar
+  parameters:
+    - name: projectIdOrKey
+      in: path
+      description: The project ID or (case-sensitive) key.
+      required: true
+      schema:
+        type: string
+    - name: id
+      in: path
+      description: The ID of the avatar.
+      required: true
+      schema:
+        type: integer
+        format: int64
+  responses:
+    '204':
+      description: Returned if the request is successful.
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: >-
+        Returned if the avatar is a system avatar or the user does not have
+        permission to administer the project.
+    '404':
+      description: >-
+        Returned if the project or avatar is not found or the user does not have
+        permission to view the project.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-project
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-project
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - delete:project.avatar:jira
+  x-atlassian-connect-scope: PROJECT_ADMIN

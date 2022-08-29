@@ -1,0 +1,229 @@
+get:
+  tags:
+    - Issues
+  summary: Get transitions
+  description: >-
+    Returns either all transitions or a transition that can be performed by the
+    user on an issue, based on the issue's status.
+
+
+    Note, if a request is made for a transition that does not exist or cannot be
+    performed on the issue, given its status, the response will return any empty
+    transitions list.
+
+
+    This operation can be accessed anonymously.
+
+
+    **[Permissions](#permissions) required: A list or transition is returned
+    only when the user has:**
+
+     *  *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project that the issue is in.
+     *  If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue.
+
+    However, if the user does not have the *Transition issues* [ project
+    permission](https://confluence.atlassian.com/x/yodKLg) the response will not
+    list any transitions.
+  operationId: getTransitions
+  parameters:
+    - name: issueIdOrKey
+      in: path
+      description: The ID or key of the issue.
+      required: true
+      schema:
+        type: string
+    - name: expand
+      in: query
+      description: >-
+        Use [expand](#expansion) to include additional information about
+        transitions in the response. This parameter accepts
+        `transitions.fields`, which returns information about the fields in the
+        transition screen for each transition. Fields hidden from the screen are
+        not returned. Use this information to populate the `fields` and `update`
+        fields in [Transition
+        issue](#api-rest-api-2-issue-issueIdOrKey-transitions-post).
+      schema:
+        type: string
+    - name: transitionId
+      in: query
+      description: The ID of the transition.
+      schema:
+        type: string
+    - name: skipRemoteOnlyCondition
+      in: query
+      description: >-
+        Whether transitions with the condition *Hide From User Condition* are
+        included in the response.
+      schema:
+        type: boolean
+        default: false
+    - name: includeUnavailableTransitions
+      in: query
+      description: >-
+        Whether details of transitions that fail a condition are included in the
+        response
+      schema:
+        type: boolean
+        default: false
+    - name: sortByOpsBarAndStatus
+      in: query
+      description: >-
+        Whether the transitions are sorted by ops-bar sequence value first then
+        category order (Todo, In Progress, Done) or only by ops-bar sequence
+        value.
+      schema:
+        type: boolean
+        default: false
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/Transitions.yaml
+          example: >-
+            {"transitions":[{"id":"2","name":"Close
+            Issue","to":{"self":"https://your-domain.atlassian.net/rest/api/2/status/10000","description":"The
+            issue is currently being worked
+            on.","iconUrl":"https://your-domain.atlassian.net/images/icons/progress.gif","name":"In
+            Progress","id":"10000","statusCategory":{"self":"https://your-domain.atlassian.net/rest/api/2/statuscategory/1","id":1,"key":"in-flight","colorName":"yellow","name":"In
+            Progress"}},"hasScreen":false,"isGlobal":false,"isInitial":false,"isAvailable":true,"isConditional":false,"fields":{"summary":{"required":false,"schema":{"type":"array","items":"option","custom":"com.atlassian.jira.plugin.system.customfieldtypes:multiselect","customId":10001},"name":"My
+            Multi
+            Select","key":"field_key","hasDefaultValue":false,"operations":["set","add"],"allowedValues":["red","blue"],"defaultValue":"red"}}},{"id":"711","name":"QA
+            Review","to":{"self":"https://your-domain.atlassian.net/rest/api/2/status/5","description":"The
+            issue is
+            closed.","iconUrl":"https://your-domain.atlassian.net/images/icons/closed.gif","name":"Closed","id":"5","statusCategory":{"self":"https://your-domain.atlassian.net/rest/api/2/statuscategory/9","id":9,"key":"completed","colorName":"green"}},"hasScreen":true,"fields":{"summary":{"required":false,"schema":{"type":"array","items":"option","custom":"com.atlassian.jira.plugin.system.customfieldtypes:multiselect","customId":10001},"name":"My
+            Multi
+            Select","key":"field_key","hasDefaultValue":false,"operations":["set","add"],"allowedValues":["red","blue"],"defaultValue":"red"},"colour":{"required":false,"schema":{"type":"array","items":"option","custom":"com.atlassian.jira.plugin.system.customfieldtypes:multiselect","customId":10001},"name":"My
+            Multi
+            Select","key":"field_key","hasDefaultValue":false,"operations":["set","add"],"allowedValues":["red","blue"],"defaultValue":"red"}}}]}
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '404':
+      description: >-
+        Returned if the issue is not found or the user does not have permission
+        to view it.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - read:jira-work
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - read:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:issue.transition:jira
+        - read:status:jira
+        - read:field-configuration:jira
+  x-atlassian-connect-scope: READ
+post:
+  tags:
+    - Issues
+  summary: Transition issue
+  description: >-
+    Performs an issue transition and, if the transition has a screen, updates
+    the fields from the transition screen.
+
+
+    sortByCategory To update the fields on the transition screen, specify the
+    fields in the `fields` or `update` parameters in the request body. Get
+    details about the fields using [ Get
+    transitions](#api-rest-api-2-issue-issueIdOrKey-transitions-get) with the
+    `transitions.fields` expand.
+
+
+    This operation can be accessed anonymously.
+
+
+    **[Permissions](#permissions) required:**
+
+     *  *Browse projects* and *Transition issues* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project that the issue is in.
+     *  If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue.
+  operationId: doTransition
+  parameters:
+    - name: issueIdOrKey
+      in: path
+      description: The ID or key of the issue.
+      required: true
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/IssueUpdateDetails.yaml
+        example:
+          historyMetadata:
+            actor:
+              avatarUrl: http://mysystem/avatar/tony.jpg
+              displayName: Tony
+              id: tony
+              type: mysystem-user
+              url: http://mysystem/users/tony
+            extraData:
+              Iteration: 10a
+              Step: '4'
+            description: From the order testing process
+            generator:
+              id: mysystem-1
+              type: mysystem-application
+            cause:
+              id: myevent
+              type: mysystem-event
+            activityDescription: Complete order processing
+            type: myplugin:type
+          update:
+            comment:
+              - add:
+                  body: Bug has been fixed.
+          fields:
+            assignee:
+              name: Will
+            resolution:
+              name: Fixed
+          transition:
+            id: '5'
+    required: true
+  responses:
+    '204':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema: {}
+    '400':
+      description: |-
+        Returned if:
+
+         *  no transition is specified.
+         *  the user does not have permission to transition the issue.
+         *  a field that isn't included on the transition screen is defined in `fields` or `update`.
+         *  a field is specified in both `fields` and `update`.
+         *  the request is invalid for any other reason.
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '404':
+      description: >-
+        Returned if the issue is not found or the user does not have permission
+        to view it.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - write:jira-work
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - write:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - write:issue:jira
+        - write:issue.property:jira
+  x-atlassian-connect-scope: WRITE

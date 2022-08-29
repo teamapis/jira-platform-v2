@@ -1,0 +1,161 @@
+post:
+  tags:
+    - Groups
+  summary: Add user to group
+  description: >-
+    Adds a user to a group.
+
+
+    **[Permissions](#permissions) required:** Site administration (that is,
+    member of the *site-admin*
+    [group](https://confluence.atlassian.com/x/24xjL)).
+  operationId: addUserToGroup
+  parameters:
+    - name: groupname
+      in: query
+      description: >-
+        As a group's name can change, use of `groupId` is recommended to
+        identify a group.  
+
+        The name of the group. This parameter cannot be used with the `groupId`
+        parameter.
+      schema:
+        type: string
+    - name: groupId
+      in: query
+      description: >-
+        The ID of the group. This parameter cannot be used with the `groupName`
+        parameter.
+      schema:
+        type: string
+      x-showInExample: 'true'
+  requestBody:
+    description: The user to add to the group.
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/UpdateUserToGroupBean.yaml
+        example:
+          accountId: 5b10ac8d82e05b22cc7d4ef5
+    required: true
+  responses:
+    '201':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/Group.yaml
+    '400':
+      description: |-
+        Returned if:
+
+         *  `groupname` is not provided.
+         *  `accountId` is missing.
+    '401':
+      description: >-
+        Returned if the authentication credentials are incorrect or missing from
+        the request.
+    '403':
+      description: Returned if the calling user does not have the necessary permission.
+    '404':
+      description: Returned if the group or user are not found.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-configuration
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-configuration
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - write:group:jira
+        - read:avatar:jira
+        - read:group:jira
+        - read:user:jira
+  x-atlassian-connect-scope: INACCESSIBLE
+delete:
+  tags:
+    - Groups
+  summary: Remove user from group
+  description: >-
+    Removes a user from a group.
+
+
+    **[Permissions](#permissions) required:** Site administration (that is,
+    member of the *site-admin*
+    [group](https://confluence.atlassian.com/x/24xjL)).
+  operationId: removeUserFromGroup
+  parameters:
+    - name: groupname
+      in: query
+      description: >-
+        As a group's name can change, use of `groupId` is recommended to
+        identify a group.  
+
+        The name of the group. This parameter cannot be used with the `groupId`
+        parameter.
+      schema:
+        type: string
+    - name: groupId
+      in: query
+      description: >-
+        The ID of the group. This parameter cannot be used with the `groupName`
+        parameter.
+      schema:
+        type: string
+      x-showInExample: 'true'
+    - name: username
+      in: query
+      description: >-
+        This parameter is no longer available. See the [deprecation
+        notice](https://developer.atlassian.com/cloud/jira/platform/deprecation-notice-user-privacy-api-migration-guide/)
+        for details.
+      schema:
+        type: string
+    - name: accountId
+      in: query
+      description: >-
+        The account ID of the user, which uniquely identifies the user across
+        all Atlassian products. For example, *5b10ac8d82e05b22cc7d4ef5*.
+      required: true
+      schema:
+        maxLength: 128
+        type: string
+        example: 5b10ac8d82e05b22cc7d4ef5
+      x-showInExample: 'true'
+  responses:
+    '200':
+      description: Returned if the request is successful.
+    '400':
+      description: |-
+        Returned if:
+
+         *  `groupName` is missing.
+         *  `accountId` is missing.
+    '401':
+      description: >-
+        Returned if the authentication credentials are incorrect or missing from
+        the request.
+    '403':
+      description: Returned if the user does not have the necessary permission.
+    '404':
+      description: Returned if the group or user are not found.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-configuration
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-configuration
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - write:group:jira
+  x-atlassian-connect-scope: INACCESSIBLE

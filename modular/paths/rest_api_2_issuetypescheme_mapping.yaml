@@ -1,0 +1,73 @@
+get:
+  tags:
+    - Issue type schemes
+  summary: Get issue type scheme items
+  description: >-
+    Returns a [paginated](#pagination) list of issue type scheme items.
+
+
+    Only issue type scheme items used in classic projects are returned.
+
+
+    **[Permissions](#permissions) required:** *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg).
+  operationId: getIssueTypeSchemesMapping
+  parameters:
+    - name: startAt
+      in: query
+      description: >-
+        The index of the first item to return in a page of results (page
+        offset).
+      schema:
+        type: integer
+        format: int64
+        default: 0
+    - name: maxResults
+      in: query
+      description: The maximum number of items to return per page.
+      schema:
+        type: integer
+        format: int32
+        default: 50
+    - name: issueTypeSchemeId
+      in: query
+      description: >-
+        The list of issue type scheme IDs. To include multiple IDs, provide an
+        ampersand-separated list. For example,
+        `issueTypeSchemeId=10000&issueTypeSchemeId=10001`.
+      schema:
+        uniqueItems: true
+        type: array
+        items:
+          type: integer
+          format: int64
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/PageBeanIssueTypeSchemeMapping.yaml
+          example: >-
+            {"maxResults":100,"startAt":0,"total":4,"isLast":true,"values":[{"issueTypeSchemeId":"10000","issueTypeId":"10000"},{"issueTypeSchemeId":"10000","issueTypeId":"10001"},{"issueTypeSchemeId":"10000","issueTypeId":"10002"},{"issueTypeSchemeId":"10001","issueTypeId":"10000"}]}
+    '400':
+      description: Returned if the request is not valid.
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: Returned if the user does not have the required permissions.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-configuration
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-configuration
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:issue-type-scheme:jira
+  x-atlassian-connect-scope: ADMIN

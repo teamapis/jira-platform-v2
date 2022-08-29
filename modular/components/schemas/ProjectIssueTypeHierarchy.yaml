@@ -1,0 +1,15 @@
+type: object
+properties:
+  projectId:
+    type: integer
+    description: The ID of the project.
+    format: int64
+    readOnly: true
+  hierarchy:
+    type: array
+    description: Details of an issue type hierarchy level.
+    readOnly: true
+    items:
+      $ref: ./ProjectIssueTypesHierarchyLevel.yaml
+additionalProperties: false
+description: The hierarchy of issue types within a project.

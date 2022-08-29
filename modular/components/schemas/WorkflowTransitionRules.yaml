@@ -1,0 +1,23 @@
+required:
+  - workflowId
+type: object
+properties:
+  workflowId:
+    $ref: ./WorkflowId.yaml
+  postFunctions:
+    type: array
+    description: The list of post functions within the workflow.
+    items:
+      $ref: ./ConnectWorkflowTransitionRule.yaml
+  conditions:
+    type: array
+    description: The list of conditions within the workflow.
+    items:
+      $ref: ./ConnectWorkflowTransitionRule.yaml
+  validators:
+    type: array
+    description: The list of validators within the workflow.
+    items:
+      $ref: ./ConnectWorkflowTransitionRule.yaml
+additionalProperties: false
+description: A workflow with transition rules.

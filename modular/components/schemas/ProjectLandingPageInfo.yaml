@@ -1,0 +1,29 @@
+type: object
+properties:
+  url:
+    type: string
+  projectKey:
+    type: string
+  projectType:
+    type: string
+  attributes:
+    type: object
+    additionalProperties:
+      type: string
+  simplified:
+    type: boolean
+  boardName:
+    type: string
+  simpleBoard:
+    type: boolean
+  queueId:
+    type: integer
+    format: int64
+  queueName:
+    type: string
+  queueCategory:
+    type: string
+  boardId:
+    type: integer
+    format: int64
+additionalProperties: false

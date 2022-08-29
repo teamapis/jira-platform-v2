@@ -1,0 +1,15 @@
+required:
+  - issueTypeMappings
+type: object
+properties:
+  issueTypeMappings:
+    type: array
+    description: >-
+      The list of issue type to screen scheme mappings. A *default* entry cannot
+      be specified because a default entry is added when an issue type screen
+      scheme is created.
+    writeOnly: true
+    items:
+      $ref: ./IssueTypeScreenSchemeMapping.yaml
+additionalProperties: false
+description: A list of issue type screen scheme mappings.

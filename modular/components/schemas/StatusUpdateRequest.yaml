@@ -1,0 +1,9 @@
+type: object
+properties:
+  statuses:
+    type: array
+    description: The list of statuses that will be updated.
+    items:
+      $ref: ./StatusUpdate.yaml
+additionalProperties: false
+description: The list of statuses that will be updated.

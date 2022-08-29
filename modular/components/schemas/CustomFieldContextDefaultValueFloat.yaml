@@ -1,0 +1,12 @@
+required:
+  - number
+  - type
+type: object
+properties:
+  number:
+    type: number
+    description: The default floating-point number.
+    format: double
+  type:
+    type: string
+description: Default value for a float (number) custom field.

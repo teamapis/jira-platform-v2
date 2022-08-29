@@ -1,0 +1,13 @@
+required:
+  - mappings
+type: object
+properties:
+  mappings:
+    uniqueItems: true
+    type: array
+    description: Field configuration to issue type mappings.
+    writeOnly: true
+    items:
+      $ref: ./FieldConfigurationToIssueTypeMapping.yaml
+additionalProperties: false
+description: Details of a field configuration to issue type mappings.

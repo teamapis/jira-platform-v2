@@ -1,0 +1,18 @@
+type: object
+properties:
+  type:
+    type: string
+    description: The type of scope.
+    readOnly: true
+    enum:
+      - PROJECT
+      - TEMPLATE
+  project:
+    description: The project the item has scope in.
+    readOnly: true
+    allOf:
+      - $ref: ./ProjectDetails.yaml
+additionalProperties: true
+description: >-
+  The projects the item is associated with. Indicated for items associated with
+  [next-gen projects](https://confluence.atlassian.com/x/loMyO).

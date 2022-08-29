@@ -1,0 +1,15 @@
+required:
+  - accountIds
+  - contextId
+type: object
+properties:
+  contextId:
+    type: string
+    description: The ID of the context.
+  accountIds:
+    type: array
+    description: The IDs of the default users.
+    items:
+      type: string
+      description: The IDs of the default users.
+description: Defaults for a Forge collection of users custom field.

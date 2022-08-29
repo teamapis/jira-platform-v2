@@ -1,0 +1,31 @@
+type: object
+properties:
+  reporter:
+    type: boolean
+    description: Whether the notification should be sent to the issue's reporter.
+  assignee:
+    type: boolean
+    description: Whether the notification should be sent to the issue's assignees.
+  watchers:
+    type: boolean
+    description: Whether the notification should be sent to the issue's watchers.
+  voters:
+    type: boolean
+    description: Whether the notification should be sent to the issue's voters.
+  users:
+    type: array
+    description: List of users to receive the notification.
+    items:
+      $ref: ./UserDetails.yaml
+  groups:
+    type: array
+    description: List of groups to receive the notification.
+    items:
+      $ref: ./GroupName.yaml
+  groupIds:
+    type: array
+    description: List of groupIds to receive the notification.
+    items:
+      type: string
+additionalProperties: true
+description: Details of the users and groups to receive the notification.

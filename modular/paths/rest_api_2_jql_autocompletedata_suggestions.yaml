@@ -1,0 +1,77 @@
+get:
+  tags:
+    - JQL
+  summary: Get field auto complete suggestions
+  description: |-
+    Returns the JQL search auto complete suggestions for a field.
+
+    Suggestions can be obtained by providing:
+
+     *  `fieldName` to get a list of all values for the field.
+     *  `fieldName` and `fieldValue` to get a list of values containing the text in `fieldValue`.
+     *  `fieldName` and `predicateName` to get a list of all predicate values for the field.
+     *  `fieldName`, `predicateName`, and `predicateValue` to get a list of predicate values containing the text in `predicateValue`.
+
+    This operation can be accessed anonymously.
+
+    **[Permissions](#permissions) required:** None.
+  operationId: getFieldAutoCompleteForQueryString
+  parameters:
+    - name: fieldName
+      in: query
+      description: The name of the field.
+      schema:
+        type: string
+        example: reporter
+      x-showInExample: 'true'
+    - name: fieldValue
+      in: query
+      description: The partial field item name entered by the user.
+      schema:
+        type: string
+    - name: predicateName
+      in: query
+      description: >-
+        The name of the [ CHANGED operator
+        predicate](https://confluence.atlassian.com/x/hQORLQ#Advancedsearching-operatorsreference-CHANGEDCHANGED)
+        for which the suggestions are generated. The valid predicate operators
+        are *by*, *from*, and *to*.
+      schema:
+        type: string
+    - name: predicateValue
+      in: query
+      description: The partial predicate item name entered by the user.
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/AutoCompleteSuggestions.yaml
+          example: >-
+            {"results":[{"value":"ActiveObjects","displayName":"<b>Ac</b>tiveObjects
+            (AO)"},{"value":"Atlassian Connect","displayName":"Atlassian Connect
+            (<b>AC</b>)"},{"value":"Atlassian Connect in
+            Jira","displayName":"Atlassian Connect in Jira (<b>AC</b>JIRA)"}]}
+    '400':
+      description: Returned if an invalid combination of parameters is passed.
+    '401':
+      description: Returned if the authentication credentials are incorrect.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - read:jira-work
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - read:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:issue-details:jira
+  x-atlassian-connect-scope: READ

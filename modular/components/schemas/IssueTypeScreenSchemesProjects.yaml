@@ -1,0 +1,16 @@
+required:
+  - issueTypeScreenScheme
+  - projectIds
+type: object
+properties:
+  issueTypeScreenScheme:
+    description: Details of an issue type screen scheme.
+    allOf:
+      - $ref: ./IssueTypeScreenScheme.yaml
+  projectIds:
+    type: array
+    description: The IDs of the projects using the issue type screen scheme.
+    items:
+      type: string
+additionalProperties: false
+description: Issue type screen scheme with a list of the projects that use it.

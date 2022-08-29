@@ -1,0 +1,16 @@
+required:
+  - contextId
+  - groupIds
+type: object
+properties:
+  contextId:
+    type: string
+    description: The ID of the context.
+  groupIds:
+    uniqueItems: true
+    type: array
+    description: The IDs of the default groups.
+    items:
+      type: string
+      description: The IDs of the default groups.
+description: The default value for a Forge collection of groups custom field.

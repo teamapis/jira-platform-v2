@@ -1,0 +1,83 @@
+put:
+  tags:
+    - Issue type schemes
+  summary: Change order of issue types
+  description: >-
+    Changes the order of issue types in an issue type scheme.
+
+
+    The request body parameters must meet the following requirements:
+
+     *  all of the issue types must belong to the issue type scheme.
+     *  either `after` or `position` must be provided.
+     *  the issue type in `after` must not be in the issue type list.
+
+    **[Permissions](#permissions) required:** *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg).
+  operationId: reorderIssueTypesInIssueTypeScheme
+  parameters:
+    - name: issueTypeSchemeId
+      in: path
+      description: The ID of the issue type scheme.
+      required: true
+      schema:
+        type: integer
+        format: int64
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/OrderOfIssueTypes.yaml
+        example:
+          issueTypeIds:
+            - '10001'
+            - '10004'
+            - '10002'
+          after: '10008'
+    required: true
+  responses:
+    '204':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema: {}
+    '400':
+      description: Returned if the request is not valid.
+      content:
+        application/json:
+          example: >-
+            {"errorMessages":["The issue type scheme does not include some of
+            the specified issue types. Issue type IDs missing from the scheme
+            are:  10007, 10008"],"errors":{}}
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: Returned if the user does not have the required permissions.
+      content:
+        application/json:
+          example: >-
+            {"errorMessages":["Only Jira administrators can access issue type
+            schemes."],"errors":{}}
+    '404':
+      description: Returned if the issue type scheme is not found.
+      content:
+        application/json:
+          example: >-
+            {"errorMessages":["The issue type scheme was not
+            found."],"errors":{}}
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-configuration
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-configuration
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - write:issue-type-scheme:jira
+  x-experimental: true
+  x-atlassian-connect-scope: ADMIN

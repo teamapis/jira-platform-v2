@@ -1,0 +1,68 @@
+post:
+  tags:
+    - JQL
+  summary: Convert user identifiers to account IDs in JQL queries
+  description: >-
+    Converts one or more JQL queries with user identifiers (username or user
+    key) to equivalent JQL queries with account IDs.
+
+
+    You may wish to use this operation if your system stores JQL queries and you
+    want to make them GDPR-compliant. For more information about GDPR-related
+    changes, see the [migration
+    guide](https://developer.atlassian.com/cloud/jira/platform/deprecation-notice-user-privacy-api-migration-guide/).
+
+
+    **[Permissions](#permissions) required:** Permission to access Jira.
+  operationId: migrateQueries
+  parameters: []
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/JQLPersonalDataMigrationRequest.yaml
+        example:
+          queryStrings:
+            - assignee = mia
+            - >-
+              issuetype = Bug AND assignee in (mia) AND reporter in (alana)
+              order by lastViewed DESC
+    required: true
+  responses:
+    '200':
+      description: >-
+        Returned if the request is successful. Note that the JQL queries are
+        returned in the same order that they were passed.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ConvertedJQLQueries.yaml
+          example: >-
+            {"queryStrings":["issuetype = Bug AND assignee in (abcde-12345) AND
+            reporter in (abc551-c4e99) order by lastViewed
+            DESC"],"queriesWithUnknownUsers":[{"originalQuery":"assignee =
+            mia","convertedQuery":"assignee = unknown"}]}
+    '400':
+      description: >-
+        Returned if at least one of the queries cannot be converted. For
+        example, the JQL has invalid operators or invalid keywords, or the users
+        in the query cannot be found.
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - read:jira-user
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - read:jira-user
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:user:jira
+        - read:jql:jira
+        - validate:jql:jira
+  x-atlassian-connect-scope: READ

@@ -1,0 +1,75 @@
+type: object
+properties:
+  self:
+    type: string
+    description: The URL of the worklog item.
+    format: uri
+    readOnly: true
+  author:
+    description: Details of the user who created the worklog.
+    readOnly: true
+    allOf:
+      - $ref: ./UserDetails.yaml
+  updateAuthor:
+    description: Details of the user who last updated the worklog.
+    readOnly: true
+    allOf:
+      - $ref: ./UserDetails.yaml
+  comment:
+    type: string
+    description: A comment about the worklog. Optional when creating or updating a worklog.
+  created:
+    type: string
+    description: The datetime on which the worklog was created.
+    format: date-time
+    readOnly: true
+  updated:
+    type: string
+    description: The datetime on which the worklog was last updated.
+    format: date-time
+    readOnly: true
+  visibility:
+    description: >-
+      Details about any restrictions in the visibility of the worklog. Optional
+      when creating or updating a worklog.
+    allOf:
+      - $ref: ./Visibility.yaml
+  started:
+    type: string
+    description: >-
+      The datetime on which the worklog effort was started. Required when
+      creating a worklog. Optional when updating a worklog.
+    format: date-time
+  timeSpent:
+    type: string
+    description: >-
+      The time spent working on the issue as days (\#d), hours (\#h), or minutes
+      (\#m or \#). Required when creating a worklog if `timeSpentSeconds` isn't
+      provided. Optional when updating a worklog. Cannot be provided if
+      `timeSpentSecond` is provided.
+  timeSpentSeconds:
+    type: integer
+    description: >-
+      The time in seconds spent working on the issue. Required when creating a
+      worklog if `timeSpent` isn't provided. Optional when updating a worklog.
+      Cannot be provided if `timeSpent` is provided.
+    format: int64
+  id:
+    type: string
+    description: The ID of the worklog record.
+    readOnly: true
+  issueId:
+    type: string
+    description: The ID of the issue this worklog is for.
+    readOnly: true
+  properties:
+    type: array
+    description: >-
+      Details of properties for the worklog. Optional when creating or updating
+      a worklog.
+    items:
+      $ref: ./EntityProperty.yaml
+additionalProperties: true
+description: Details of a worklog.
+xml:
+  name: worklog

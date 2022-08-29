@@ -1,0 +1,21 @@
+type: object
+properties:
+  groups:
+    type: array
+    description: List of group memberships required to receive the notification.
+    items:
+      $ref: ./GroupName.yaml
+  groupIds:
+    type: array
+    description: List of groupId memberships required to receive the notification.
+    items:
+      type: string
+  permissions:
+    type: array
+    description: List of permissions required to receive the notification.
+    items:
+      $ref: ./RestrictedPermission.yaml
+additionalProperties: false
+description: >-
+  Details of the group membership or permissions needed to receive the
+  notification.

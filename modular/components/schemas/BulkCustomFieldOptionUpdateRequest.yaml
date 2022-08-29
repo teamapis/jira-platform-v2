@@ -1,0 +1,10 @@
+type: object
+properties:
+  options:
+    type: array
+    description: Details of the options to update.
+    items:
+      $ref: ./CustomFieldOptionUpdate.yaml
+additionalProperties: false
+description: Details of the options to update for a custom field.
+writeOnly: true

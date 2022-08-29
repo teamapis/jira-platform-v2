@@ -1,0 +1,8 @@
+type: object
+properties:
+  where:
+    $ref: ./JqlQueryClause.yaml
+  orderBy:
+    $ref: ./JqlQueryOrderByClause.yaml
+additionalProperties: false
+description: A parsed JQL query.

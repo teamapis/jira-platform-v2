@@ -1,0 +1,23 @@
+type: object
+properties:
+  workflowEntityId:
+    type: string
+    description: The workflow ID.
+    format: uuid
+    example: a498d711-685d-428d-8c3e-bc03bb450ea7
+  invalidRules:
+    type: array
+    description: >-
+      List of workflow rule IDs that do not belong to the workflow or can not be
+      found.
+    items:
+      type: string
+      description: Workflow rule ID.
+      format: uuid
+      example: 55d44f1d-c859-42e5-9c27-2c5ec3f340b1
+  validRules:
+    type: array
+    description: List of valid workflow transition rules.
+    items:
+      $ref: ./WorkflowTransitionRules.yaml
+description: Details of workflow transition rules.

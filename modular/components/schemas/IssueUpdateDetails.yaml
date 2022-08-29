@@ -1,0 +1,38 @@
+type: object
+properties:
+  transition:
+    description: >-
+      Details of a transition. Required when performing a transition, optional
+      when creating or editing an issue.
+    allOf:
+      - $ref: ./IssueTransition.yaml
+  fields:
+    type: object
+    additionalProperties: {}
+    description: >-
+      List of issue screen fields to update, specifying the sub-field to update
+      and its value for each field. This field provides a straightforward option
+      when setting a sub-field. When multiple sub-fields or other operations are
+      required, use `update`. Fields included in here cannot be included in
+      `update`.
+  update:
+    type: object
+    additionalProperties:
+      type: array
+      items:
+        $ref: ./FieldUpdateOperation.yaml
+    description: >-
+      A Map containing the field field name and a list of operations to perform
+      on the issue screen field. Note that fields included in here cannot be
+      included in `fields`.
+  historyMetadata:
+    description: Additional issue history details.
+    allOf:
+      - $ref: ./HistoryMetadata.yaml
+  properties:
+    type: array
+    description: Details of issue properties to be add or update.
+    items:
+      $ref: ./EntityProperty.yaml
+additionalProperties: true
+description: Details of an issue update request.

@@ -1,0 +1,67 @@
+type: object
+properties:
+  description:
+    type: string
+  id:
+    type: string
+    description: The ID of the dashboard.
+    readOnly: true
+  isFavourite:
+    type: boolean
+    description: Whether the dashboard is selected as a favorite by the user.
+    readOnly: true
+  name:
+    type: string
+    description: The name of the dashboard.
+    readOnly: true
+  owner:
+    description: The owner of the dashboard.
+    readOnly: true
+    allOf:
+      - $ref: ./UserBean.yaml
+  popularity:
+    type: integer
+    description: The number of users who have this dashboard as a favorite.
+    format: int64
+    readOnly: true
+  rank:
+    type: integer
+    description: The rank of this dashboard.
+    format: int32
+    readOnly: true
+  self:
+    type: string
+    description: The URL of these dashboard details.
+    format: uri
+    readOnly: true
+  sharePermissions:
+    type: array
+    description: The details of any view share permissions for the dashboard.
+    readOnly: true
+    items:
+      $ref: ./SharePermission.yaml
+  editPermissions:
+    type: array
+    description: The details of any edit share permissions for the dashboard.
+    readOnly: true
+    items:
+      $ref: ./SharePermission.yaml
+  automaticRefreshMs:
+    type: integer
+    description: The automatic refresh interval for the dashboard in milliseconds.
+    format: int32
+    readOnly: true
+  view:
+    type: string
+    description: The URL of the dashboard.
+    readOnly: true
+  isWritable:
+    type: boolean
+    description: Whether the current user has permission to edit the dashboard.
+    readOnly: true
+  systemDashboard:
+    type: boolean
+    description: Whether the current dashboard is system dashboard.
+    readOnly: true
+additionalProperties: false
+description: Details of a dashboard.

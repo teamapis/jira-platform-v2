@@ -1,0 +1,18 @@
+required:
+  - type
+type: object
+properties:
+  type:
+    type: string
+    description: Type of custom context variable.
+additionalProperties: false
+discriminator:
+  propertyName: type
+  mapping:
+    user: ./UserContextVariable.yaml
+    issue: ./IssueContextVariable.yaml
+    json: ./JsonContextVariable.yaml
+oneOf:
+  - $ref: ./UserContextVariable.yaml
+  - $ref: ./IssueContextVariable.yaml
+  - $ref: ./JsonContextVariable.yaml

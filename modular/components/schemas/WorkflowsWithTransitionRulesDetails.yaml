@@ -1,0 +1,11 @@
+required:
+  - workflows
+type: object
+properties:
+  workflows:
+    type: array
+    description: The list of workflows with transition rules to delete.
+    items:
+      $ref: ./WorkflowTransitionRulesDetails.yaml
+additionalProperties: false
+description: Details of workflows and their transition rules to delete.

@@ -1,0 +1,14 @@
+required:
+  - type
+type: object
+properties:
+  dateTime:
+    type: string
+    description: The default date-time in ISO format. Ignored if `useCurrent` is true.
+  useCurrent:
+    type: boolean
+    description: Whether to use the current date.
+    default: false
+  type:
+    type: string
+description: The default value for a date time custom field.

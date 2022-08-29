@@ -1,0 +1,79 @@
+get:
+  tags:
+    - Issue field configurations
+  summary: Get field configuration issue type items
+  description: >-
+    Returns a [paginated](#pagination) list of field configuration issue type
+    items.
+
+
+    Only items used in classic projects are returned.
+
+
+    **[Permissions](#permissions) required:** *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg).
+  operationId: getFieldConfigurationSchemeMappings
+  parameters:
+    - name: startAt
+      in: query
+      description: >-
+        The index of the first item to return in a page of results (page
+        offset).
+      schema:
+        type: integer
+        format: int64
+        default: 0
+    - name: maxResults
+      in: query
+      description: The maximum number of items to return per page.
+      schema:
+        type: integer
+        format: int32
+        default: 50
+    - name: fieldConfigurationSchemeId
+      in: query
+      description: >-
+        The list of field configuration scheme IDs. To include multiple field
+        configuration schemes separate IDs with ampersand:
+        `fieldConfigurationSchemeId=10000&fieldConfigurationSchemeId=10001`.
+      schema:
+        maxItems: 50
+        minItems: 1
+        uniqueItems: true
+        type: array
+        items:
+          type: integer
+          format: int64
+          example: 10020
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/PageBeanFieldConfigurationIssueTypeItem.yaml
+          example: >-
+            {"maxResults":100,"startAt":0,"total":5,"isLast":true,"values":[{"fieldConfigurationSchemeId":"10020","issueTypeId":"10000","fieldConfigurationId":"10010"},{"fieldConfigurationSchemeId":"10020","issueTypeId":"10001","fieldConfigurationId":"10010"},{"fieldConfigurationSchemeId":"10021","issueTypeId":"10002","fieldConfigurationId":"10000"},{"fieldConfigurationSchemeId":"10022","issueTypeId":"default","fieldConfigurationId":"10011"},{"fieldConfigurationSchemeId":"10023","issueTypeId":"default","fieldConfigurationId":"10000"}]}
+    '400':
+      description: Returned if the request is not valid.
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: Returned if the user does not have the necessary permission.
+    '404':
+      description: Returned if no field configuration schemes are found.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-configuration
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-configuration
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:field-configuration-scheme:jira
+  x-atlassian-connect-scope: ADMIN

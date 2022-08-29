@@ -1,0 +1,12 @@
+type: object
+properties:
+  boardId:
+    type: integer
+    format: int64
+  boardName:
+    type: string
+  totalBoardsInProject:
+    type: integer
+    format: int64
+  simpleBoard:
+    type: boolean

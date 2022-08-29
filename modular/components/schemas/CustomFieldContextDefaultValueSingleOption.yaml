@@ -1,0 +1,15 @@
+required:
+  - contextId
+  - optionId
+  - type
+type: object
+properties:
+  contextId:
+    type: string
+    description: The ID of the context.
+  optionId:
+    type: string
+    description: The ID of the default option.
+  type:
+    type: string
+description: The default value for a single select custom field.

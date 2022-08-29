@@ -1,0 +1,20 @@
+minLength: 1
+required:
+  - query
+type: object
+properties:
+  query:
+    type: string
+    description: The JQL query that was parsed and validated.
+  structure:
+    description: The syntax tree of the query. Empty if the query was invalid.
+    allOf:
+      - $ref: ./JqlQuery.yaml
+  errors:
+    uniqueItems: true
+    type: array
+    description: The list of syntax or validation errors.
+    items:
+      type: string
+additionalProperties: false
+description: Details of a parsed JQL query.

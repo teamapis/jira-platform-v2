@@ -1,0 +1,12 @@
+type: object
+properties:
+  jql:
+    description: >-
+      The JQL query that specifies the set of issues available in the Jira
+      expression.
+    allOf:
+      - $ref: ./JexpJqlIssues.yaml
+additionalProperties: false
+description: >-
+  The JQL specifying the issues available in the evaluated Jira expression under
+  the `issues` context variable.

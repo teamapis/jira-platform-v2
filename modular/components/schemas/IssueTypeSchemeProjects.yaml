@@ -1,0 +1,16 @@
+required:
+  - issueTypeScheme
+  - projectIds
+type: object
+properties:
+  issueTypeScheme:
+    description: Details of an issue type scheme.
+    allOf:
+      - $ref: ./IssueTypeScheme.yaml
+  projectIds:
+    type: array
+    description: The IDs of the projects using the issue type scheme.
+    items:
+      type: string
+additionalProperties: false
+description: Issue type scheme with a list of the projects that use it.

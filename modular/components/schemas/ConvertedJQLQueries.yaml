@@ -1,0 +1,18 @@
+type: object
+properties:
+  queryStrings:
+    type: array
+    description: >-
+      The list of converted query strings with account IDs in place of user
+      identifiers.
+    items:
+      type: string
+  queriesWithUnknownUsers:
+    type: array
+    description: >-
+      List of queries containing user information that could not be mapped to an
+      existing user
+    items:
+      $ref: ./JQLQueryWithUnknownUsers.yaml
+additionalProperties: false
+description: The converted JQL queries.

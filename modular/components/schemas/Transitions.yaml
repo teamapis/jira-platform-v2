@@ -1,0 +1,18 @@
+type: object
+properties:
+  expand:
+    type: string
+    description: >-
+      Expand options that include additional transitions details in the
+      response.
+    readOnly: true
+    xml:
+      attribute: true
+  transitions:
+    type: array
+    description: List of issue transitions.
+    readOnly: true
+    items:
+      $ref: ./IssueTransition.yaml
+additionalProperties: false
+description: List of issue transitions.

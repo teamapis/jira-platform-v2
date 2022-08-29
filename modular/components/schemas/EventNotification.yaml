@@ -1,0 +1,73 @@
+type: object
+properties:
+  expand:
+    type: string
+    description: >-
+      Expand options that include additional event notification details in the
+      response.
+  id:
+    type: integer
+    description: The ID of the notification.
+    format: int64
+  notificationType:
+    type: string
+    description: Identifies the recipients of the notification.
+    enum:
+      - CurrentAssignee
+      - Reporter
+      - CurrentUser
+      - ProjectLead
+      - ComponentLead
+      - User
+      - Group
+      - ProjectRole
+      - EmailAddress
+      - AllWatchers
+      - UserCustomField
+      - GroupCustomField
+  parameter:
+    type: string
+    description: >-
+      As a group's name can change, use of `recipient` is recommended. The
+      identifier associated with the `notificationType` value that defines the
+      receiver of the notification, where the receiver isn't implied by
+      `notificationType` value. So, when `notificationType` is:
+
+       *  `User` The `parameter` is the user account ID.
+       *  `Group` The `parameter` is the group name.
+       *  `ProjectRole` The `parameter` is the project role ID.
+       *  `UserCustomField` The `parameter` is the ID of the custom field.
+       *  `GroupCustomField` The `parameter` is the ID of the custom field.
+  recipient:
+    type: string
+    description: >-
+      The identifier associated with the `notificationType` value that defines
+      the receiver of the notification, where the receiver isn't implied by the
+      `notificationType` value. So, when `notificationType` is:
+
+       *  `User`, `recipient` is the user account ID.
+       *  `Group`, `recipient` is the group ID.
+       *  `ProjectRole`, `recipient` is the project role ID.
+       *  `UserCustomField`, `recipient` is the ID of the custom field.
+       *  `GroupCustomField`, `recipient` is the ID of the custom field.
+  group:
+    description: The specified group.
+    allOf:
+      - $ref: ./GroupName.yaml
+  field:
+    description: The custom user or group field.
+    allOf:
+      - $ref: ./FieldDetails.yaml
+  emailAddress:
+    type: string
+    description: The email address.
+  projectRole:
+    description: The specified project role.
+    allOf:
+      - $ref: ./ProjectRole.yaml
+  user:
+    description: The specified user.
+    allOf:
+      - $ref: ./UserDetails.yaml
+additionalProperties: false
+description: Details about a notification associated with an event.

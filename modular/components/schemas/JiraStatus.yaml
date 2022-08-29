@@ -1,0 +1,30 @@
+type: object
+properties:
+  id:
+    type: string
+    description: The ID of the status.
+  name:
+    type: string
+    description: The name of the status.
+  statusCategory:
+    type: string
+    description: The category of the status.
+    enum:
+      - TODO
+      - IN_PROGRESS
+      - DONE
+  scope:
+    $ref: ./StatusScope.yaml
+  description:
+    type: string
+    description: The description of the status.
+  usages:
+    uniqueItems: true
+    type: array
+    description: >-
+      Projects and issue types where the status is used. Only available if the
+      `usages` expand is requested.
+    items:
+      $ref: ./ProjectIssueTypes.yaml
+additionalProperties: false
+description: Details of a status.

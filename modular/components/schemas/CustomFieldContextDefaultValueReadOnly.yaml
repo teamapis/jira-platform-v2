@@ -1,0 +1,10 @@
+required:
+  - type
+type: object
+properties:
+  text:
+    type: string
+    description: The default text. The maximum length is 255 characters.
+  type:
+    type: string
+description: The default text for a read only custom field.

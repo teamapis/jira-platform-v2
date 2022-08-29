@@ -1,0 +1,209 @@
+get:
+  tags:
+    - Groups
+  summary: Get group
+  description: >-
+    This operation is deprecated, use
+    [`group/member`](#api-rest-api-2-group-member-get).
+
+
+    Returns all users in a group.
+
+
+    **[Permissions](#permissions) required:** *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg).
+  operationId: getGroup
+  parameters:
+    - name: groupname
+      in: query
+      description: >-
+        As a group's name can change, use of `groupId` is recommended to
+        identify a group.  
+
+        The name of the group. This parameter cannot be used with the `groupId`
+        parameter.
+      schema:
+        type: string
+    - name: groupId
+      in: query
+      description: >-
+        The ID of the group. This parameter cannot be used with the `groupName`
+        parameter.
+      schema:
+        type: string
+      x-showInExample: 'true'
+    - name: expand
+      in: query
+      description: List of fields to expand.
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/Group.yaml
+    '400':
+      description: Returned if the group name is not specified.
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: >-
+        Returned if the calling user does not have the Administer Jira global
+        permission.
+    '404':
+      description: Returned if the group is not found.
+  deprecated: true
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - read:jira-user
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - read:jira-user
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:group:jira
+        - read:user:jira
+        - read:avatar:jira
+  x-atlassian-connect-scope: ADMIN
+post:
+  tags:
+    - Groups
+  summary: Create group
+  description: >-
+    Creates a group.
+
+
+    **[Permissions](#permissions) required:** Site administration (that is,
+    member of the *site-admin*
+    [group](https://confluence.atlassian.com/x/24xjL)).
+  operationId: createGroup
+  parameters: []
+  requestBody:
+    description: The name of the group.
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/AddGroupBean.yaml
+        example:
+          name: power-users
+    required: true
+  responses:
+    '201':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/Group.yaml
+          example: >-
+            {"name":"power-users","groupId":"276f955c-63d7-42c8-9520-92d01dca0625","self":"https://your-domain.atlassian.net/rest/api/2/group?groupId=276f955c-63d7-42c8-9520-92d01dca0625","users":{"size":1,"items":[{"self":"https://your-domain.atlassian.net/rest/api/2/user?accountId=5b10a2844c20165700ede21g","accountId":"5b10a2844c20165700ede21g","displayName":"Mia
+            Krystof","active":false}],"max-results":50,"start-index":0,"end-index":0},"expand":"users"}
+    '400':
+      description: Returned if group name is not specified or the group name is in use.
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: Returned if the user does not have the necessary permission.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-configuration
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-configuration
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:group:jira
+        - read:user:jira
+        - write:group:jira
+        - read:avatar:jira
+  x-atlassian-connect-scope: INACCESSIBLE
+delete:
+  tags:
+    - Groups
+  summary: Remove group
+  description: >-
+    Deletes a group.
+
+
+    **[Permissions](#permissions) required:** Site administration (that is,
+    member of the *site-admin* strategic
+    [group](https://confluence.atlassian.com/x/24xjL)).
+  operationId: removeGroup
+  parameters:
+    - name: groupname
+      in: query
+      description: >-
+        As a group's name can change, use of `groupId` is recommended to
+        identify a group.  
+
+        The name of the group. This parameter cannot be used with the `groupId`
+        parameter.
+      schema:
+        type: string
+    - name: groupId
+      in: query
+      description: >-
+        The ID of the group. This parameter cannot be used with the `groupName`
+        parameter.
+      schema:
+        type: string
+      x-showInExample: 'true'
+    - name: swapGroup
+      in: query
+      description: >-
+        As a group's name can change, use of `swapGroupId` is recommended to
+        identify a group.  
+
+        The group to transfer restrictions to. Only comments and worklogs are
+        transferred. If restrictions are not transferred, comments and worklogs
+        are inaccessible after the deletion. This parameter cannot be used with
+        the `swapGroupId` parameter.
+      schema:
+        type: string
+    - name: swapGroupId
+      in: query
+      description: >-
+        The ID of the group to transfer restrictions to. Only comments and
+        worklogs are transferred. If restrictions are not transferred, comments
+        and worklogs are inaccessible after the deletion. This parameter cannot
+        be used with the `swapGroup` parameter.
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Returned if the request is successful.
+    '400':
+      description: Returned if the group name is not specified.
+    '401':
+      description: >-
+        Returned if the authentication credentials are incorrect or missing from
+        the request.
+    '403':
+      description: Returned if the user does not have the necessary permission.
+    '404':
+      description: Returned if the group is not found.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-configuration
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-configuration
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - delete:group:jira
+  x-atlassian-connect-scope: INACCESSIBLE

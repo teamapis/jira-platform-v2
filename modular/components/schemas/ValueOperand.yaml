@@ -1,0 +1,8 @@
+required:
+  - value
+type: object
+properties:
+  value:
+    type: string
+    description: The operand value.
+description: An operand that is a user-provided value.

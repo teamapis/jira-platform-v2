@@ -1,0 +1,19 @@
+type: object
+properties:
+  users:
+    type: array
+    items:
+      $ref: ./UserPickerUser.yaml
+  total:
+    type: integer
+    description: The total number of users found in the search.
+    format: int32
+  header:
+    type: string
+    description: >-
+      Header text indicating the number of users in the response and the total
+      number of users found in the search.
+additionalProperties: false
+description: >-
+  The list of users found in a search, including header text (Showing X of Y
+  matching users) and total of matched users.

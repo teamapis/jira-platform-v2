@@ -1,0 +1,242 @@
+get:
+  tags:
+    - Workflow schemes
+  summary: Get workflow for issue type in workflow scheme
+  description: >-
+    Returns the issue type-workflow mapping for an issue type in a workflow
+    scheme.
+
+
+    **[Permissions](#permissions) required:** *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg).
+  operationId: getWorkflowSchemeIssueType
+  parameters:
+    - name: id
+      in: path
+      description: The ID of the workflow scheme.
+      required: true
+      schema:
+        type: integer
+        format: int64
+    - name: issueType
+      in: path
+      description: The ID of the issue type.
+      required: true
+      schema:
+        type: string
+    - name: returnDraftIfExists
+      in: query
+      description: >-
+        Returns the mapping from the workflow scheme's draft rather than the
+        workflow scheme, if set to true. If no draft exists, the mapping from
+        the workflow scheme is returned.
+      schema:
+        type: boolean
+        default: false
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/IssueTypeWorkflowMapping.yaml
+          example: '{"issueType":"10000","workflow":"jira"}'
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: Returned if the user does not have the necessary permission.
+    '404':
+      description: Returned if the workflow scheme or issue type is not found.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-configuration
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-configuration
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:workflow-scheme:jira
+        - read:workflow:jira
+        - read:issue-type:jira
+  x-atlassian-connect-scope: ADMIN
+put:
+  tags:
+    - Workflow schemes
+  summary: Set workflow for issue type in workflow scheme
+  description: >-
+    Sets the workflow for an issue type in a workflow scheme.
+
+
+    Note that active workflow schemes cannot be edited. If the workflow scheme
+    is active, set `updateDraftIfNeeded` to `true` in the request body and a
+    draft workflow scheme is created or updated with the new issue type-workflow
+    mapping. The draft workflow scheme can be published in Jira.
+
+
+    **[Permissions](#permissions) required:** *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg).
+  operationId: setWorkflowSchemeIssueType
+  parameters:
+    - name: id
+      in: path
+      description: The ID of the workflow scheme.
+      required: true
+      schema:
+        type: integer
+        format: int64
+    - name: issueType
+      in: path
+      description: The ID of the issue type.
+      required: true
+      schema:
+        type: string
+  requestBody:
+    description: The issue type-project mapping.
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/IssueTypeWorkflowMapping.yaml
+        example:
+          issueType: '10000'
+          workflow: jira
+          updateDraftIfNeeded: false
+    required: true
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/WorkflowScheme.yaml
+          example: >-
+            {"id":101010,"name":"Example workflow scheme","description":"The
+            description of the example workflow
+            scheme.","defaultWorkflow":"jira","issueTypeMappings":{"10000":"scrum
+            workflow","10001":"builds
+            workflow"},"draft":false,"self":"https://your-domain.atlassian.net/rest/api/2/workflowscheme/101010"}
+    '400':
+      description: >-
+        Returned if the workflow cannot be edited and `updateDraftIfNeeded` is
+        false.
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: Returned if the user does not have the necessary permission.
+    '404':
+      description: Returned if the workflow scheme or issue type is not found.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-configuration
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-configuration
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - write:workflow-scheme:jira
+        - read:workflow-scheme:jira
+        - read:workflow:jira
+        - read:application-role:jira
+        - read:avatar:jira
+        - read:group:jira
+        - read:issue-type:jira
+        - read:project-category:jira
+        - read:project:jira
+        - read:user:jira
+  x-atlassian-connect-scope: ADMIN
+delete:
+  tags:
+    - Workflow schemes
+  summary: Delete workflow for issue type in workflow scheme
+  description: >-
+    Deletes the issue type-workflow mapping for an issue type in a workflow
+    scheme.
+
+
+    Note that active workflow schemes cannot be edited. If the workflow scheme
+    is active, set `updateDraftIfNeeded` to `true` and a draft workflow scheme
+    is created or updated with the issue type-workflow mapping deleted. The
+    draft workflow scheme can be published in Jira.
+
+
+    **[Permissions](#permissions) required:** *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg).
+  operationId: deleteWorkflowSchemeIssueType
+  parameters:
+    - name: id
+      in: path
+      description: The ID of the workflow scheme.
+      required: true
+      schema:
+        type: integer
+        format: int64
+    - name: issueType
+      in: path
+      description: The ID of the issue type.
+      required: true
+      schema:
+        type: string
+    - name: updateDraftIfNeeded
+      in: query
+      description: >-
+        Set to true to create or update the draft of a workflow scheme and
+        update the mapping in the draft, when the workflow scheme cannot be
+        edited. Defaults to `false`.
+      schema:
+        type: boolean
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/WorkflowScheme.yaml
+          example: >-
+            {"id":101010,"name":"Example workflow scheme","description":"The
+            description of the example workflow
+            scheme.","defaultWorkflow":"jira","issueTypeMappings":{"10000":"scrum
+            workflow","10001":"builds
+            workflow"},"draft":false,"self":"https://your-domain.atlassian.net/rest/api/2/workflowscheme/101010"}
+    '400':
+      description: >-
+        Returned if the workflow cannot be edited and `updateDraftIfNeeded` is
+        false.
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: Returned if the user does not have the necessary permission.
+    '404':
+      description: Returned if the workflow scheme or issue type is not found.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-configuration
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-configuration
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - delete:workflow-scheme:jira
+        - read:application-role:jira
+        - read:avatar:jira
+        - read:group:jira
+        - read:issue-type:jira
+        - read:project-category:jira
+        - read:project:jira
+        - read:user:jira
+        - read:workflow-scheme:jira
+        - read:workflow:jira
+  x-atlassian-connect-scope: ADMIN

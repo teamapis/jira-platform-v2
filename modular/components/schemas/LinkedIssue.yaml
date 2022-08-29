@@ -1,0 +1,20 @@
+type: object
+properties:
+  id:
+    type: string
+    description: The ID of an issue. Required if `key` isn't provided.
+  key:
+    type: string
+    description: The key of an issue. Required if `id` isn't provided.
+  self:
+    type: string
+    description: The URL of the issue.
+    format: uri
+    readOnly: true
+  fields:
+    description: The fields associated with the issue.
+    readOnly: true
+    allOf:
+      - $ref: ./Fields.yaml
+additionalProperties: false
+description: The ID or key of a linked issue.

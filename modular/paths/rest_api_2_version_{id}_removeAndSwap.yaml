@@ -1,0 +1,71 @@
+post:
+  tags:
+    - Project versions
+  summary: Delete and replace version
+  description: >-
+    Deletes a project version.
+
+
+    Alternative versions can be provided to update issues that use the deleted
+    version in `fixVersion`, `affectedVersion`, or any version picker custom
+    fields. If alternatives are not provided, occurrences of `fixVersion`,
+    `affectedVersion`, and any version picker custom field, that contain the
+    deleted version, are cleared. Any replacement version must be in the same
+    project as the version being deleted and cannot be the version being
+    deleted.
+
+
+    This operation can be accessed anonymously.
+
+
+    **[Permissions](#permissions) required:** *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg) or *Administer
+    Projects* [project permission](https://confluence.atlassian.com/x/yodKLg)
+    for the project that contains the version.
+  operationId: deleteAndReplaceVersion
+  parameters:
+    - name: id
+      in: path
+      description: The ID of the version.
+      required: true
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/DeleteAndReplaceVersionBean.yaml
+    required: true
+  responses:
+    '204':
+      description: Returned if the version is deleted.
+      content:
+        application/json:
+          schema: {}
+    '400':
+      description: Returned if the request is invalid.
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '404':
+      description: |-
+        Returned if:
+
+         *  the version to delete is not found.
+         *  the user does not have the required permissions.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-project
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-project
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - delete:project-version:jira
+        - write:project-version:jira
+  x-atlassian-connect-scope: PROJECT_ADMIN

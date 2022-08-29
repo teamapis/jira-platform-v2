@@ -1,0 +1,25 @@
+required:
+  - name
+  - screens
+type: object
+properties:
+  name:
+    type: string
+    description: >-
+      The name of the screen scheme. The name must be unique. The maximum length
+      is 255 characters.
+    writeOnly: true
+  description:
+    type: string
+    description: >-
+      The description of the screen scheme. The maximum length is 255
+      characters.
+    writeOnly: true
+  screens:
+    description: >-
+      The IDs of the screens for the screen types of the screen scheme. Only
+      screens used in classic projects are accepted.
+    allOf:
+      - $ref: ./ScreenTypes.yaml
+additionalProperties: false
+description: Details of a screen scheme.

@@ -1,0 +1,206 @@
+get:
+  tags:
+    - Workflow schemes
+  summary: Get workflow scheme
+  description: >-
+    Returns a workflow scheme.
+
+
+    **[Permissions](#permissions) required:** *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg).
+  operationId: getWorkflowScheme
+  parameters:
+    - name: id
+      in: path
+      description: >-
+        The ID of the workflow scheme. Find this ID by editing the desired
+        workflow scheme in Jira. The ID is shown in the URL as `schemeId`. For
+        example, *schemeId=10301*.
+      required: true
+      schema:
+        type: integer
+        format: int64
+    - name: returnDraftIfExists
+      in: query
+      description: >-
+        Returns the workflow scheme's draft rather than scheme itself, if set to
+        true. If the workflow scheme does not have a draft, then the workflow
+        scheme is returned.
+      schema:
+        type: boolean
+        default: false
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/WorkflowScheme.yaml
+          example: >-
+            {"id":101010,"name":"Example workflow scheme","description":"The
+            description of the example workflow
+            scheme.","defaultWorkflow":"jira","issueTypeMappings":{"10000":"scrum
+            workflow","10001":"builds
+            workflow"},"draft":false,"self":"https://your-domain.atlassian.net/rest/api/2/workflowscheme/101010"}
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: Returned if the user does not have the necessary permission.
+    '404':
+      description: Returned if the workflow scheme is not found.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-configuration
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-configuration
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:workflow-scheme:jira
+        - read:application-role:jira
+        - read:avatar:jira
+        - read:group:jira
+        - read:issue-type:jira
+        - read:project-category:jira
+        - read:project:jira
+        - read:user:jira
+  x-atlassian-connect-scope: ADMIN
+put:
+  tags:
+    - Workflow schemes
+  summary: Update workflow scheme
+  description: >-
+    Updates a workflow scheme, including the name, default workflow, issue type
+    to project mappings, and more. If the workflow scheme is active (that is,
+    being used by at least one project), then a draft workflow scheme is created
+    or updated instead, provided that `updateDraftIfNeeded` is set to `true`.
+
+
+    **[Permissions](#permissions) required:** *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg).
+  operationId: updateWorkflowScheme
+  parameters:
+    - name: id
+      in: path
+      description: >-
+        The ID of the workflow scheme. Find this ID by editing the desired
+        workflow scheme in Jira. The ID is shown in the URL as `schemeId`. For
+        example, *schemeId=10301*.
+      required: true
+      schema:
+        type: integer
+        format: int64
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/WorkflowScheme.yaml
+        example:
+          defaultWorkflow: jira
+          updateDraftIfNeeded: false
+          name: Example workflow scheme
+          description: The description of the example workflow scheme.
+          issueTypeMappings:
+            '10000': scrum workflow
+    required: true
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/WorkflowScheme.yaml
+          example: >-
+            {"id":101010,"name":"Example workflow scheme","description":"The
+            description of the example workflow
+            scheme.","defaultWorkflow":"jira","issueTypeMappings":{"10000":"scrum
+            workflow","10001":"builds
+            workflow"},"draft":false,"self":"https://your-domain.atlassian.net/rest/api/2/workflowscheme/101010"}
+    '400':
+      description: Returned if the request is invalid.
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: Returned if the user does not have the necessary permission.
+    '404':
+      description: Returned if the workflow scheme is not found.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-configuration
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-configuration
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:workflow-scheme:jira
+        - write:workflow-scheme:jira
+        - read:application-role:jira
+        - read:avatar:jira
+        - read:group:jira
+        - read:issue-type:jira
+        - read:project-category:jira
+        - read:project:jira
+        - read:user:jira
+  x-atlassian-connect-scope: ADMIN
+delete:
+  tags:
+    - Workflow schemes
+  summary: Delete workflow scheme
+  description: >-
+    Deletes a workflow scheme. Note that a workflow scheme cannot be deleted if
+    it is active (that is, being used by at least one project).
+
+
+    **[Permissions](#permissions) required:** *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg).
+  operationId: deleteWorkflowScheme
+  parameters:
+    - name: id
+      in: path
+      description: >-
+        The ID of the workflow scheme. Find this ID by editing the desired
+        workflow scheme in Jira. The ID is shown in the URL as `schemeId`. For
+        example, *schemeId=10301*.
+      required: true
+      schema:
+        type: integer
+        format: int64
+  responses:
+    '204':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema: {}
+    '400':
+      description: Returned if the scheme is active.
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: Returned if the user does not have the necessary permission.
+    '404':
+      description: Returned if the workflow scheme is not found.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-configuration
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-configuration
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - delete:workflow-scheme:jira
+  x-atlassian-connect-scope: ADMIN

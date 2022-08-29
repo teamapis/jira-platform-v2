@@ -1,0 +1,18 @@
+required:
+  - contextId
+  - optionIds
+  - type
+type: object
+properties:
+  contextId:
+    type: string
+    description: The ID of the context.
+  optionIds:
+    type: array
+    description: The list of IDs of the default options.
+    items:
+      type: string
+      description: The list of IDs of the default options.
+  type:
+    type: string
+description: The default value for a multi-select custom field.

@@ -1,0 +1,9 @@
+type: object
+properties:
+  results:
+    type: array
+    description: The list of suggested item.
+    items:
+      $ref: ./AutoCompleteSuggestion.yaml
+additionalProperties: false
+description: The results from a JQL query.

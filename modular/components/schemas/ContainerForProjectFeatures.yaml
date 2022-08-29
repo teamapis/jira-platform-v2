@@ -1,0 +1,9 @@
+type: object
+properties:
+  features:
+    type: array
+    description: The project features.
+    items:
+      $ref: ./ProjectFeature.yaml
+additionalProperties: false
+description: The list of features on a project.

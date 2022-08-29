@@ -1,0 +1,16 @@
+type: object
+properties:
+  system:
+    type: array
+    description: List of avatars included with Jira. These avatars cannot be deleted.
+    readOnly: true
+    items:
+      $ref: ./Avatar.yaml
+  custom:
+    type: array
+    description: List of avatars added to Jira. These avatars may be deleted.
+    readOnly: true
+    items:
+      $ref: ./Avatar.yaml
+additionalProperties: false
+description: List of project avatars.

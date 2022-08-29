@@ -1,0 +1,10 @@
+required:
+  - id
+type: object
+properties:
+  id:
+    type: string
+    description: The ID of the issue priority.
+    readOnly: true
+additionalProperties: true
+description: The ID of an issue priority.

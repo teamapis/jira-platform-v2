@@ -1,0 +1,18 @@
+type: object
+properties:
+  entityIds:
+    uniqueItems: true
+    type: array
+    description: List of issues to perform the bulk operation on.
+    items:
+      type: integer
+      format: int64
+  currentValue:
+    description: The value of properties to perform the bulk operation on.
+  hasProperty:
+    type: boolean
+    description: >-
+      Whether the bulk operation occurs only when the property is present on or
+      absent from an issue.
+additionalProperties: false
+description: Bulk operation filter details.

@@ -1,0 +1,15 @@
+required:
+  - id
+type: object
+properties:
+  id:
+    type: string
+    description: The ID of the status.
+  properties:
+    type: object
+    additionalProperties:
+      type: string
+    description: The properties of the status.
+additionalProperties: false
+description: The details of a transition status.
+writeOnly: true

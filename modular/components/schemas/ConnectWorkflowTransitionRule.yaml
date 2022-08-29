@@ -1,0 +1,21 @@
+required:
+  - configuration
+  - id
+  - key
+type: object
+properties:
+  id:
+    type: string
+    description: The ID of the transition rule.
+  key:
+    type: string
+    description: The key of the rule, as defined in the Connect app descriptor.
+    readOnly: true
+  configuration:
+    $ref: ./RuleConfiguration.yaml
+  transition:
+    readOnly: true
+    allOf:
+      - $ref: ./WorkflowTransition.yaml
+additionalProperties: false
+description: A workflow transition rule.

@@ -1,0 +1,11 @@
+type: object
+additionalProperties: false
+description: The workflow transition rule conditions tree.
+discriminator:
+  propertyName: nodeType
+  mapping:
+    simple: ./WorkflowSimpleCondition.yaml
+    compound: ./WorkflowCompoundCondition.yaml
+oneOf:
+  - $ref: ./WorkflowSimpleCondition.yaml
+  - $ref: ./WorkflowCompoundCondition.yaml

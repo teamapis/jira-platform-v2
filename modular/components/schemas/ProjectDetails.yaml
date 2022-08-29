@@ -1,0 +1,44 @@
+type: object
+properties:
+  self:
+    type: string
+    description: The URL of the project details.
+    readOnly: true
+  id:
+    type: string
+    description: The ID of the project.
+  key:
+    type: string
+    description: The key of the project.
+    readOnly: true
+  name:
+    type: string
+    description: The name of the project.
+    readOnly: true
+  projectTypeKey:
+    type: string
+    description: >-
+      The [project
+      type](https://confluence.atlassian.com/x/GwiiLQ#Jiraapplicationsoverview-Productfeaturesandprojecttypes)
+      of the project.
+    readOnly: true
+    enum:
+      - software
+      - service_desk
+      - business
+  simplified:
+    type: boolean
+    description: Whether or not the project is simplified.
+    readOnly: true
+  avatarUrls:
+    description: The URLs of the project's avatars.
+    readOnly: true
+    allOf:
+      - $ref: ./AvatarUrlsBean.yaml
+  projectCategory:
+    description: The category the project belongs to.
+    readOnly: true
+    allOf:
+      - $ref: ./UpdatedProjectCategory.yaml
+additionalProperties: false
+description: Details about a project.

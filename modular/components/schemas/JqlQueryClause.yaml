@@ -1,0 +1,8 @@
+type: object
+additionalProperties: false
+description: A JQL query clause.
+anyOf:
+  - $ref: ./CompoundClause.yaml
+  - $ref: ./FieldValueClause.yaml
+  - $ref: ./FieldWasClause.yaml
+  - $ref: ./FieldChangedClause.yaml

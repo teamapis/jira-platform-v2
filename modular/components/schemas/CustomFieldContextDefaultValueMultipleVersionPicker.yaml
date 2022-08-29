@@ -1,0 +1,21 @@
+required:
+  - type
+  - versionIds
+type: object
+properties:
+  versionIds:
+    uniqueItems: true
+    type: array
+    description: The IDs of the default versions.
+    items:
+      type: string
+      description: The IDs of the default versions.
+  versionOrder:
+    type: string
+    description: >-
+      The order the pickable versions are displayed in. If not provided, the
+      released-first order is used. Available version orders are
+      `"releasedFirst"` and `"unreleasedFirst"`.
+  type:
+    type: string
+description: The default value for a multiple version picker custom field.

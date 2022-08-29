@@ -1,0 +1,11 @@
+required:
+  - issueIds
+type: object
+properties:
+  issueIds:
+    type: array
+    description: The list of issue IDs.
+    items:
+      type: string
+additionalProperties: false
+description: A list of issue IDs.

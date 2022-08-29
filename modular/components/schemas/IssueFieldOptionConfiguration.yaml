@@ -1,0 +1,19 @@
+type: object
+properties:
+  scope:
+    description: >-
+      Defines the projects that the option is available in. If the scope is not
+      defined, then the option is available in all projects.
+    allOf:
+      - $ref: ./IssueFieldOptionScopeBean.yaml
+  attributes:
+    uniqueItems: true
+    type: array
+    description: DEPRECATED
+    items:
+      type: string
+      enum:
+        - notSelectable
+        - defaultValue
+additionalProperties: false
+description: Details of the projects the option is available in.

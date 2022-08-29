@@ -1,0 +1,62 @@
+get:
+  tags:
+    - Issue comment properties
+  summary: Get comment property keys
+  description: |-
+    Returns the keys of all the properties of a comment.
+
+    This operation can be accessed anonymously.
+
+    **[Permissions](#permissions) required:**
+
+     *  *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project.
+     *  If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue.
+     *  If the comment has visibility restrictions, belongs to the group or has the role visibility is restricted to.
+  operationId: getCommentPropertyKeys
+  parameters:
+    - name: commentId
+      in: path
+      description: The ID of the comment.
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/PropertyKeys.yaml
+          example: >-
+            {"keys":[{"self":"https://your-domain.atlassian.net/rest/api/2/issue/EX-2/properties/issue.support","key":"issue.support"}]}
+    '400':
+      description: Returned if the comment ID is invalid.
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: Returned if the user does not have the necessary permission.
+    '404':
+      description: Returned if the comment is not found.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - read:jira-work
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - read:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:comment.property:jira
+        - read:dashboard.property:jira
+        - read:issue-type.property:jira
+        - read:issue-worklog.property:jira
+        - read:issue.property:jira
+        - read:project.property:jira
+        - read:user.property:jira
+        - read:workflow.property:jira
+  x-atlassian-connect-scope: READ

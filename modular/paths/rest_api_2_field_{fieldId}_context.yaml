@@ -1,0 +1,186 @@
+get:
+  tags:
+    - Issue custom field contexts
+  summary: Get custom field contexts
+  description: >-
+    Returns a [paginated](#pagination) list of [
+    contexts](https://confluence.atlassian.com/adminjiracloud/what-are-custom-field-contexts-991923859.html)
+    for a custom field. Contexts can be returned as follows:
+
+     *  With no other parameters set, all contexts.
+     *  By defining `id` only, all contexts from the list of IDs.
+     *  By defining `isAnyIssueType`, limit the list of contexts returned to either those that apply to all issue types (true) or those that apply to only a subset of issue types (false)
+     *  By defining `isGlobalContext`, limit the list of contexts return to either those that apply to all projects (global contexts) (true) or those that apply to only a subset of projects (false).
+
+    **[Permissions](#permissions) required:** *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg).
+  operationId: getContextsForField
+  parameters:
+    - name: fieldId
+      in: path
+      description: The ID of the custom field.
+      required: true
+      schema:
+        type: string
+    - name: isAnyIssueType
+      in: query
+      description: Whether to return contexts that apply to all issue types.
+      schema:
+        type: boolean
+    - name: isGlobalContext
+      in: query
+      description: Whether to return contexts that apply to all projects.
+      schema:
+        type: boolean
+    - name: contextId
+      in: query
+      description: >-
+        The list of context IDs. To include multiple contexts, separate IDs with
+        ampersand: `contextId=10000&contextId=10001`.
+      schema:
+        uniqueItems: true
+        type: array
+        items:
+          type: integer
+          format: int64
+    - name: startAt
+      in: query
+      description: >-
+        The index of the first item to return in a page of results (page
+        offset).
+      schema:
+        type: integer
+        format: int64
+        default: 0
+    - name: maxResults
+      in: query
+      description: The maximum number of items to return per page.
+      schema:
+        type: integer
+        format: int32
+        default: 50
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/PageBeanCustomFieldContext.yaml
+          example: >-
+            {"maxResults":100,"startAt":0,"total":2,"isLast":true,"values":[{"id":"10025","name":"Bug
+            fields context","description":"A context used to define the custom
+            field options for
+            bugs.","isGlobalContext":true,"isAnyIssueType":false},{"id":"10026","name":"Task
+            fields context","description":"A context used to define the custom
+            field options for
+            tasks.","isGlobalContext":false,"isAnyIssueType":false}]}
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: Returned if the user does not have the required permissions.
+      content:
+        application/json:
+          example: >-
+            {"errorMessages":["Only Jira administrators can access custom field
+            contexts."],"errors":{}}
+    '404':
+      description: Returned if the custom field was not found.
+      content:
+        application/json:
+          example: '{"errorMessages":["The custom field was not found."],"errors":{}}'
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-configuration
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-configuration
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:field:jira
+        - read:custom-field-contextual-configuration:jira
+  x-experimental: true
+  x-atlassian-connect-scope: READ
+post:
+  tags:
+    - Issue custom field contexts
+  summary: Create custom field context
+  description: >-
+    Creates a custom field context.
+
+
+    If `projectIds` is empty, a global context is created. A global context is
+    one that applies to all project. If `issueTypeIds` is empty, the context
+    applies to all issue types.
+
+
+    **[Permissions](#permissions) required:** *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg).
+  operationId: createCustomFieldContext
+  parameters:
+    - name: fieldId
+      in: path
+      description: The ID of the custom field.
+      required: true
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/CreateCustomFieldContext.yaml
+        example:
+          issueTypeIds:
+            - '10010'
+          name: Bug fields context
+          description: A context used to define the custom field options for bugs.
+          projectIds: []
+    required: true
+  responses:
+    '201':
+      description: Returned if the custom field context is created.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/CreateCustomFieldContext.yaml
+          example: >-
+            {"id":"10025","name":"Bug fields context","description":"A context
+            used to define the custom field options for
+            bugs.","projectIds":[],"issueTypeIds":["10010"]}
+    '400':
+      description: Returned if the request is invalid.
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '404':
+      description: Returned if the field, project, or issue type is not found.
+    '409':
+      description: >-
+        Returned if the issue type is a sub-task, but sub-tasks are disabled in
+        Jira settings.
+      content:
+        application/json:
+          example: >-
+            {"errorMessages":["Sub-tasks are disabled in Jira. At least one of
+            the issue types is a sub-task."],"errors":{}}
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-configuration
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-configuration
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:field:jira
+        - write:field:jira
+        - read:custom-field-contextual-configuration:jira
+  x-experimental: true
+  x-atlassian-connect-scope: ADMIN

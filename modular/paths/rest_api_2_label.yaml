@@ -1,0 +1,47 @@
+get:
+  tags:
+    - Labels
+  summary: Get all labels
+  description: Returns a [paginated](#pagination) list of labels.
+  operationId: getAllLabels
+  parameters:
+    - name: startAt
+      in: query
+      description: >-
+        The index of the first item to return in a page of results (page
+        offset).
+      schema:
+        type: integer
+        format: int64
+        default: 0
+    - name: maxResults
+      in: query
+      description: The maximum number of items to return per page.
+      schema:
+        type: integer
+        format: int32
+        default: 1000
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/PageBeanString.yaml
+          example: >-
+            {"maxResults":2,"startAt":0,"total":100,"isLast":false,"values":["performance","security"]}
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - read:jira-work
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - read:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:label:jira
+  x-atlassian-connect-scope: READ

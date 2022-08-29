@@ -1,0 +1,12 @@
+required:
+  - matches
+type: object
+properties:
+  matches:
+    type: array
+    items:
+      $ref: ./IssueMatchesForJQL.yaml
+additionalProperties: false
+description: >-
+  A list of matched issues or errors for each JQL query, in the order the JQL
+  queries were passed.

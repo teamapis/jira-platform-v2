@@ -1,0 +1,11 @@
+type: object
+properties:
+  status:
+    type: integer
+    format: int32
+  elementErrors:
+    $ref: ./ErrorCollection.yaml
+  failedElementNumber:
+    type: integer
+    format: int32
+additionalProperties: false

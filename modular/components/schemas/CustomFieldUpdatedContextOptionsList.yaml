@@ -1,0 +1,9 @@
+type: object
+properties:
+  options:
+    type: array
+    description: The updated custom field options.
+    items:
+      $ref: ./CustomFieldOptionUpdate.yaml
+additionalProperties: false
+description: A list of custom field options for a context.

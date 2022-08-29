@@ -1,0 +1,185 @@
+get:
+  tags:
+    - Issue link types
+  summary: Get issue link type
+  description: >-
+    Returns an issue link type.
+
+
+    To use this operation, the site must have [issue
+    linking](https://confluence.atlassian.com/x/yoXKM) enabled.
+
+
+    This operation can be accessed anonymously.
+
+
+    **[Permissions](#permissions) required:** *Browse projects* [project
+    permission](https://confluence.atlassian.com/x/yodKLg) for a project in the
+    site.
+  operationId: getIssueLinkType
+  parameters:
+    - name: issueLinkTypeId
+      in: path
+      description: The ID of the issue link type.
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/IssueLinkType.yaml
+          example: >-
+            {"id":"1000","name":"Duplicate","inward":"Duplicated
+            by","outward":"Duplicates","self":"https://your-domain.atlassian.net/rest/api/2/issueLinkType/1000"}
+    '400':
+      description: Returned if the issue link type ID is invalid.
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '404':
+      description: |-
+        Returned if:
+
+         *  issue linking is disabled.
+         *  the issue link type is not found.
+         *  the user does not have the required permissions.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - read:jira-work
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - read:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:issue-link-type:jira
+  x-atlassian-connect-scope: READ
+put:
+  tags:
+    - Issue link types
+  summary: Update issue link type
+  description: >-
+    Updates an issue link type.
+
+
+    To use this operation, the site must have [issue
+    linking](https://confluence.atlassian.com/x/yoXKM) enabled.
+
+
+    **[Permissions](#permissions) required:** *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg).
+  operationId: updateIssueLinkType
+  parameters:
+    - name: issueLinkTypeId
+      in: path
+      description: The ID of the issue link type.
+      required: true
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/IssueLinkType.yaml
+        example:
+          inward: Duplicated by
+          name: Duplicate
+          outward: Duplicates
+    required: true
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/IssueLinkType.yaml
+          example: >-
+            {"id":"1000","name":"Duplicate","inward":"Duplicated
+            by","outward":"Duplicates","self":"https://your-domain.atlassian.net/rest/api/2/issueLinkType/1000"}
+    '400':
+      description: Returned if the issue link type ID or the request body are invalid.
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '404':
+      description: |-
+        Returned if:
+
+         *  issue linking is disabled.
+         *  the issue link type is not found.
+         *  the user does not have the required permissions.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-configuration
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-configuration
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:issue-link-type:jira
+        - write:issue-link-type:jira
+  x-atlassian-connect-scope: ADMIN
+delete:
+  tags:
+    - Issue link types
+  summary: Delete issue link type
+  description: >-
+    Deletes an issue link type.
+
+
+    To use this operation, the site must have [issue
+    linking](https://confluence.atlassian.com/x/yoXKM) enabled.
+
+
+    **[Permissions](#permissions) required:** *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg).
+  operationId: deleteIssueLinkType
+  parameters:
+    - name: issueLinkTypeId
+      in: path
+      description: The ID of the issue link type.
+      required: true
+      schema:
+        type: string
+  responses:
+    '204':
+      description: Returned if the request is successful.
+    '400':
+      description: Returned if the issue link type ID is invalid.
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '404':
+      description: |-
+        Returned if:
+
+         *  issue linking is disabled.
+         *  the issue link type is not found.
+         *  the user does not have the required permissions.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-configuration
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-configuration
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - delete:issue-link-type:jira
+  x-atlassian-connect-scope: ADMIN

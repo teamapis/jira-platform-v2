@@ -1,0 +1,37 @@
+get:
+  tags:
+    - Application roles
+  summary: Get all application roles
+  description: >-
+    Returns all application roles. In Jira, application roles are managed using
+    the [Application access
+    configuration](https://confluence.atlassian.com/x/3YxjL) page.
+
+
+    **[Permissions](#permissions) required:** *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg).
+  operationId: getAllApplicationRoles
+  parameters: []
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: ../components/schemas/ApplicationRole.yaml
+          example: >-
+            [{"key":"jira-software","groups":["jira-software-users","jira-testers"],"groupDetails":[{"name":"jira-testers","groupId":"42c8955c-63d7-42c8-9520-63d7aca0625","self":"https://your-domain.atlassian.net/rest/api/2/group?groupId=42c8955c-63d7-42c8-9520-63d7aca0625"},{"name":"jira-software-users","groupId":"276f955c-63d7-42c8-9520-92d01dca0625","self":"https://your-domain.atlassian.net/rest/api/2/group?groupId=276f955c-63d7-42c8-9520-92d01dca0625"}],"name":"Jira
+            Software","defaultGroups":["jira-software-users"],"defaultGroupsDetails":[{"name":"jira-software-users","groupId":"276f955c-63d7-42c8-9520-92d01dca0625","self":"https://your-domain.atlassian.net/rest/api/2/group?groupId=276f955c-63d7-42c8-9520-92d01dca0625"}],"selectedByDefault":false,"defined":false,"numberOfSeats":10,"remainingSeats":5,"userCount":5,"userCountDescription":"5
+            developers","hasUnlimitedSeats":false,"platform":false},{"key":"jira-core","groups":["jira-core-users"],"groupDetails":[{"name":"jira-core-users","groupId":"92d01dca0625-42c8-42c8-9520-276f955c","self":"https://your-domain.atlassian.net/rest/api/2/group?groupId=92d01dca0625-42c8-42c8-9520-276f955c"}],"name":"Jira
+            Core","defaultGroups":["jira-core-users"],"defaultGroupsDetails":[{"name":"jira-core-users","groupId":"92d01dca0625-42c8-42c8-9520-276f955c","self":"https://your-domain.atlassian.net/rest/api/2/group?groupId=92d01dca0625-42c8-42c8-9520-276f955c"}],"selectedByDefault":false,"defined":false,"numberOfSeats":1,"remainingSeats":1,"userCount":0,"userCountDescription":"0
+            users","hasUnlimitedSeats":false,"platform":true}]
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: Returned if the user is not an administrator.
+  deprecated: false
+  security:
+    - basicAuth: []
+  x-atlassian-connect-scope: INACCESSIBLE

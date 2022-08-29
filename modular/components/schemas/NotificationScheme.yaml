@@ -1,0 +1,30 @@
+type: object
+properties:
+  expand:
+    type: string
+    description: >-
+      Expand options that include additional notification scheme details in the
+      response.
+  id:
+    type: integer
+    description: The ID of the notification scheme.
+    format: int64
+  self:
+    type: string
+  name:
+    type: string
+    description: The name of the notification scheme.
+  description:
+    type: string
+    description: The description of the notification scheme.
+  notificationSchemeEvents:
+    type: array
+    description: The notification events and associated recipients.
+    items:
+      $ref: ./NotificationSchemeEvent.yaml
+  scope:
+    description: The scope of the notification scheme.
+    allOf:
+      - $ref: ./Scope.yaml
+additionalProperties: false
+description: Details about a notification scheme.

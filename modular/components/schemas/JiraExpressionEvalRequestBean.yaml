@@ -1,0 +1,15 @@
+required:
+  - expression
+type: object
+properties:
+  expression:
+    type: string
+    description: The Jira expression to evaluate.
+    example: >-
+      { key: issue.key, type: issue.issueType.name, links: issue.links.map(link
+      => link.linkedIssue.id) }
+  context:
+    description: The context in which the Jira expression is evaluated.
+    allOf:
+      - $ref: ./JiraExpressionEvalContextBean.yaml
+additionalProperties: false

@@ -1,0 +1,25 @@
+type: object
+properties:
+  name:
+    type: string
+    description: >-
+      The name of the group. The name of a group is mutable, to reliably
+      identify a group use ``groupId`.`
+  html:
+    type: string
+    description: >-
+      The group name with the matched query string highlighted with the HTML
+      bold tag.
+  labels:
+    type: array
+    items:
+      $ref: ./GroupLabel.yaml
+  groupId:
+    type: string
+    description: >-
+      The ID of the group, which uniquely identifies the group across all
+      Atlassian products. For example, *952d12c3-5b5b-4d04-bb32-44d383afc4b2*.
+additionalProperties: false
+description: A group found in a search.
+xml:
+  name: group

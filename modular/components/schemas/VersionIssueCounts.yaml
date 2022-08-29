@@ -1,0 +1,32 @@
+type: object
+properties:
+  self:
+    type: string
+    description: The URL of these count details.
+    format: uri
+    readOnly: true
+  issuesFixedCount:
+    type: integer
+    description: Count of issues where the `fixVersion` is set to the version.
+    format: int64
+    readOnly: true
+  issuesAffectedCount:
+    type: integer
+    description: Count of issues where the `affectedVersion` is set to the version.
+    format: int64
+    readOnly: true
+  issueCountWithCustomFieldsShowingVersion:
+    type: integer
+    description: Count of issues where a version custom field is set to the version.
+    format: int64
+    readOnly: true
+  customFieldUsage:
+    type: array
+    description: List of custom fields using the version.
+    readOnly: true
+    items:
+      $ref: ./VersionUsageInCustomField.yaml
+additionalProperties: false
+description: Various counts of issues within a version.
+xml:
+  name: version

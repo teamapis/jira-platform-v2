@@ -1,0 +1,11 @@
+required:
+  - type
+type: object
+properties:
+  type:
+    type: string
+    description: The type of the transition rule.
+  configuration:
+    description: EXPERIMENTAL. The configuration of the transition rule.
+additionalProperties: false
+description: A workflow transition rule.

@@ -1,0 +1,15 @@
+type: object
+properties:
+  project:
+    $ref: ./ProjectId.yaml
+  issueTypes:
+    uniqueItems: true
+    type: array
+    description: IDs of the issue types
+    items:
+      type: string
+      description: IDs of the issue types
+additionalProperties: false
+description: >-
+  Projects and issue types where the status is used. Only available if the
+  `usages` expand is requested.

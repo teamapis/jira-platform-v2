@@ -1,0 +1,6 @@
+type: object
+properties:
+  jql:
+    $ref: ./IssuesJqlMetaDataBean.yaml
+additionalProperties: false
+description: Meta data describing the `issues` context variable.

@@ -1,0 +1,165 @@
+get:
+  tags:
+    - User search
+  summary: Find users assignable to issues
+  description: >-
+    Returns a list of users that can be assigned to an issue. Use this operation
+    to find the list of users who can be assigned to:
+
+     *  a new issue, by providing the `projectKeyOrId`.
+     *  an updated issue, by providing the `issueKey`.
+     *  to an issue during a transition (workflow action), by providing the `issueKey` and the transition id in `actionDescriptorId`. You can obtain the IDs of an issue's valid transitions using the `transitions` option in the `expand` parameter of [ Get issue](#api-rest-api-2-issue-issueIdOrKey-get).
+
+    In all these cases, you can pass an account ID to determine if a user can be
+    assigned to an issue. The user is returned in the response if they can be
+    assigned to the issue or issue transition.
+
+
+    This operation takes the users in the range defined by `startAt` and
+    `maxResults`, up to the thousandth user, and then returns only the users
+    from that range that can be assigned the issue. This means the operation
+    usually returns fewer users than specified in `maxResults`. To get all the
+    users who can be assigned the issue, use [Get all
+    users](#api-rest-api-2-users-search-get) and filter the records in your
+    code.
+
+
+    Privacy controls are applied to the response based on the users'
+    preferences. This could mean, for example, that the user's email address is
+    hidden. See the [Profile visibility
+    overview](https://developer.atlassian.com/cloud/jira/platform/profile-visibility/)
+    for more details.
+
+
+    **[Permissions](#permissions) required:** Permission to access Jira.
+  operationId: findAssignableUsers
+  parameters:
+    - name: query
+      in: query
+      description: >-
+        A query string that is matched against user attributes, such as
+        `displayName`, and `emailAddress`, to find relevant users. The string
+        can match the prefix of the attribute's value. For example, *query=john*
+        matches a user with a `displayName` of *John Smith* and a user with an
+        `emailAddress` of *johnson@example.com*. Required, unless `username` or
+        `accountId` is specified.
+      schema:
+        type: string
+        example: query
+      x-showInExample: 'true'
+    - name: sessionId
+      in: query
+      description: >-
+        The sessionId of this request. SessionId is the same until the assignee
+        is set.
+      schema:
+        type: string
+    - name: username
+      in: query
+      description: >-
+        This parameter is no longer available. See the [deprecation
+        notice](https://developer.atlassian.com/cloud/jira/platform/deprecation-notice-user-privacy-api-migration-guide/)
+        for details.
+      schema:
+        type: string
+    - name: accountId
+      in: query
+      description: >-
+        A query string that is matched exactly against user `accountId`.
+        Required, unless `query` is specified.
+      schema:
+        maxLength: 128
+        type: string
+    - name: project
+      in: query
+      description: >-
+        The project ID or project key (case sensitive). Required, unless
+        `issueKey` is specified.
+      schema:
+        type: string
+    - name: issueKey
+      in: query
+      description: The key of the issue. Required, unless `project` is specified.
+      schema:
+        type: string
+    - name: startAt
+      in: query
+      description: >-
+        The index of the first item to return in a page of results (page
+        offset).
+      schema:
+        type: integer
+        format: int32
+        default: 0
+    - name: maxResults
+      in: query
+      description: >-
+        The maximum number of items to return. This operation may return less
+        than the maximum number of items even if more are available. The
+        operation fetches users up to the maximum and then, from the fetched
+        users, returns only the users that can be assigned to the issue.
+      schema:
+        type: integer
+        format: int32
+        default: 50
+    - name: actionDescriptorId
+      in: query
+      description: The ID of the transition.
+      schema:
+        type: integer
+        format: int32
+    - name: recommend
+      in: query
+      schema:
+        type: boolean
+        default: false
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: ../components/schemas/User.yaml
+          example: >-
+            {"self":"https://your-domain.atlassian.net/rest/api/2/user?accountId=5b10a2844c20165700ede21g","key":"","accountId":"5b10a2844c20165700ede21g","accountType":"atlassian","name":"","emailAddress":"mia@example.com","avatarUrls":{"48x48":"https://avatar-management--avatars.server-location.prod.public.atl-paas.net/initials/MK-5.png?size=48&s=48","24x24":"https://avatar-management--avatars.server-location.prod.public.atl-paas.net/initials/MK-5.png?size=24&s=24","16x16":"https://avatar-management--avatars.server-location.prod.public.atl-paas.net/initials/MK-5.png?size=16&s=16","32x32":"https://avatar-management--avatars.server-location.prod.public.atl-paas.net/initials/MK-5.png?size=32&s=32"},"displayName":"Mia
+            Krystof","active":true,"timeZone":"Australia/Sydney","groups":{"size":3,"items":[]},"applicationRoles":{"size":1,"items":[]}}
+    '400':
+      description: |-
+        Returned if:
+
+         *  `issueKey` or `project` is missing.
+         *  `query` or `accountId` is missing.
+         *  `query` and `accountId` are provided.
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '404':
+      description: Returned if the project, issue, or transition is not found.
+    '429':
+      description: >-
+        Returned if the rate limit is exceeded. User search endpoints share a
+        collective rate limit for the tenant, in addition to Jira's normal rate
+        limiting you may receive a rate limit for user search. Please respect
+        the Retry-After header.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - read:jira-user
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - read:jira-user
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:issue:jira
+        - read:project:jira
+        - read:user:jira
+        - read:application-role:jira
+        - read:avatar:jira
+        - read:group:jira
+  x-atlassian-connect-scope: READ

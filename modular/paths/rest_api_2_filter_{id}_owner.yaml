@@ -1,0 +1,65 @@
+put:
+  tags:
+    - Filters
+  summary: Change filter owner
+  description: >-
+    Changes the owner of the filter.
+
+
+    **[Permissions](#permissions) required:** Permission to access Jira.
+    However, the user must own the filter or have the *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg).
+  operationId: changeFilterOwner
+  parameters:
+    - name: id
+      in: path
+      description: The ID of the filter to update.
+      required: true
+      schema:
+        type: integer
+        format: int64
+  requestBody:
+    description: The account ID of the new owner of the filter.
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/ChangeFilterOwner.yaml
+        example:
+          accountId: 0000-0000-0000-0000
+    required: true
+  responses:
+    '204':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema: {}
+    '400':
+      description: |-
+        Returned when:
+
+         *  The new owner of the filter owns a filter with the same name.
+         *  An attempt is made to change owner of the default filter.
+    '403':
+      description: >-
+        Returned if the requesting user is not an owner of the filter or does
+        not have *Administer Jira* global permission.
+    '404':
+      description: Returned if the filter or the new owner of the filter is not found.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - write:jira-work
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:filter:jira
+        - write:filter:jira
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - write:jira-work
+  x-experimental: true
+  x-atlassian-connect-scope: WRITE

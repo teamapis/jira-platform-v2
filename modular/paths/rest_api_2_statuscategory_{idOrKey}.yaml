@@ -1,0 +1,48 @@
+get:
+  tags:
+    - Workflow status categories
+  summary: Get status category
+  description: >-
+    Returns a status category. Status categories provided a mechanism for
+    categorizing [statuses](#api-rest-api-2-status-idOrName-get).
+
+
+    **[Permissions](#permissions) required:** Permission to access Jira.
+  operationId: getStatusCategory
+  parameters:
+    - name: idOrKey
+      in: path
+      description: The ID or key of the status category.
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/StatusCategory.yaml
+          example: >-
+            {"self":"https://your-domain.atlassian.net/rest/api/2/statuscategory/1","id":1,"key":"in-flight","colorName":"yellow","name":"In
+            Progress"}
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '404':
+      description: Returned if the status category is not found.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - read:jira-work
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - read:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:status:jira
+  x-atlassian-connect-scope: READ

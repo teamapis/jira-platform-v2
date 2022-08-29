@@ -1,0 +1,74 @@
+post:
+  tags:
+    - Screen tab fields
+  summary: Move screen tab field
+  description: >-
+    Moves a screen tab field.
+
+
+    If `after` and `position` are provided in the request, `position` is
+    ignored.
+
+
+    **[Permissions](#permissions) required:** *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg).
+  operationId: moveScreenTabField
+  parameters:
+    - name: screenId
+      in: path
+      description: The ID of the screen.
+      required: true
+      schema:
+        type: integer
+        format: int64
+    - name: tabId
+      in: path
+      description: The ID of the screen tab.
+      required: true
+      schema:
+        type: integer
+        format: int64
+    - name: id
+      in: path
+      description: The ID of the field.
+      required: true
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/MoveFieldBean.yaml
+    required: true
+  responses:
+    '204':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema: {}
+    '400':
+      description: Returned if the request is invalid.
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: Returned if the user does not have the necessary permission.
+    '404':
+      description: >-
+        Returned if the screen, screen tab, or field is not found or the field
+        can't be moved to the requested position.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-project
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-project
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - write:screenable-field:jira
+  x-atlassian-connect-scope: ADMIN

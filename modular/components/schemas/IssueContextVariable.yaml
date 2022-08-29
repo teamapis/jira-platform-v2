@@ -1,0 +1,19 @@
+required:
+  - type
+type: object
+properties:
+  type:
+    type: string
+    description: Type of custom context variable.
+  id:
+    type: integer
+    description: The issue ID.
+    format: int64
+  key:
+    type: string
+    description: The issue key.
+description: >-
+  An
+  [issue](https://developer.atlassian.com/cloud/jira/platform/jira-expressions-type-reference#issue)
+  specified by ID or key. All the fields of the issue object are available in
+  the Jira expression.

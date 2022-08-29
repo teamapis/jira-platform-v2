@@ -1,0 +1,8 @@
+type: object
+properties:
+  users:
+    $ref: ./FoundUsers.yaml
+  groups:
+    $ref: ./FoundGroups.yaml
+additionalProperties: false
+description: List of users and groups found in a search.

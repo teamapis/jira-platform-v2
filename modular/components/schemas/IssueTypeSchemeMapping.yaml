@@ -1,0 +1,13 @@
+required:
+  - issueTypeId
+  - issueTypeSchemeId
+type: object
+properties:
+  issueTypeSchemeId:
+    type: string
+    description: The ID of the issue type scheme.
+  issueTypeId:
+    type: string
+    description: The ID of the issue type.
+additionalProperties: false
+description: Issue type scheme item.

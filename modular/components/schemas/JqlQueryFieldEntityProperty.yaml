@@ -1,0 +1,33 @@
+required:
+  - entity
+  - key
+  - path
+type: object
+properties:
+  entity:
+    type: string
+    description: The object on which the property is set.
+    example: issue
+  key:
+    type: string
+    description: The key of the property.
+    example: stats
+  path:
+    type: string
+    description: The path in the property value to query.
+    example: comments.count
+  type:
+    type: string
+    description: >-
+      The type of the property value extraction. Not available if the extraction
+      for the property is not registered on the instance with the [Entity
+      property](https://developer.atlassian.com/cloud/jira/platform/modules/entity-property/)
+      module.
+    example: number
+    enum:
+      - number
+      - string
+      - text
+      - date
+      - user
+description: Details of an entity property.

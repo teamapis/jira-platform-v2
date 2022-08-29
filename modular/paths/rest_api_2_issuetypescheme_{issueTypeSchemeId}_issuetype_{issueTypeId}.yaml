@@ -1,0 +1,79 @@
+delete:
+  tags:
+    - Issue type schemes
+  summary: Remove issue type from issue type scheme
+  description: >-
+    Removes an issue type from an issue type scheme.
+
+
+    This operation cannot remove:
+
+     *  any issue type used by issues.
+     *  any issue types from the default issue type scheme.
+     *  the last standard issue type from an issue type scheme.
+
+    **[Permissions](#permissions) required:** *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg).
+  operationId: removeIssueTypeFromIssueTypeScheme
+  parameters:
+    - name: issueTypeSchemeId
+      in: path
+      description: The ID of the issue type scheme.
+      required: true
+      schema:
+        type: integer
+        format: int64
+    - name: issueTypeId
+      in: path
+      description: The ID of the issue type.
+      required: true
+      schema:
+        type: integer
+        format: int64
+  responses:
+    '204':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema: {}
+    '400':
+      description: Returned if the request is not valid.
+      content:
+        application/json:
+          example: >-
+            {"errorMessages":["Can't remove the last standard issue type from
+            the issue type scheme."],"errors":{}}
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: Returned if the user does not have the required permissions.
+      content:
+        application/json:
+          example: >-
+            {"errorMessages":["Only Jira administrators can access issue type
+            schemes."],"errors":{}}
+    '404':
+      description: >-
+        Returned if the issue type scheme is missing or the issue type is not
+        found in the issue type scheme.
+      content:
+        application/json:
+          example: >-
+            {"errorMessages":["The issue type was not found in the issue type
+            scheme."],"errors":{}}
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-configuration
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-configuration
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - write:issue-type-scheme:jira
+  x-experimental: true
+  x-atlassian-connect-scope: ADMIN

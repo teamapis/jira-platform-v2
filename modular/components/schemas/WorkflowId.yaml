@@ -1,0 +1,13 @@
+required:
+  - draft
+  - name
+type: object
+properties:
+  name:
+    type: string
+    description: The name of the workflow.
+  draft:
+    type: boolean
+    description: Whether the workflow is in the draft state.
+additionalProperties: false
+description: Properties that identify a workflow.

@@ -1,0 +1,279 @@
+get:
+  tags:
+    - Projects
+  summary: Get project
+  description: >-
+    Returns the [project details](https://confluence.atlassian.com/x/ahLpNw) for
+    a project.
+
+
+    This operation can be accessed anonymously.
+
+
+    **[Permissions](#permissions) required:** *Browse projects* [project
+    permission](https://confluence.atlassian.com/x/yodKLg) for the project.
+  operationId: getProject
+  parameters:
+    - name: projectIdOrKey
+      in: path
+      description: The project ID or project key (case sensitive).
+      required: true
+      schema:
+        type: string
+    - name: expand
+      in: query
+      description: >-
+        Use [expand](#expansion) to include additional information in the
+        response. This parameter accepts a comma-separated list. Note that the
+        project description, issue types, and project lead are included in all
+        responses by default. Expand options include:
+
+         *  `description` The project description.
+         *  `issueTypes` The issue types associated with the project.
+         *  `lead` The project lead.
+         *  `projectKeys` All project keys associated with the project.
+         *  `issueTypeHierarchy` The project issue type hierarchy.
+      schema:
+        type: string
+    - name: properties
+      in: query
+      description: >-
+        A list of project properties to return for the project. This parameter
+        accepts a comma-separated list.
+      schema:
+        type: array
+        items:
+          type: string
+  responses:
+    '200':
+      description: Returned if successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/Project.yaml
+          example: >-
+            {"self":"https://your-domain.atlassian.net/rest/api/2/project/EX","id":"10000","key":"EX","description":"This
+            project was created as an example for
+            REST.","lead":{"self":"https://your-domain.atlassian.net/rest/api/2/user?accountId=5b10a2844c20165700ede21g","key":"","accountId":"5b10a2844c20165700ede21g","accountType":"atlassian","name":"","avatarUrls":{"48x48":"https://avatar-management--avatars.server-location.prod.public.atl-paas.net/initials/MK-5.png?size=48&s=48","24x24":"https://avatar-management--avatars.server-location.prod.public.atl-paas.net/initials/MK-5.png?size=24&s=24","16x16":"https://avatar-management--avatars.server-location.prod.public.atl-paas.net/initials/MK-5.png?size=16&s=16","32x32":"https://avatar-management--avatars.server-location.prod.public.atl-paas.net/initials/MK-5.png?size=32&s=32"},"displayName":"Mia
+            Krystof","active":false},"components":[{"self":"https://your-domain.atlassian.net/rest/api/2/component/10000","id":"10000","name":"Component
+            1","description":"This is a Jira
+            component","lead":{"self":"https://your-domain.atlassian.net/rest/api/2/user?accountId=5b10a2844c20165700ede21g","key":"","accountId":"5b10a2844c20165700ede21g","accountType":"atlassian","name":"","avatarUrls":{"48x48":"https://avatar-management--avatars.server-location.prod.public.atl-paas.net/initials/MK-5.png?size=48&s=48","24x24":"https://avatar-management--avatars.server-location.prod.public.atl-paas.net/initials/MK-5.png?size=24&s=24","16x16":"https://avatar-management--avatars.server-location.prod.public.atl-paas.net/initials/MK-5.png?size=16&s=16","32x32":"https://avatar-management--avatars.server-location.prod.public.atl-paas.net/initials/MK-5.png?size=32&s=32"},"displayName":"Mia
+            Krystof","active":false},"assigneeType":"PROJECT_LEAD","assignee":{"self":"https://your-domain.atlassian.net/rest/api/2/user?accountId=5b10a2844c20165700ede21g","key":"","accountId":"5b10a2844c20165700ede21g","accountType":"atlassian","name":"","avatarUrls":{"48x48":"https://avatar-management--avatars.server-location.prod.public.atl-paas.net/initials/MK-5.png?size=48&s=48","24x24":"https://avatar-management--avatars.server-location.prod.public.atl-paas.net/initials/MK-5.png?size=24&s=24","16x16":"https://avatar-management--avatars.server-location.prod.public.atl-paas.net/initials/MK-5.png?size=16&s=16","32x32":"https://avatar-management--avatars.server-location.prod.public.atl-paas.net/initials/MK-5.png?size=32&s=32"},"displayName":"Mia
+            Krystof","active":false},"realAssigneeType":"PROJECT_LEAD","realAssignee":{"self":"https://your-domain.atlassian.net/rest/api/2/user?accountId=5b10a2844c20165700ede21g","key":"","accountId":"5b10a2844c20165700ede21g","accountType":"atlassian","name":"","avatarUrls":{"48x48":"https://avatar-management--avatars.server-location.prod.public.atl-paas.net/initials/MK-5.png?size=48&s=48","24x24":"https://avatar-management--avatars.server-location.prod.public.atl-paas.net/initials/MK-5.png?size=24&s=24","16x16":"https://avatar-management--avatars.server-location.prod.public.atl-paas.net/initials/MK-5.png?size=16&s=16","32x32":"https://avatar-management--avatars.server-location.prod.public.atl-paas.net/initials/MK-5.png?size=32&s=32"},"displayName":"Mia
+            Krystof","active":false},"isAssigneeTypeValid":false,"project":"HSP","projectId":10000}],"issueTypes":[{"self":"https://your-domain.atlassian.net/rest/api/2/issueType/3","id":"3","description":"A
+            task that needs to be
+            done.","iconUrl":"https://your-domain.atlassian.net/secure/viewavatar?size=xsmall&avatarId=10299&avatarType=issuetype\",","name":"Task","subtask":false,"avatarId":1,"hierarchyLevel":0},{"self":"https://your-domain.atlassian.net/rest/api/2/issueType/1","id":"1","description":"A
+            problem with the
+            software.","iconUrl":"https://your-domain.atlassian.net/secure/viewavatar?size=xsmall&avatarId=10316&avatarType=issuetype\",","name":"Bug","subtask":false,"avatarId":10002,"entityId":"9d7dd6f7-e8b6-4247-954b-7b2c9b2a5ba2","hierarchyLevel":0,"scope":{"type":"PROJECT","project":{"id":"10000","key":"KEY","name":"Next
+            Gen
+            Project"}}}],"url":"https://www.example.com","email":"from-jira@example.com","assigneeType":"PROJECT_LEAD","versions":[],"name":"Example","roles":{"Developers":"https://your-domain.atlassian.net/rest/api/2/project/EX/role/10000"},"avatarUrls":{"48x48":"https://your-domain.atlassian.net/secure/projectavatar?size=large&pid=10000","24x24":"https://your-domain.atlassian.net/secure/projectavatar?size=small&pid=10000","16x16":"https://your-domain.atlassian.net/secure/projectavatar?size=xsmall&pid=10000","32x32":"https://your-domain.atlassian.net/secure/projectavatar?size=medium&pid=10000"},"projectCategory":{"self":"https://your-domain.atlassian.net/rest/api/2/projectCategory/10000","id":"10000","name":"FIRST","description":"First
+            Project
+            Category"},"simplified":false,"style":"classic","properties":{"propertyKey":"propertyValue"},"insight":{"totalIssueCount":100,"lastIssueUpdateTime":"2022-08-25T16:11:09.604+0000"}}
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '404':
+      description: >-
+        Returned if the project is not found or the user does not have
+        permission to view it.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - read:jira-work
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - read:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:issue-type:jira
+        - read:project:jira
+        - read:project.property:jira
+        - read:user:jira
+        - read:application-role:jira
+        - read:avatar:jira
+        - read:group:jira
+        - read:issue-type-hierarchy:jira
+        - read:project-category:jira
+        - read:project-version:jira
+        - read:project.component:jira
+  x-atlassian-connect-scope: READ
+put:
+  tags:
+    - Projects
+  summary: Update project
+  description: >-
+    Updates the [project details](https://confluence.atlassian.com/x/ahLpNw) of
+    a project.
+
+
+    All parameters are optional in the body of the request.
+
+
+    **[Permissions](#permissions) required:** *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg).
+  operationId: updateProject
+  parameters:
+    - name: projectIdOrKey
+      in: path
+      description: The project ID or project key (case sensitive).
+      required: true
+      schema:
+        type: string
+    - name: expand
+      in: query
+      description: >-
+        Use [expand](#expansion) to include additional information in the
+        response. This parameter accepts a comma-separated list. Note that the
+        project description, issue types, and project lead are included in all
+        responses by default. Expand options include:
+
+         *  `description` The project description.
+         *  `issueTypes` The issue types associated with the project.
+         *  `lead` The project lead.
+         *  `projectKeys` All project keys associated with the project.
+      schema:
+        type: string
+  requestBody:
+    description: The project details to be updated.
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/UpdateProjectDetails.yaml
+        example:
+          avatarId: 10200
+          issueSecurityScheme: 10001
+          notificationScheme: 10021
+          name: Example
+          description: Cloud migration initiative
+          permissionScheme: 10011
+          assigneeType: PROJECT_LEAD
+          leadAccountId: 5b10a0effa615349cb016cd8
+          key: EX
+          url: http://atlassian.com
+          categoryId: 10120
+    required: true
+  responses:
+    '200':
+      description: Returned if the project is updated.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/Project.yaml
+          example: >-
+            {"self":"https://your-domain.atlassian.net/rest/api/2/project/EX","id":"10000","key":"EX","description":"This
+            project was created as an example for
+            REST.","lead":{"self":"https://your-domain.atlassian.net/rest/api/2/user?accountId=5b10a2844c20165700ede21g","key":"","accountId":"5b10a2844c20165700ede21g","accountType":"atlassian","name":"","avatarUrls":{"48x48":"https://avatar-management--avatars.server-location.prod.public.atl-paas.net/initials/MK-5.png?size=48&s=48","24x24":"https://avatar-management--avatars.server-location.prod.public.atl-paas.net/initials/MK-5.png?size=24&s=24","16x16":"https://avatar-management--avatars.server-location.prod.public.atl-paas.net/initials/MK-5.png?size=16&s=16","32x32":"https://avatar-management--avatars.server-location.prod.public.atl-paas.net/initials/MK-5.png?size=32&s=32"},"displayName":"Mia
+            Krystof","active":false},"components":[{"self":"https://your-domain.atlassian.net/rest/api/2/component/10000","id":"10000","name":"Component
+            1","description":"This is a Jira
+            component","lead":{"self":"https://your-domain.atlassian.net/rest/api/2/user?accountId=5b10a2844c20165700ede21g","key":"","accountId":"5b10a2844c20165700ede21g","accountType":"atlassian","name":"","avatarUrls":{"48x48":"https://avatar-management--avatars.server-location.prod.public.atl-paas.net/initials/MK-5.png?size=48&s=48","24x24":"https://avatar-management--avatars.server-location.prod.public.atl-paas.net/initials/MK-5.png?size=24&s=24","16x16":"https://avatar-management--avatars.server-location.prod.public.atl-paas.net/initials/MK-5.png?size=16&s=16","32x32":"https://avatar-management--avatars.server-location.prod.public.atl-paas.net/initials/MK-5.png?size=32&s=32"},"displayName":"Mia
+            Krystof","active":false},"assigneeType":"PROJECT_LEAD","assignee":{"self":"https://your-domain.atlassian.net/rest/api/2/user?accountId=5b10a2844c20165700ede21g","key":"","accountId":"5b10a2844c20165700ede21g","accountType":"atlassian","name":"","avatarUrls":{"48x48":"https://avatar-management--avatars.server-location.prod.public.atl-paas.net/initials/MK-5.png?size=48&s=48","24x24":"https://avatar-management--avatars.server-location.prod.public.atl-paas.net/initials/MK-5.png?size=24&s=24","16x16":"https://avatar-management--avatars.server-location.prod.public.atl-paas.net/initials/MK-5.png?size=16&s=16","32x32":"https://avatar-management--avatars.server-location.prod.public.atl-paas.net/initials/MK-5.png?size=32&s=32"},"displayName":"Mia
+            Krystof","active":false},"realAssigneeType":"PROJECT_LEAD","realAssignee":{"self":"https://your-domain.atlassian.net/rest/api/2/user?accountId=5b10a2844c20165700ede21g","key":"","accountId":"5b10a2844c20165700ede21g","accountType":"atlassian","name":"","avatarUrls":{"48x48":"https://avatar-management--avatars.server-location.prod.public.atl-paas.net/initials/MK-5.png?size=48&s=48","24x24":"https://avatar-management--avatars.server-location.prod.public.atl-paas.net/initials/MK-5.png?size=24&s=24","16x16":"https://avatar-management--avatars.server-location.prod.public.atl-paas.net/initials/MK-5.png?size=16&s=16","32x32":"https://avatar-management--avatars.server-location.prod.public.atl-paas.net/initials/MK-5.png?size=32&s=32"},"displayName":"Mia
+            Krystof","active":false},"isAssigneeTypeValid":false,"project":"HSP","projectId":10000}],"issueTypes":[{"self":"https://your-domain.atlassian.net/rest/api/2/issueType/3","id":"3","description":"A
+            task that needs to be
+            done.","iconUrl":"https://your-domain.atlassian.net/secure/viewavatar?size=xsmall&avatarId=10299&avatarType=issuetype\",","name":"Task","subtask":false,"avatarId":1,"hierarchyLevel":0},{"self":"https://your-domain.atlassian.net/rest/api/2/issueType/1","id":"1","description":"A
+            problem with the
+            software.","iconUrl":"https://your-domain.atlassian.net/secure/viewavatar?size=xsmall&avatarId=10316&avatarType=issuetype\",","name":"Bug","subtask":false,"avatarId":10002,"entityId":"9d7dd6f7-e8b6-4247-954b-7b2c9b2a5ba2","hierarchyLevel":0,"scope":{"type":"PROJECT","project":{"id":"10000","key":"KEY","name":"Next
+            Gen
+            Project"}}}],"url":"https://www.example.com","email":"from-jira@example.com","assigneeType":"PROJECT_LEAD","versions":[],"name":"Example","roles":{"Developers":"https://your-domain.atlassian.net/rest/api/2/project/EX/role/10000"},"avatarUrls":{"48x48":"https://your-domain.atlassian.net/secure/projectavatar?size=large&pid=10000","24x24":"https://your-domain.atlassian.net/secure/projectavatar?size=small&pid=10000","16x16":"https://your-domain.atlassian.net/secure/projectavatar?size=xsmall&pid=10000","32x32":"https://your-domain.atlassian.net/secure/projectavatar?size=medium&pid=10000"},"projectCategory":{"self":"https://your-domain.atlassian.net/rest/api/2/projectCategory/10000","id":"10000","name":"FIRST","description":"First
+            Project
+            Category"},"simplified":false,"style":"classic","properties":{"propertyKey":"propertyValue"},"insight":{"totalIssueCount":100,"lastIssueUpdateTime":"2022-08-25T16:11:09.604+0000"}}
+    '400':
+      description: Returned if the request is not valid.
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: |-
+        Returned if:
+
+         *  the user does not have the necessary permission to update project details.
+         *  the permission scheme is being changed and the Jira instance is Jira Core Free or Jira Software Free. Permission schemes cannot be changed on free plans.
+    '404':
+      description: Returned if the project is not found.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-project
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-project
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:issue-type:jira
+        - read:project:jira
+        - read:project.property:jira
+        - read:user:jira
+        - write:project:jira
+        - write:project.avatar:jira
+        - read:application-role:jira
+        - read:avatar:jira
+        - read:group:jira
+        - read:issue-type-hierarchy:jira
+        - read:project-category:jira
+        - read:project-version:jira
+        - read:project.component:jira
+  x-atlassian-connect-scope: PROJECT_ADMIN
+delete:
+  tags:
+    - Projects
+  summary: Delete project
+  description: >-
+    Deletes a project.
+
+
+    You can't delete a project if it's archived. To delete an archived project,
+    restore the project and then delete it. To restore a project, use the Jira
+    UI.
+
+
+    **[Permissions](#permissions) required:** *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg).
+  operationId: deleteProject
+  parameters:
+    - name: projectIdOrKey
+      in: path
+      description: The project ID or project key (case sensitive).
+      required: true
+      schema:
+        type: string
+    - name: enableUndo
+      in: query
+      description: >-
+        Whether this project is placed in the Jira recycle bin where it will be
+        available for restoration.
+      schema:
+        type: boolean
+        default: false
+  responses:
+    '204':
+      description: Returned if the project is deleted.
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '404':
+      description: >-
+        Returned if the project is not found or the user does not have
+        permission to delete it.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-configuration
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-configuration
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - delete:project:jira
+  x-atlassian-connect-scope: PROJECT_ADMIN

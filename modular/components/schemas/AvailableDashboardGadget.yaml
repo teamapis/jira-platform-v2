@@ -1,0 +1,18 @@
+required:
+  - title
+type: object
+properties:
+  moduleKey:
+    type: string
+    description: The module key of the gadget type.
+    readOnly: true
+  uri:
+    type: string
+    description: The URI of the gadget type.
+    readOnly: true
+  title:
+    type: string
+    description: The title of the gadget.
+    readOnly: true
+additionalProperties: false
+description: The details of the available dashboard gadget.

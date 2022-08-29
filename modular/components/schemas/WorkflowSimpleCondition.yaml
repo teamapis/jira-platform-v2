@@ -1,0 +1,16 @@
+required:
+  - nodeType
+  - type
+type: object
+properties:
+  type:
+    type: string
+    description: The type of the transition rule.
+  configuration:
+    type: object
+    description: EXPERIMENTAL. The configuration of the transition rule.
+  nodeType:
+    type: string
+description: >-
+  A workflow transition rule condition. This object returns `nodeType` as
+  `simple`.

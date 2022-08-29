@@ -1,0 +1,14 @@
+type: object
+properties:
+  issueLinkTypes:
+    type: array
+    description: The issue link type bean.
+    readOnly: true
+    xml:
+      name: issueLinkTypes
+    items:
+      $ref: ./IssueLinkType.yaml
+additionalProperties: false
+description: A list of issue link type beans.
+xml:
+  name: issueLinkTypes

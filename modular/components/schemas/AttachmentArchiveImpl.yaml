@@ -1,0 +1,12 @@
+type: object
+properties:
+  entries:
+    type: array
+    description: The list of the items included in the archive.
+    items:
+      $ref: ./AttachmentArchiveEntry.yaml
+  totalEntryCount:
+    type: integer
+    description: The number of items in the archive.
+    format: int32
+additionalProperties: false

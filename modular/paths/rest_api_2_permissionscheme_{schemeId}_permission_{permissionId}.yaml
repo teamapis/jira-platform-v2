@@ -1,0 +1,127 @@
+get:
+  tags:
+    - Permission schemes
+  summary: Get permission scheme grant
+  description: |-
+    Returns a permission grant.
+
+    **[Permissions](#permissions) required:** Permission to access Jira.
+  operationId: getPermissionSchemeGrant
+  parameters:
+    - name: schemeId
+      in: path
+      description: The ID of the permission scheme.
+      required: true
+      schema:
+        type: integer
+        format: int64
+    - name: permissionId
+      in: path
+      description: The ID of the permission grant.
+      required: true
+      schema:
+        type: integer
+        format: int64
+    - name: expand
+      in: query
+      description: >-
+        Use expand to include additional information in the response. This
+        parameter accepts a comma-separated list. Note that permissions are
+        always included when you specify any value. Expand options include:
+
+         *  `all` Returns all expandable information.
+         *  `field` Returns information about the custom field granted the permission.
+         *  `group` Returns information about the group that is granted the permission.
+         *  `permissions` Returns all permission grants for each permission scheme.
+         *  `projectRole` Returns information about the project role granted the permission.
+         *  `user` Returns information about the user who is granted the permission.
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/PermissionGrant.yaml
+          example: >-
+            {"id":10000,"self":"https://your-domain.atlassian.net/rest/api/2/permissionscheme/permission/10000","holder":{"type":"group","parameter":"jira-core-users","value":"ca85fac0-d974-40ca-a615-7af99c48d24f","expand":"group"},"permission":"ADMINISTER_PROJECTS"}
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '404':
+      description: >-
+        Returned if the permission scheme or permission grant is not found or
+        the user does not have the necessary permission.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - read:jira-work
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - read:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:application-role:jira
+        - read:field:jira
+        - read:group:jira
+        - read:permission:jira
+        - read:project-role:jira
+        - read:user:jira
+  x-atlassian-connect-scope: READ
+delete:
+  tags:
+    - Permission schemes
+  summary: Delete permission scheme grant
+  description: >-
+    Deletes a permission grant from a permission scheme. See [About permission
+    schemes and
+    grants](../api-group-permission-schemes/#about-permission-schemes-and-grants)
+    for more details.
+
+
+    **[Permissions](#permissions) required:** *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg).
+  operationId: deletePermissionSchemeEntity
+  parameters:
+    - name: schemeId
+      in: path
+      description: The ID of the permission scheme to delete the permission grant from.
+      required: true
+      schema:
+        type: integer
+        format: int64
+    - name: permissionId
+      in: path
+      description: The ID of the permission grant to delete.
+      required: true
+      schema:
+        type: integer
+        format: int64
+  responses:
+    '204':
+      description: Returned if the permission grant is deleted.
+    '400':
+      description: Returned if permission grant with the provided ID is not found.
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: Returned if the user does not have the necessary permission.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-configuration
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-configuration
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - delete:permission:jira
+  x-atlassian-connect-scope: ADMIN

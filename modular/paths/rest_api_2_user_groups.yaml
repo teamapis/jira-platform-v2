@@ -1,0 +1,74 @@
+get:
+  tags:
+    - Users
+  summary: Get user groups
+  description: >-
+    Returns the groups to which a user belongs.
+
+
+    **[Permissions](#permissions) required:** *Browse users and groups* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg).
+  operationId: getUserGroups
+  parameters:
+    - name: accountId
+      in: query
+      description: >-
+        The account ID of the user, which uniquely identifies the user across
+        all Atlassian products. For example, *5b10ac8d82e05b22cc7d4ef5*.
+      required: true
+      schema:
+        maxLength: 128
+        type: string
+        example: 5b10ac8d82e05b22cc7d4ef5
+      x-showInExample: 'true'
+    - name: username
+      in: query
+      description: >-
+        This parameter is no longer available. See the [deprecation
+        notice](https://developer.atlassian.com/cloud/jira/platform/deprecation-notice-user-privacy-api-migration-guide/)
+        for details.
+      schema:
+        type: string
+    - name: key
+      in: query
+      description: >-
+        This parameter is no longer available. See the [deprecation
+        notice](https://developer.atlassian.com/cloud/jira/platform/deprecation-notice-user-privacy-api-migration-guide/)
+        for details.
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: ../components/schemas/GroupName.yaml
+          example: >-
+            {"name":"jira-administrators","groupId":"276f955c-63d7-42c8-9520-92d01dca0625","self":"https://your-domain.atlassian.net/rest/api/2/group?groupId=276f955c-63d7-42c8-9520-92d01dca0625"}
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: >-
+        Returned if the calling user does not have the *Browse users and groups*
+        global permission.
+    '404':
+      description: Returned if the user is not found.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - read:jira-user
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - read:jira-user
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:group:jira
+  x-atlassian-connect-scope: READ

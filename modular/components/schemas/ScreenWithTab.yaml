@@ -1,0 +1,25 @@
+type: object
+properties:
+  id:
+    type: integer
+    description: The ID of the screen.
+    format: int64
+    readOnly: true
+  name:
+    type: string
+    description: The name of the screen.
+    readOnly: true
+  description:
+    type: string
+    description: The description of the screen.
+    readOnly: true
+  scope:
+    description: The scope of the screen.
+    allOf:
+      - $ref: ./Scope.yaml
+  tab:
+    description: The tab for the screen.
+    allOf:
+      - $ref: ./ScreenableTab.yaml
+additionalProperties: false
+description: A screen with tab details.

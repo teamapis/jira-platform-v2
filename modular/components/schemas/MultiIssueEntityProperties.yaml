@@ -1,0 +1,14 @@
+type: object
+properties:
+  issues:
+    maxProperties: 100
+    minProperties: 1
+    type: array
+    description: A list of issue IDs and their respective properties.
+    items:
+      $ref: ./IssueEntityPropertiesForMultiUpdate.yaml
+additionalProperties: false
+description: >-
+  A list of issues and their respective properties to set or update. See [Entity
+  properties](https://developer.atlassian.com/cloud/jira/platform/jira-entity-properties/)
+  for more information.

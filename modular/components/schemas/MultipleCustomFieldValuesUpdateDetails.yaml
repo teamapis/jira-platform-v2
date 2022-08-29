@@ -1,0 +1,9 @@
+type: object
+properties:
+  updates:
+    type: array
+    items:
+      $ref: ./MultipleCustomFieldValuesUpdate.yaml
+additionalProperties: false
+description: List of updates for a custom fields.
+writeOnly: true

@@ -1,0 +1,196 @@
+get:
+  tags:
+    - Issue comments
+  summary: Get comments
+  description: >-
+    Returns all comments for an issue.
+
+
+    This operation can be accessed anonymously.
+
+
+    **[Permissions](#permissions) required:** Comments are included in the
+    response where the user has:
+
+     *  *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project containing the comment.
+     *  If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue.
+     *  If the comment has visibility restrictions, belongs to the group or has the role visibility is role visibility is restricted to.
+  operationId: getComments
+  parameters:
+    - name: issueIdOrKey
+      in: path
+      description: The ID or key of the issue.
+      required: true
+      schema:
+        type: string
+    - name: startAt
+      in: query
+      description: >-
+        The index of the first item to return in a page of results (page
+        offset).
+      schema:
+        type: integer
+        format: int64
+        default: 0
+    - name: maxResults
+      in: query
+      description: The maximum number of items to return per page.
+      schema:
+        type: integer
+        format: int32
+        default: 50
+    - name: orderBy
+      in: query
+      description: >-
+        [Order](#ordering) the results by a field. Accepts *created* to sort
+        comments by their created date.
+      schema:
+        type: string
+        enum:
+          - created
+          - '-created'
+          - +created
+    - name: expand
+      in: query
+      description: >-
+        Use [expand](#expansion) to include additional information about
+        comments in the response. This parameter accepts `renderedBody`, which
+        returns the comment body rendered in HTML.
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/PageOfComments.yaml
+          example: >-
+            {"startAt":0,"maxResults":1,"total":1,"comments":[{"self":"https://your-domain.atlassian.net/rest/api/2/issue/10010/comment/10000","id":"10000","author":{"self":"https://your-domain.atlassian.net/rest/api/2/user?accountId=5b10a2844c20165700ede21g","accountId":"5b10a2844c20165700ede21g","displayName":"Mia
+            Krystof","active":false},"body":"Lorem ipsum dolor sit amet,
+            consectetur adipiscing elit. Pellentesque eget venenatis elit. Duis
+            eu justo eget augue iaculis fermentum. Sed semper quam laoreet nisi
+            egestas at posuere augue
+            semper.","updateAuthor":{"self":"https://your-domain.atlassian.net/rest/api/2/user?accountId=5b10a2844c20165700ede21g","accountId":"5b10a2844c20165700ede21g","displayName":"Mia
+            Krystof","active":false},"created":"2021-01-17T12:34:00.000+0000","updated":"2021-01-18T23:45:00.000+0000","visibility":{"type":"role","value":"Administrators","identifier":"Administrators"}}]}
+    '400':
+      description: Returned if `orderBy` is set to a value other than *created*.
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '404':
+      description: >-
+        Returned if the issue is not found or the user does not have permission
+        to view it.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - read:jira-work
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - read:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:comment:jira
+        - read:comment.property:jira
+        - read:group:jira
+        - read:project:jira
+        - read:project-role:jira
+        - read:user:jira
+        - read:avatar:jira
+  x-atlassian-connect-scope: READ
+post:
+  tags:
+    - Issue comments
+  summary: Add comment
+  description: |-
+    Adds a comment to an issue.
+
+    This operation can be accessed anonymously.
+
+    **[Permissions](#permissions) required:**
+
+     *  *Browse projects* and *Add comments* [ project permission](https://confluence.atlassian.com/x/yodKLg) for the project that the issue containing the comment is in.
+     *  If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue.
+  operationId: addComment
+  parameters:
+    - name: issueIdOrKey
+      in: path
+      description: The ID or key of the issue.
+      required: true
+      schema:
+        type: string
+    - name: expand
+      in: query
+      description: >-
+        Use [expand](#expansion) to include additional information about
+        comments in the response. This parameter accepts `renderedBody`, which
+        returns the comment body rendered in HTML.
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/Comment.yaml
+        example:
+          visibility:
+            identifier: Administrators
+            type: role
+            value: Administrators
+          body: >-
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            Pellentesque eget venenatis elit. Duis eu justo eget augue iaculis
+            fermentum. Sed semper quam laoreet nisi egestas at posuere augue
+            semper.
+    required: true
+  responses:
+    '201':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/Comment.yaml
+          example: >-
+            {"self":"https://your-domain.atlassian.net/rest/api/2/issue/10010/comment/10000","id":"10000","author":{"self":"https://your-domain.atlassian.net/rest/api/2/user?accountId=5b10a2844c20165700ede21g","accountId":"5b10a2844c20165700ede21g","displayName":"Mia
+            Krystof","active":false},"body":"Lorem ipsum dolor sit amet,
+            consectetur adipiscing elit. Pellentesque eget venenatis elit. Duis
+            eu justo eget augue iaculis fermentum. Sed semper quam laoreet nisi
+            egestas at posuere augue
+            semper.","updateAuthor":{"self":"https://your-domain.atlassian.net/rest/api/2/user?accountId=5b10a2844c20165700ede21g","accountId":"5b10a2844c20165700ede21g","displayName":"Mia
+            Krystof","active":false},"created":"2021-01-17T12:34:00.000+0000","updated":"2021-01-18T23:45:00.000+0000","visibility":{"type":"role","value":"Administrators","identifier":"Administrators"}}
+    '400':
+      description: Returned if the request is invalid.
+    '401':
+      description: Returned if the authentication credentials are incorrect.
+    '404':
+      description: >-
+        Returned if the issue is not found or the user does not have permission
+        to view it.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - write:jira-work
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - write:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:comment:jira
+        - read:comment.property:jira
+        - read:group:jira
+        - read:project:jira
+        - read:project-role:jira
+        - read:user:jira
+        - write:comment:jira
+        - read:avatar:jira
+  x-atlassian-connect-scope: WRITE

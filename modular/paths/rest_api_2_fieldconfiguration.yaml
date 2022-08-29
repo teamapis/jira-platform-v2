@@ -1,0 +1,153 @@
+get:
+  tags:
+    - Issue field configurations
+  summary: Get all field configurations
+  description: >-
+    Returns a [paginated](#pagination) list of field configurations. The list
+    can be for all field configurations or a subset determined by any
+    combination of these criteria:
+
+     *  a list of field configuration item IDs.
+     *  whether the field configuration is a default.
+     *  whether the field configuration name or description contains a query string.
+
+    Only field configurations used in company-managed (classic) projects are
+    returned.
+
+
+    **[Permissions](#permissions) required:** *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg).
+  operationId: getAllFieldConfigurations
+  parameters:
+    - name: startAt
+      in: query
+      description: >-
+        The index of the first item to return in a page of results (page
+        offset).
+      schema:
+        type: integer
+        format: int64
+        default: 0
+    - name: maxResults
+      in: query
+      description: The maximum number of items to return per page.
+      schema:
+        type: integer
+        format: int32
+        default: 50
+    - name: id
+      in: query
+      description: >-
+        The list of field configuration IDs. To include multiple IDs, provide an
+        ampersand-separated list. For example, `id=10000&id=10001`.
+      schema:
+        uniqueItems: true
+        type: array
+        items:
+          type: integer
+          format: int64
+    - name: isDefault
+      in: query
+      description: If *true* returns default field configurations only.
+      schema:
+        type: boolean
+        default: false
+    - name: query
+      in: query
+      description: >-
+        The query string used to match against field configuration names and
+        descriptions.
+      schema:
+        type: string
+        default: ''
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/PageBeanFieldConfigurationDetails.yaml
+          example: >-
+            {"maxResults":50,"startAt":0,"total":2,"isLast":true,"values":[{"id":10000,"name":"Default
+            Field Configuration","description":"The default field configuration
+            description","isDefault":true},{"id":10001,"name":"My Field
+            Configuration","description":"My field configuration description"}]}
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: Returned if the user does not have the necessary permission.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-configuration
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-configuration
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:field-configuration:jira
+  x-atlassian-connect-scope: ADMIN
+post:
+  tags:
+    - Issue field configurations
+  summary: Create field configuration
+  description: >-
+    Creates a field configuration. The field configuration is created with the
+    same field properties as the default configuration, with all the fields
+    being optional.
+
+
+    This operation can only create configurations for use in company-managed
+    (classic) projects.
+
+
+    **[Permissions](#permissions) required:** *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg).
+  operationId: createFieldConfiguration
+  parameters: []
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/FieldConfigurationDetails.yaml
+        example:
+          name: My Field Configuration
+          description: My field configuration description
+    required: true
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/FieldConfiguration.yaml
+          example: >-
+            {"id":10001,"name":"My Field Configuration","description":"My field
+            configuration description"}
+    '400':
+      description: Returned if the request is not valid.
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: Returned if the user does not have the necessary permission.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-configuration
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-configuration
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:field-configuration:jira
+        - write:field-configuration:jira
+  x-experimental: true
+  x-atlassian-connect-scope: ADMIN

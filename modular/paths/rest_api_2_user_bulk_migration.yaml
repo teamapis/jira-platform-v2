@@ -1,0 +1,80 @@
+get:
+  tags:
+    - Users
+  summary: Get account IDs for users
+  description: >-
+    Returns the account IDs for the users specified in the `key` or `username`
+    parameters. Note that multiple `key` or `username` parameters can be
+    specified.
+
+
+    **[Permissions](#permissions) required:** Permission to access Jira.
+  operationId: bulkGetUsersMigration
+  parameters:
+    - name: startAt
+      in: query
+      description: >-
+        The index of the first item to return in a page of results (page
+        offset).
+      schema:
+        type: integer
+        format: int64
+        default: 0
+    - name: maxResults
+      in: query
+      description: The maximum number of items to return per page.
+      schema:
+        type: integer
+        format: int32
+        default: 10
+    - name: username
+      in: query
+      description: >-
+        Username of a user. To specify multiple users, pass multiple copies of
+        this parameter. For example, `username=fred&username=barney`. Required
+        if `key` isn't provided. Cannot be provided if `key` is present.
+      schema:
+        type: array
+        items:
+          type: string
+    - name: key
+      in: query
+      description: >-
+        Key of a user. To specify multiple users, pass multiple copies of this
+        parameter. For example, `key=fred&key=barney`. Required if `username`
+        isn't provided. Cannot be provided if `username` is present.
+      schema:
+        type: array
+        items:
+          type: string
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: ../components/schemas/UserMigrationBean.yaml
+          example: >-
+            [{"username":"mia","accountId":"5b10a2844c20165700ede21g"},{"username":"emma","accountId":"5b10ac8d82e05b22cc7d4ef5"}]
+    '400':
+      description: Returned if `key` or `username`
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - read:jira-user
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - read:jira-user
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:user:jira
+  x-experimental: true
+  x-atlassian-connect-scope: READ

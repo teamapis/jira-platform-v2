@@ -1,0 +1,198 @@
+get:
+  tags:
+    - Issue types
+  summary: Get issue type
+  description: >-
+    Returns an issue type.
+
+
+    This operation can be accessed anonymously.
+
+
+    **[Permissions](#permissions) required:** *Browse projects* [project
+    permission](https://confluence.atlassian.com/x/yodKLg) in a project the
+    issue type is associated with or *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg).
+  operationId: getIssueType
+  parameters:
+    - name: id
+      in: path
+      description: The ID of the issue type.
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/IssueTypeDetails.yaml
+          example: >-
+            {"self":"https://your-domain.atlassian.net/rest/api/2/issueType/3","id":"3","description":"A
+            task that needs to be
+            done.","iconUrl":"https://your-domain.atlassian.net/secure/viewavatar?size=xsmall&avatarId=10299&avatarType=issuetype\",","name":"Task","subtask":false,"avatarId":1,"hierarchyLevel":0}
+    '400':
+      description: Returned if the issue type ID is invalid.
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '404':
+      description: |-
+        Returned if:
+
+         *  the issue type is not found.
+         *  the user does not have the required permissions.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - read:jira-work
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - read:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:issue-type:jira
+        - read:avatar:jira
+        - read:project-category:jira
+        - read:project:jira
+  x-atlassian-connect-scope: READ
+put:
+  tags:
+    - Issue types
+  summary: Update issue type
+  description: >-
+    Updates the issue type.
+
+
+    **[Permissions](#permissions) required:** *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg).
+  operationId: updateIssueType
+  parameters:
+    - name: id
+      in: path
+      description: The ID of the issue type.
+      required: true
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/IssueTypeUpdateBean.yaml
+        example:
+          avatarId: 1
+          name: name
+          description: description
+    required: true
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/IssueTypeDetails.yaml
+    '400':
+      description: |-
+        Returned if the request is invalid because:
+
+         *  no content is sent.
+         *  the issue type name exceeds 60 characters.
+         *  the avatar is not associated with this issue type.
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: Returned if the user does not have the necessary permission.
+    '404':
+      description: Returned if the issue type is not found.
+    '409':
+      description: Returned if the issue type name is in use.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-configuration
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-configuration
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - write:issue-type:jira
+        - read:avatar:jira
+        - read:issue-type:jira
+        - read:project-category:jira
+        - read:project:jira
+  x-atlassian-connect-scope: ADMIN
+delete:
+  tags:
+    - Issue types
+  summary: Delete issue type
+  description: >-
+    Deletes the issue type. If the issue type is in use, all uses are updated
+    with the alternative issue type (`alternativeIssueTypeId`). A list of
+    alternative issue types are obtained from the [Get alternative issue
+    types](#api-rest-api-2-issuetype-id-alternatives-get) resource.
+
+
+    **[Permissions](#permissions) required:** *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg).
+  operationId: deleteIssueType
+  parameters:
+    - name: id
+      in: path
+      description: The ID of the issue type.
+      required: true
+      schema:
+        type: string
+    - name: alternativeIssueTypeId
+      in: query
+      description: The ID of the replacement issue type.
+      schema:
+        type: string
+  responses:
+    '204':
+      description: Returned if the request is successful.
+    '400':
+      description: >-
+        Returned if any issues cannot be updated with the alternative issue
+        type.
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: Returned if the user does not have the necessary permission.
+    '404':
+      description: |-
+        Returned if:
+
+         *  the issue type is in use and an alternative issue type is not specified.
+         *  the issue type or alternative issue type is not found.
+    '409':
+      description: |-
+        Returned if the issue type is in use and:
+
+         *  also specified as the alternative issue type.
+         *  is a *standard* issue type and the alternative issue type is a *subtask*.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-configuration
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-configuration
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - delete:issue-type:jira
+  x-atlassian-connect-scope: ADMIN

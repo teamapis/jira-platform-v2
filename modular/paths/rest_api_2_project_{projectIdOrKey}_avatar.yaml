@@ -1,0 +1,62 @@
+put:
+  tags:
+    - Project avatars
+  summary: Set project avatar
+  description: >-
+    Sets the avatar displayed for a project.
+
+
+    Use [Load project
+    avatar](#api-rest-api-2-project-projectIdOrKey-avatar2-post) to store
+    avatars against the project, before using this operation to set the
+    displayed avatar.
+
+
+    **[Permissions](#permissions) required:** *Administer projects* [project
+    permission](https://confluence.atlassian.com/x/yodKLg).
+  operationId: updateProjectAvatar
+  parameters:
+    - name: projectIdOrKey
+      in: path
+      description: The ID or (case-sensitive) key of the project.
+      required: true
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/Avatar.yaml
+        example:
+          id: '10010'
+    required: true
+  responses:
+    '204':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema: {}
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: Returned if the user does not have permission to administer the project.
+    '404':
+      description: >-
+        Returned if the project or avatar is not found or the user does not have
+        permission to view the project.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-project
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-project
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - write:project.avatar:jira
+  x-atlassian-connect-scope: PROJECT_ADMIN

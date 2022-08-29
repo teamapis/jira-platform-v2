@@ -1,0 +1,32 @@
+required:
+  - issueTypeId
+  - projectId
+  - viewType
+type: object
+properties:
+  id:
+    type: string
+    description: The ID of the UI modification context.
+    readOnly: true
+  projectId:
+    type: string
+    description: The project ID of the context.
+  issueTypeId:
+    type: string
+    description: The issue type ID of the context.
+  viewType:
+    type: string
+    description: >-
+      The view type of the context. Only `GIC` (Global Issue Create) is
+      supported.
+  isAvailable:
+    type: boolean
+    description: >-
+      Whether a context is available. For example, when a project is deleted the
+      context becomes unavailable.
+    readOnly: true
+additionalProperties: false
+description: >-
+  The details of a UI modification's context, which define where to activate the
+  UI modification.
+writeOnly: true

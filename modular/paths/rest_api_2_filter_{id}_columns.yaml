@@ -1,0 +1,197 @@
+get:
+  tags:
+    - Filters
+  summary: Get columns
+  description: >-
+    Returns the columns configured for a filter. The column configuration is
+    used when the filter's results are viewed in *List View* with the *Columns*
+    set to *Filter*.
+
+
+    This operation can be accessed anonymously.
+
+
+    **[Permissions](#permissions) required:** None, however, column details are
+    only returned for:
+
+     *  filters owned by the user.
+     *  filters shared with a group that the user is a member of.
+     *  filters shared with a private project that the user has *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for.
+     *  filters shared with a public project.
+     *  filters shared with the public.
+  operationId: getColumns
+  parameters:
+    - name: id
+      in: path
+      description: The ID of the filter.
+      required: true
+      schema:
+        type: integer
+        format: int64
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: ../components/schemas/ColumnItem.yaml
+          example: >-
+            [{"label":"Key","value":"issuekey"},{"label":"Summary","value":"summary"}]
+    '400':
+      description: Returned if the user does not have permission to view the filter.
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '404':
+      description: Returned if a column configuration is not set for the filter.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - read:jira-work
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - read:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:filter.column:jira
+  x-atlassian-connect-scope: READ
+put:
+  tags:
+    - Filters
+  summary: Set columns
+  description: >-
+    Sets the columns for a filter. Only navigable fields can be set as columns.
+    Use [Get fields](#api-rest-api-2-field-get) to get the list fields in Jira.
+    A navigable field has `navigable` set to `true`.
+
+
+    The parameters for this resource are expressed as HTML form data. For
+    example, in curl:
+
+
+    `curl -X PUT -d columns=summary -d columns=description
+    https://your-domain.atlassian.net/rest/api/2/filter/10000/columns`
+
+
+    **[Permissions](#permissions) required:** Permission to access Jira,
+    however, columns are only set for:
+
+     *  filters owned by the user.
+     *  filters shared with a group that the user is a member of.
+     *  filters shared with a private project that the user has *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for.
+     *  filters shared with a public project.
+     *  filters shared with the public.
+  operationId: setColumns
+  parameters:
+    - name: id
+      in: path
+      description: The ID of the filter.
+      required: true
+      schema:
+        type: integer
+        format: int64
+  requestBody:
+    description: >-
+      The IDs of the fields to set as columns. In the form data, specify each
+      field as `columns=id`, where `id` is the *id* of a field (as seen in the
+      response for [Get fields](#api-rest-api-<ver>-field-get)). For example,
+      `columns=summary`.
+    content:
+      '*/*':
+        schema:
+          type: array
+          items:
+            type: string
+      multipart/form-data:
+        schema:
+          type: array
+          items:
+            type: string
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema: {}
+    '400':
+      description: |-
+        Returned if:
+
+         *  a non-navigable field is set as a column.
+         *  the user does not have permission to view the filter.
+    '403':
+      description: Returned if the requesting user is not an owner of the filter.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - write:jira-work
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - write:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - write:filter.column:jira
+  x-atlassian-connect-scope: WRITE
+delete:
+  tags:
+    - Filters
+  summary: Reset columns
+  description: >-
+    Reset the user's column configuration for the filter to the default.
+
+
+    **[Permissions](#permissions) required:** Permission to access Jira,
+    however, columns are only reset for:
+
+     *  filters owned by the user.
+     *  filters shared with a group that the user is a member of.
+     *  filters shared with a private project that the user has *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for.
+     *  filters shared with a public project.
+     *  filters shared with the public.
+  operationId: resetColumns
+  parameters:
+    - name: id
+      in: path
+      description: The ID of the filter.
+      required: true
+      schema:
+        type: integer
+        format: int64
+  responses:
+    '204':
+      description: Returned if the request is successful.
+    '400':
+      description: |-
+        Returned if:
+
+         *  the filter is not found.
+         *  the user does not have permission to view the filter.
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - write:jira-work
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - delete:filter.column:jira
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - write:jira-work
+  x-atlassian-connect-scope: DELETE

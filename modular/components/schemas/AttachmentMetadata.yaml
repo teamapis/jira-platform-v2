@@ -1,0 +1,53 @@
+type: object
+properties:
+  id:
+    type: integer
+    description: The ID of the attachment.
+    format: int64
+    readOnly: true
+  self:
+    type: string
+    description: The URL of the attachment metadata details.
+    format: uri
+    readOnly: true
+  filename:
+    type: string
+    description: The name of the attachment file.
+    readOnly: true
+  author:
+    description: Details of the user who attached the file.
+    readOnly: true
+    allOf:
+      - $ref: ./User.yaml
+  created:
+    type: string
+    description: The datetime the attachment was created.
+    format: date-time
+    readOnly: true
+  size:
+    type: integer
+    description: The size of the attachment.
+    format: int64
+    readOnly: true
+  mimeType:
+    type: string
+    description: The MIME type of the attachment.
+    readOnly: true
+  properties:
+    type: object
+    additionalProperties:
+      readOnly: true
+    description: Additional properties of the attachment.
+    readOnly: true
+  content:
+    type: string
+    description: The URL of the attachment.
+    readOnly: true
+  thumbnail:
+    type: string
+    description: The URL of a thumbnail representing the attachment.
+    readOnly: true
+additionalProperties: false
+description: Metadata for an issue attachment.
+xml:
+  name: attachment

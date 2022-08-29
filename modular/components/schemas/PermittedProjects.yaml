@@ -1,0 +1,10 @@
+type: object
+properties:
+  projects:
+    type: array
+    description: A list of projects.
+    readOnly: true
+    items:
+      $ref: ./ProjectIdentifierBean.yaml
+additionalProperties: false
+description: A list of projects in which a user is granted permissions.

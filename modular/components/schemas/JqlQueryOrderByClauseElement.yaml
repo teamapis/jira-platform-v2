@@ -1,0 +1,14 @@
+required:
+  - field
+type: object
+properties:
+  field:
+    $ref: ./JqlQueryField.yaml
+  direction:
+    type: string
+    description: The direction in which to order the results.
+    enum:
+      - asc
+      - desc
+additionalProperties: false
+description: An element of the order-by JQL clause.

@@ -1,0 +1,18 @@
+required:
+  - contextId
+  - optionId
+  - type
+type: object
+properties:
+  contextId:
+    type: string
+    description: The ID of the context.
+  optionId:
+    type: string
+    description: The ID of the default option.
+  cascadingOptionId:
+    type: string
+    description: The ID of the default cascading option.
+  type:
+    type: string
+description: The default value for a cascading select custom field.

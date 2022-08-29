@@ -1,0 +1,29 @@
+type: object
+properties:
+  startAt:
+    type: integer
+    description: The index of the first item returned on the page.
+    format: int64
+  total:
+    type: integer
+    description: Number of items that satisfy the search.
+    format: int64
+  isLast:
+    type: boolean
+    description: Whether this is the last page.
+  maxResults:
+    type: integer
+    description: The maximum number of items that could be returned.
+    format: int32
+  values:
+    type: array
+    description: The list of items.
+    items:
+      $ref: ./JiraStatus.yaml
+  self:
+    type: string
+    description: The URL of this page.
+  nextPage:
+    type: string
+    description: The URL of the next page of results, if any.
+additionalProperties: false

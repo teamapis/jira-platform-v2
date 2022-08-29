@@ -1,0 +1,24 @@
+required:
+  - editPermissions
+  - name
+  - sharePermissions
+type: object
+properties:
+  name:
+    type: string
+    description: The name of the dashboard.
+  description:
+    type: string
+    description: The description of the dashboard.
+  sharePermissions:
+    type: array
+    description: The share permissions for the dashboard.
+    items:
+      $ref: ./SharePermission.yaml
+  editPermissions:
+    type: array
+    description: The edit permissions for the dashboard.
+    items:
+      $ref: ./SharePermission.yaml
+additionalProperties: false
+description: Details of a dashboard.

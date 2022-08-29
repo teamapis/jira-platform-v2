@@ -1,0 +1,17 @@
+required:
+  - issueTypeId
+  - newStatusId
+  - statusId
+type: object
+properties:
+  issueTypeId:
+    type: string
+    description: The ID of the issue type.
+  statusId:
+    type: string
+    description: The ID of the status.
+  newStatusId:
+    type: string
+    description: The ID of the new status.
+additionalProperties: false
+description: Details about the mapping from a status to a new status for an issue type.

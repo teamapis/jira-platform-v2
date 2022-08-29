@@ -1,0 +1,66 @@
+post:
+  tags:
+    - App migration
+  summary: Get workflow transition rule configurations
+  description: >-
+    Returns configurations for workflow transition rules migrated from server to
+    cloud and owned by the calling Connect app.
+  operationId: MigrationResource.workflowRuleSearch_post
+  parameters:
+    - name: Atlassian-Transfer-Id
+      in: header
+      description: The app migration transfer ID.
+      required: true
+      schema:
+        type: string
+        format: uuid
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/WorkflowRulesSearch.yaml
+    required: true
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/WorkflowRulesSearchDetails.yaml
+          example:
+            workflowEntityId: a498d711-685d-428d-8c3e-bc03bb450ea7
+            invalidRules:
+              - 55d44f1d-c859-42e5-9c27-2c5ec3f340b1
+            validRules:
+              - workflowId:
+                  name: Workflow name
+                  draft: true
+                postFunctions:
+                  - id: '123'
+                    key: WorkflowKey
+                    configuration:
+                      value: WorkflowValidator
+                    transition:
+                      name: transition
+                      id: 123
+                conditions:
+                  - id: '123'
+                    key: WorkflowKey
+                    configuration:
+                      value: WorkflowValidator
+                    transition:
+                      name: transition
+                      id: 123
+                validators:
+                  - id: '123'
+                    key: WorkflowKey
+                    configuration:
+                      value: WorkflowValidator
+                    transition:
+                      name: transition
+                      id: 123
+    '400':
+      description: Returned if the request is not valid.
+    '403':
+      description: Returned if the authorisation credentials are incorrect or missing.
+  x-atlassian-connect-scope: NONE

@@ -1,0 +1,101 @@
+put:
+  tags:
+    - UI modifications (apps)
+  summary: Update UI modification
+  description: >-
+    Updates a UI modification. UI modification can only be updated by Forge
+    apps.
+
+
+    Each UI modification can define up to 1000 contexts.
+
+
+    **[Permissions](#permissions) required:**
+
+     *  *None* if the UI modification is created without contexts.
+     *  *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for one or more projects, if the UI modification is created with contexts.
+  operationId: updateUiModification
+  parameters:
+    - name: uiModificationId
+      in: path
+      description: The ID of the UI modification.
+      required: true
+      schema:
+        type: string
+  requestBody:
+    description: Details of the UI modification.
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/UpdateUiModificationDetails.yaml
+        example:
+          data: '{field: ''Story Points'', config: {hidden: true}}'
+          name: Updated Reveal Story Points
+          contexts:
+            - issueTypeId: '10000'
+              viewType: GIC
+              projectId: '10000'
+            - issueTypeId: '10001'
+              viewType: GIC
+              projectId: '10000'
+    required: true
+  responses:
+    '204':
+      description: Returned if the UI modification is updated.
+      content:
+        application/json:
+          schema: {}
+    '400':
+      description: Returned if the request is not valid.
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: Returned if the request is not from a Forge app.
+    '404':
+      description: >-
+        Returned if the UI modification, a project or an issue type in the
+        context are not found.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - read:jira-work
+  x-experimental: true
+  x-atlassian-connect-scope: INACCESSIBLE
+delete:
+  tags:
+    - UI modifications (apps)
+  summary: Delete UI modification
+  description: >-
+    Deletes a UI modification. All the contexts that belong to the UI
+    modification are deleted too. UI modification can only be deleted by Forge
+    apps.
+
+
+    **[Permissions](#permissions) required:** None.
+  operationId: deleteUiModification
+  parameters:
+    - name: uiModificationId
+      in: path
+      description: The ID of the UI modification.
+      required: true
+      schema:
+        type: string
+  responses:
+    '204':
+      description: Returned if the UI modification is deleted.
+      content:
+        application/json:
+          schema: {}
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: Returned if the request is not from a Forge app.
+    '404':
+      description: Returned if the UI modification is not found.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2: []
+  x-experimental: true
+  x-atlassian-connect-scope: INACCESSIBLE

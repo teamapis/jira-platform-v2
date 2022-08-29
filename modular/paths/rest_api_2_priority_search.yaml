@@ -1,0 +1,71 @@
+get:
+  tags:
+    - Issue priorities
+  summary: Search priorities
+  description: >-
+    Returns a [paginated](#pagination) list of priorities. The list can contain
+    all priorities or a subset determined by any combination of these criteria:
+
+     *  a list of priority IDs. Any invalid priority IDs are ignored.
+     *  whether the field configuration is a default. This returns priorities from company-managed (classic) projects only, as there is no concept of default priorities in team-managed projects.
+
+    **[Permissions](#permissions) required:** Permission to access Jira.
+  operationId: searchPriorities
+  parameters:
+    - name: startAt
+      in: query
+      description: >-
+        The index of the first item to return in a page of results (page
+        offset).
+      schema:
+        type: integer
+        format: int64
+        default: 0
+    - name: maxResults
+      in: query
+      description: The maximum number of items to return per page.
+      schema:
+        type: integer
+        format: int32
+        default: 50
+    - name: id
+      in: query
+      description: >-
+        The list of priority IDs. To include multiple IDs, provide an
+        ampersand-separated list. For example, `id=2&id=3`.
+      schema:
+        type: array
+        items:
+          type: string
+    - name: onlyDefault
+      in: query
+      description: Whether only the default priority is returned.
+      schema:
+        type: boolean
+        default: false
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/PageBeanPriority.yaml
+          example: >-
+            {"maxResults":50,"startAt":0,"total":2,"isLast":true,"values":[{"self":"https://your-domain.atlassian.net/rest/api/2/priority/3","statusColor":"#009900","description":"Major
+            loss of
+            function.","iconUrl":"https://your-domain.atlassian.net/images/icons/priorities/major.png","name":"Major","id":"1","isDefault":true},{"self":"https://your-domain.atlassian.net/rest/api/2/priority/5","statusColor":"#cfcfcf","description":"Very
+            little
+            impact.","iconUrl":"https://your-domain.atlassian.net/images/icons/priorities/trivial.png","name":"Trivial","id":"2","isDefault":false}]}
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ErrorCollection.yaml
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-configuration
+  x-experimental: true
+  x-atlassian-connect-scope: READ

@@ -1,0 +1,10 @@
+type: object
+properties:
+  permissionSchemes:
+    type: array
+    description: Permission schemes list.
+    readOnly: true
+    items:
+      $ref: ./PermissionScheme.yaml
+additionalProperties: false
+description: List of all permission schemes.

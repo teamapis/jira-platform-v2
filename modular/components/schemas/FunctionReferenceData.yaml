@@ -1,0 +1,21 @@
+type: object
+properties:
+  value:
+    type: string
+    description: The function identifier.
+  displayName:
+    type: string
+    description: The display name of the function.
+  isList:
+    type: string
+    description: Whether the function can take a list of arguments.
+    enum:
+      - 'true'
+      - 'false'
+  types:
+    type: array
+    description: The data types returned by the function.
+    items:
+      type: string
+additionalProperties: false
+description: Details of functions that can be used in advanced searches.

@@ -1,0 +1,15 @@
+required:
+  - configurations
+type: object
+properties:
+  configurations:
+    maxItems: 1000
+    minItems: 1
+    uniqueItems: true
+    type: array
+    description: The list of custom field configuration details.
+    items:
+      $ref: ./ContextualConfiguration.yaml
+additionalProperties: false
+description: Details of configurations for a custom field.
+writeOnly: true

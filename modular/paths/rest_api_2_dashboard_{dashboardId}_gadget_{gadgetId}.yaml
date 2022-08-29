@@ -1,0 +1,141 @@
+put:
+  tags:
+    - Dashboards
+  summary: Update gadget on dashboard
+  description: |-
+    Changes the title, position, and color of the gadget on a dashboard.
+
+    **[Permissions](#permissions) required:** None.
+  operationId: updateGadget
+  parameters:
+    - name: dashboardId
+      in: path
+      description: The ID of the dashboard.
+      required: true
+      schema:
+        type: integer
+        format: int64
+    - name: gadgetId
+      in: path
+      description: The ID of the gadget.
+      required: true
+      schema:
+        type: integer
+        format: int64
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/DashboardGadgetUpdateRequest.yaml
+        example:
+          color: red
+          position:
+            column: 1
+            row: 1
+          title: My new gadget title
+    required: true
+  responses:
+    '204':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema: {}
+    '400':
+      description: Returned if the request is invalid.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ErrorCollection.yaml
+          example: >-
+            {"errorMessages":["The gadget cannot be placed in the selected row.
+            The selected row does not exist on the dashboard."],"errors":{}}
+    '401':
+      description: Returned if the authentication credentials are incorrect.
+    '404':
+      description: Returned if the gadget or the dashboard is not found.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ErrorCollection.yaml
+          example: >-
+            {"errorMessages":["The dashboard you requested either does not exist
+            or you don't have the required permissions to perform this
+            action."],"errors":{}}
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - write:jira-work
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - write:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - write:dashboard:jira
+  x-experimental: true
+  x-atlassian-connect-scope: WRITE
+delete:
+  tags:
+    - Dashboards
+  summary: Remove gadget from dashboard
+  description: >-
+    Removes a dashboard gadget from a dashboard.
+
+
+    When a gadget is removed from a dashboard, other gadgets in the same column
+    are moved up to fill the emptied position.
+
+
+    **[Permissions](#permissions) required:** None.
+  operationId: removeGadget
+  parameters:
+    - name: dashboardId
+      in: path
+      description: The ID of the dashboard.
+      required: true
+      schema:
+        type: integer
+        format: int64
+    - name: gadgetId
+      in: path
+      description: The ID of the gadget.
+      required: true
+      schema:
+        type: integer
+        format: int64
+  responses:
+    '204':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema: {}
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '404':
+      description: Returned if the gadget or the dashboard is not found.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ErrorCollection.yaml
+          example: >-
+            {"errorMessages":["The dashboard gadget was not
+            found."],"errors":{}}
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - write:jira-work
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - write:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - write:dashboard:jira
+  x-experimental: true
+  x-atlassian-connect-scope: DELETE

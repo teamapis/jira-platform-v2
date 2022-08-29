@@ -1,0 +1,8 @@
+required:
+  - fieldId
+type: object
+properties:
+  fieldId:
+    type: string
+    description: The ID of the field to add.
+additionalProperties: false

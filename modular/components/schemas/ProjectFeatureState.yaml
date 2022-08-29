@@ -1,0 +1,11 @@
+type: object
+properties:
+  state:
+    type: string
+    description: The feature state.
+    enum:
+      - ENABLED
+      - DISABLED
+      - COMING_SOON
+additionalProperties: false
+description: Details of the feature state.

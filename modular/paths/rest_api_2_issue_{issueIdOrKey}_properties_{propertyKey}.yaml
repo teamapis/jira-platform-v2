@@ -1,0 +1,187 @@
+get:
+  tags:
+    - Issue properties
+  summary: Get issue property
+  description: |-
+    Returns the key and value of an issue's property.
+
+    This operation can be accessed anonymously.
+
+    **[Permissions](#permissions) required:**
+
+     *  *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project containing the issue.
+     *  If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue.
+  operationId: getIssueProperty
+  parameters:
+    - name: issueIdOrKey
+      in: path
+      description: The key or ID of the issue.
+      required: true
+      schema:
+        type: string
+    - name: propertyKey
+      in: path
+      description: The key of the property.
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/EntityProperty.yaml
+          example: >-
+            {"key":"issue.support","value":{"system.conversation.id":"b1bf38be-5e94-4b40-a3b8-9278735ee1e6","system.support.time":"1m"}}
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '404':
+      description: >-
+        Returned if the issue or property is not found or the user does not have
+        permission to see the issue.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - read:jira-work
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - read:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:issue.property:jira
+  x-atlassian-connect-scope: READ
+put:
+  tags:
+    - Issue properties
+  summary: Set issue property
+  description: >-
+    Sets the value of an issue's property. Use this resource to store custom
+    data against an issue.
+
+
+    The value of the request body must be a
+    [valid](http://tools.ietf.org/html/rfc4627), non-empty JSON blob. The
+    maximum length is 32768 characters.
+
+
+    This operation can be accessed anonymously.
+
+
+    **[Permissions](#permissions) required:**
+
+     *  *Browse projects* and *Edit issues* [project permissions](https://confluence.atlassian.com/x/yodKLg) for the project containing the issue.
+     *  If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue.
+  operationId: setIssueProperty
+  parameters:
+    - name: issueIdOrKey
+      in: path
+      description: The ID or key of the issue.
+      required: true
+      schema:
+        type: string
+    - name: propertyKey
+      in: path
+      description: The key of the issue property. The maximum length is 255 characters.
+      required: true
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema: {}
+    required: true
+  responses:
+    '200':
+      description: Returned if the issue property is updated.
+      content:
+        application/json:
+          schema: {}
+    '201':
+      description: Returned if the issue property is created.
+      content:
+        application/json:
+          schema: {}
+    '400':
+      description: Returned if the request is invalid.
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: Returned if the user does not have permission to edit the issue.
+    '404':
+      description: >-
+        Returned if the issue is not found or the user does not have permission
+        to view the issue.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - write:jira-work
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - write:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - write:issue.property:jira
+  x-atlassian-connect-scope: WRITE
+delete:
+  tags:
+    - Issue properties
+  summary: Delete issue property
+  description: |-
+    Deletes an issue's property.
+
+    This operation can be accessed anonymously.
+
+    **[Permissions](#permissions) required:**
+
+     *  *Browse projects* and *Edit issues* [project permissions](https://confluence.atlassian.com/x/yodKLg) for the project containing the issue.
+     *  If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue.
+  operationId: deleteIssueProperty
+  parameters:
+    - name: issueIdOrKey
+      in: path
+      description: The key or ID of the issue.
+      required: true
+      schema:
+        type: string
+    - name: propertyKey
+      in: path
+      description: The key of the property.
+      required: true
+      schema:
+        type: string
+  responses:
+    '204':
+      description: Returned if the request is successful.
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '404':
+      description: >-
+        Returned if the issue or property is not found, or the user does not
+        have permission to edit the issue.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - write:jira-work
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - write:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - delete:issue.property:jira
+  x-atlassian-connect-scope: DELETE

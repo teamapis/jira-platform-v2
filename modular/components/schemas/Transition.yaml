@@ -1,0 +1,45 @@
+required:
+  - description
+  - from
+  - id
+  - name
+  - to
+  - type
+type: object
+properties:
+  id:
+    type: string
+    description: The ID of the transition.
+  name:
+    type: string
+    description: The name of the transition.
+  description:
+    type: string
+    description: The description of the transition.
+  from:
+    type: array
+    description: The statuses the transition can start from.
+    items:
+      type: string
+      description: The statuses the transition can start from.
+  to:
+    type: string
+    description: The status the transition goes to.
+  type:
+    type: string
+    description: The type of the transition.
+    enum:
+      - global
+      - initial
+      - directed
+  screen:
+    $ref: ./TransitionScreenDetails.yaml
+  rules:
+    $ref: ./WorkflowRules.yaml
+  properties:
+    type: object
+    additionalProperties:
+      description: The properties of the transition.
+    description: The properties of the transition.
+additionalProperties: false
+description: Details of a workflow transition.

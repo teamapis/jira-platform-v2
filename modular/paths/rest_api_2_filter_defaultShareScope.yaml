@@ -1,0 +1,85 @@
+get:
+  tags:
+    - Filter sharing
+  summary: Get default share scope
+  description: >-
+    Returns the default sharing settings for new filters and dashboards for a
+    user.
+
+
+    **[Permissions](#permissions) required:** Permission to access Jira.
+  operationId: getDefaultShareScope
+  parameters: []
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/DefaultShareScope.yaml
+          example: '{"scope":"GLOBAL"}'
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - read:jira-work
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - read:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:filter.default-share-scope:jira
+  x-atlassian-connect-scope: READ
+put:
+  tags:
+    - Filter sharing
+  summary: Set default share scope
+  description: |-
+    Sets the default sharing for new filters and dashboards for a user.
+
+    **[Permissions](#permissions) required:** Permission to access Jira.
+  operationId: setDefaultShareScope
+  parameters: []
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/DefaultShareScope.yaml
+        example:
+          scope: GLOBAL
+    required: true
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/DefaultShareScope.yaml
+          example: '{"scope":"GLOBAL"}'
+    '400':
+      description: Returned if an invalid scope is set.
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - write:jira-work
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - write:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - write:filter.default-share-scope:jira
+        - read:filter.default-share-scope:jira
+  x-atlassian-connect-scope: WRITE

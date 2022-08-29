@@ -1,0 +1,205 @@
+get:
+  tags:
+    - Project properties
+  summary: Get project property
+  description: >-
+    Returns the value of a [project
+    property](https://developer.atlassian.com/cloud/jira/platform/storing-data-without-a-database/#a-id-jira-entity-properties-a-jira-entity-properties).
+
+
+    This operation can be accessed anonymously.
+
+
+    **[Permissions](#permissions) required:** *Browse Projects* [project
+    permission](https://confluence.atlassian.com/x/yodKLg) for the project
+    containing the property.
+  operationId: getProjectProperty
+  parameters:
+    - name: projectIdOrKey
+      in: path
+      description: The project ID or project key (case sensitive).
+      required: true
+      schema:
+        type: string
+    - name: propertyKey
+      in: path
+      description: >-
+        The project property key. Use [Get project property
+        keys](#api-rest-api-2-project-projectIdOrKey-properties-get) to get a
+        list of all project property keys.
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/EntityProperty.yaml
+          example: >-
+            {"key":"issue.support","value":{"system.conversation.id":"b1bf38be-5e94-4b40-a3b8-9278735ee1e6","system.support.time":"1m"}}
+    '400':
+      description: Returned if the request is not valid.
+    '401':
+      description: Returned if the authentication credentials are incorrect.
+    '403':
+      description: Returned if the user does not have permission to view the project.
+    '404':
+      description: Returned if the project or property is not found.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - read:jira-work
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - read:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:project.property:jira
+  x-atlassian-connect-scope: READ
+put:
+  tags:
+    - Project properties
+  summary: Set project property
+  description: >-
+    Sets the value of the [project
+    property](https://developer.atlassian.com/cloud/jira/platform/storing-data-without-a-database/#a-id-jira-entity-properties-a-jira-entity-properties).
+    You can use project properties to store custom data against the project.
+
+
+    The value of the request body must be a
+    [valid](http://tools.ietf.org/html/rfc4627), non-empty JSON blob. The
+    maximum length is 32768 characters.
+
+
+    This operation can be accessed anonymously.
+
+
+    **[Permissions](#permissions) required:** *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg) or *Administer
+    Projects* [project permission](https://confluence.atlassian.com/x/yodKLg)
+    for the project in which the property is created.
+  operationId: setProjectProperty
+  parameters:
+    - name: projectIdOrKey
+      in: path
+      description: The project ID or project key (case sensitive).
+      required: true
+      schema:
+        type: string
+    - name: propertyKey
+      in: path
+      description: The key of the project property. The maximum length is 255 characters.
+      required: true
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema: {}
+        example:
+          number: 5
+          string: string-value
+    required: true
+  responses:
+    '200':
+      description: Returned if the project property is updated.
+      content:
+        application/json:
+          schema: {}
+    '201':
+      description: Returned if the project property is created.
+      content:
+        application/json:
+          schema: {}
+    '400':
+      description: Returned if the project key or id is invalid.
+    '401':
+      description: Returned if the authentication credentials are incorrect.
+    '403':
+      description: Returned if the user does not have permission to administer the project.
+    '404':
+      description: Returned if the project is not found.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-project
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-project
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - write:project.property:jira
+  x-atlassian-connect-scope: WRITE
+delete:
+  tags:
+    - Project properties
+  summary: Delete project property
+  description: >-
+    Deletes the
+    [property](https://developer.atlassian.com/cloud/jira/platform/storing-data-without-a-database/#a-id-jira-entity-properties-a-jira-entity-properties)
+    from a project.
+
+
+    This operation can be accessed anonymously.
+
+
+    **[Permissions](#permissions) required:** *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg) or *Administer
+    Projects* [project permission](https://confluence.atlassian.com/x/yodKLg)
+    for the project containing the property.
+  operationId: deleteProjectProperty
+  parameters:
+    - name: projectIdOrKey
+      in: path
+      description: The project ID or project key (case sensitive).
+      required: true
+      schema:
+        type: string
+    - name: propertyKey
+      in: path
+      description: >-
+        The project property key. Use [Get project property
+        keys](#api-rest-api-2-project-projectIdOrKey-properties-get) to get a
+        list of all project property keys.
+      required: true
+      schema:
+        type: string
+  responses:
+    '204':
+      description: Returned if the project property is deleted.
+    '400':
+      description: Returned if the request is not valid.
+    '401':
+      description: Returned if the authentication credentials are incorrect.
+    '403':
+      description: Returned if the user does not have permission to administer the project.
+    '404':
+      description: Returned if the project or property is not found.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-project
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-project
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - delete:project.property:jira
+  x-atlassian-connect-scope: DELETE

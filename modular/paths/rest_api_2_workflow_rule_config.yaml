@@ -1,0 +1,221 @@
+get:
+  tags:
+    - Workflow transition rules
+  summary: Get workflow transition rule configurations
+  description: >-
+    Returns a [paginated](#pagination) list of workflows with transition rules.
+    The workflows can be filtered to return only those containing workflow
+    transition rules:
+
+     *  of one or more transition rule types, such as [workflow post functions](https://developer.atlassian.com/cloud/jira/platform/modules/workflow-post-function/).
+     *  matching one or more transition rule keys.
+
+    Only workflows containing transition rules created by the calling Connect
+    app are returned. However, if a workflow is returned all transition rules
+    that match the filters are returned for that workflow.
+
+
+    Due to server-side optimizations, workflows with an empty list of rules may
+    be returned; these workflows can be ignored.
+
+
+    **[Permissions](#permissions) required:** Only Connect apps can use this
+    operation.
+  operationId: getWorkflowTransitionRuleConfigurations
+  parameters:
+    - name: startAt
+      in: query
+      description: >-
+        The index of the first item to return in a page of results (page
+        offset).
+      schema:
+        type: integer
+        format: int64
+        default: 0
+    - name: maxResults
+      in: query
+      description: The maximum number of items to return per page.
+      schema:
+        maximum: 50
+        type: integer
+        format: int32
+        default: 10
+    - name: types
+      in: query
+      description: The types of the transition rules to return.
+      required: true
+      schema:
+        uniqueItems: true
+        type: array
+        items:
+          type: string
+          enum:
+            - postfunction
+            - condition
+            - validator
+    - name: keys
+      in: query
+      description: >-
+        The transition rule class keys, as defined in the Connect app
+        descriptor, of the transition rules to return.
+      schema:
+        uniqueItems: true
+        type: array
+        items:
+          type: string
+    - name: workflowNames
+      in: query
+      description: 'EXPERIMENTAL: The list of workflow names to filter by.'
+      schema:
+        maxLength: 50
+        uniqueItems: true
+        type: array
+        items:
+          maxLength: 50
+          type: string
+    - name: withTags
+      in: query
+      description: 'EXPERIMENTAL: The list of `tags` to filter by.'
+      schema:
+        maxLength: 20
+        uniqueItems: true
+        type: array
+        items:
+          maxLength: 20
+          type: string
+    - name: draft
+      in: query
+      description: >-
+        EXPERIMENTAL: Whether draft or published workflows are returned. If not
+        provided, both workflow types are returned.
+      schema:
+        type: boolean
+    - name: expand
+      in: query
+      description: >-
+        Use [expand](#expansion) to include additional information in the
+        response. This parameter accepts `transition`, which, for each rule,
+        returns information about the transition the rule is assigned to.
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/PageBeanWorkflowTransitionRules.yaml
+          example: >-
+            {"maxResults":10,"startAt":0,"total":1,"isLast":true,"values":[{"workflowId":{"name":"My
+            Workflow
+            name","draft":false},"postFunctions":[{"id":"b4d6cbdc-59f5-11e9-8647-d663bd873d93","key":"postfunction-key","configuration":{"value":"{
+            \"color\": \"red\"
+            }","disabled":false},"transition":{"id":1,"name":"Open"}}],"conditions":[{"id":"d663bd873d93-59f5-11e9-8647-b4d6cbdc","key":"condition-key","configuration":{"value":"{
+            \"size\": \"medium\"
+            }","disabled":false},"transition":{"id":1,"name":"Open"}}],"validators":[{"id":"11e9-59f5-b4d6cbdc-8647-d663bd873d93","key":"validator-key","configuration":{"value":"\"{
+            \\\"shape\\\": \\\"square\\\"
+            }\"","disabled":false},"transition":{"id":1,"name":"Open"}}]}]}
+    '400':
+      description: Returned if the request is invalid.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ErrorCollection.yaml
+    '403':
+      description: Returned if the caller is not a Connect app.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ErrorCollection.yaml
+    '404':
+      description: Returned if the any transition rule type is not supported.
+  deprecated: false
+  security:
+    - basicAuth: []
+  x-atlassian-connect-scope: READ
+put:
+  tags:
+    - Workflow transition rules
+  summary: Update workflow transition rule configurations
+  description: >-
+    Updates configuration of workflow transition rules. The following rule types
+    are supported:
+
+     *  [post functions](https://developer.atlassian.com/cloud/jira/platform/modules/workflow-post-function/)
+     *  [conditions](https://developer.atlassian.com/cloud/jira/platform/modules/workflow-condition/)
+     *  [validators](https://developer.atlassian.com/cloud/jira/platform/modules/workflow-validator/)
+
+    Only rules created by the calling Connect app can be updated.
+
+
+    To assist with app migration, this operation can be used to:
+
+     *  Disable a rule.
+     *  Add a `tag`. Use this to filter rules in the [Get workflow transition rule configurations](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-workflow-transition-rules/#api-rest-api-3-workflow-rule-config-get).
+
+    Rules are enabled if the `disabled` parameter is not provided.
+
+
+    **[Permissions](#permissions) required:** Only Connect apps can use this
+    operation.
+  operationId: updateWorkflowTransitionRuleConfigurations
+  parameters: []
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/WorkflowTransitionRulesUpdate.yaml
+        example:
+          workflows:
+            - postFunctions:
+                - configuration:
+                    disabled: false
+                    value: '{ "color": "red" }'
+                  id: b4d6cbdc-59f5-11e9-8647-d663bd873d93
+              validators:
+                - configuration:
+                    disabled: false
+                    value: '{ "shape": "square" }'
+                  id: 11e9-59f5-b4d6cbdc-8647-d663bd873d93
+              conditions:
+                - configuration:
+                    disabled: false
+                    value: '{ "size": "medium" }'
+                  id: d663bd873d93-59f5-11e9-8647-b4d6cbdc
+              workflowId:
+                draft: false
+                name: My Workflow name
+    required: true
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/WorkflowTransitionRulesUpdateErrors.yaml
+          example: >-
+            {"updateResults":[{"workflowId":{"name":"Workflow with one rule not
+            updated","draft":false},"ruleUpdateErrors":{"example-rule-id":["The
+            rule with this id does not exist:
+            example-rule-id"]},"updateErrors":[]},{"workflowId":{"name":"Workflow
+            with all rules successfully
+            updated","draft":true},"ruleUpdateErrors":{},"updateErrors":[]},{"workflowId":{"name":"Non-existing
+            workflow","draft":false},"ruleUpdateErrors":{},"updateErrors":["Workflow
+            not found: WorkflowIdBean{name=Non-existing workflow,
+            draft=false}"]}]}
+    '400':
+      description: Returned if the request is invalid.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ErrorCollection.yaml
+    '403':
+      description: Returned if the caller is not a Connect app.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ErrorCollection.yaml
+  deprecated: false
+  security:
+    - basicAuth: []
+  x-atlassian-connect-scope: ADMIN

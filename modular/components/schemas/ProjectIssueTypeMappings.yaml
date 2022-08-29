@@ -1,0 +1,12 @@
+required:
+  - mappings
+type: object
+properties:
+  mappings:
+    type: array
+    description: The project and issue type mappings.
+    writeOnly: true
+    items:
+      $ref: ./ProjectIssueTypeMapping.yaml
+additionalProperties: false
+description: The project and issue type mappings.

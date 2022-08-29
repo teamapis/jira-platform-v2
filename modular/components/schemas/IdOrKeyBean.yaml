@@ -1,0 +1,10 @@
+type: object
+properties:
+  id:
+    type: integer
+    description: The ID of the referenced item.
+    format: int64
+  key:
+    type: string
+    description: The key of the referenced item.
+additionalProperties: false

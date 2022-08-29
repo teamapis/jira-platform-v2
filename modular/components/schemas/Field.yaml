@@ -1,0 +1,41 @@
+required:
+  - id
+  - name
+  - schema
+type: object
+properties:
+  id:
+    type: string
+    description: The ID of the field.
+  name:
+    type: string
+    description: The name of the field.
+  schema:
+    $ref: ./JsonTypeBean.yaml
+  description:
+    type: string
+    description: The description of the field.
+  key:
+    type: string
+    description: The key of the field.
+  isLocked:
+    type: boolean
+    description: Whether the field is locked.
+  isUnscreenable:
+    type: boolean
+    description: Whether the field is shown on screen or not.
+  searcherKey:
+    type: string
+    description: The searcher key of the field. Returned for custom fields.
+  screensCount:
+    type: integer
+    description: Number of screens where the field is used.
+    format: int64
+  contextsCount:
+    type: integer
+    description: Number of contexts where the field is used.
+    format: int64
+  lastUsed:
+    $ref: ./FieldLastUsed.yaml
+additionalProperties: false
+description: Details of a field.

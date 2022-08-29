@@ -1,0 +1,21 @@
+type: object
+properties:
+  projectPermissions:
+    uniqueItems: true
+    type: array
+    description: Project permissions with associated projects and issues to look up.
+    items:
+      $ref: ./BulkProjectPermissions.yaml
+  globalPermissions:
+    uniqueItems: true
+    type: array
+    description: Global permissions to look up.
+    items:
+      type: string
+  accountId:
+    type: string
+    description: The account ID of a user.
+additionalProperties: false
+description: >-
+  Details of global permissions to look up and project permissions with
+  associated projects and issues to look up.

@@ -1,0 +1,10 @@
+type: object
+properties:
+  permissions:
+    type: object
+    additionalProperties:
+      $ref: ./UserPermission.yaml
+    description: List of permissions.
+    readOnly: true
+additionalProperties: false
+description: Details about permissions.

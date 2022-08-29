@@ -1,0 +1,9 @@
+required:
+  - number
+type: object
+properties:
+  number:
+    type: number
+    description: The default floating-point number.
+    format: double
+description: Default value for a Forge number custom field.

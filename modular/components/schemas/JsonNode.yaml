@@ -1,0 +1,93 @@
+maxProperties: 10
+minProperties: 1
+type: object
+properties:
+  array:
+    type: boolean
+  fields:
+    type: object
+  'null':
+    type: boolean
+  elements:
+    type: object
+  floatingPointNumber:
+    type: boolean
+  pojo:
+    type: boolean
+  number:
+    type: boolean
+  integralNumber:
+    type: boolean
+  int:
+    type: boolean
+  long:
+    type: boolean
+  double:
+    type: boolean
+  bigDecimal:
+    type: boolean
+  bigInteger:
+    type: boolean
+  textual:
+    type: boolean
+  boolean:
+    type: boolean
+  binary:
+    type: boolean
+  containerNode:
+    type: boolean
+  missingNode:
+    type: boolean
+  object:
+    type: boolean
+  valueNode:
+    type: boolean
+  numberValue:
+    type: number
+  numberType:
+    type: string
+    enum:
+      - INT
+      - LONG
+      - BIG_INTEGER
+      - FLOAT
+      - DOUBLE
+      - BIG_DECIMAL
+  intValue:
+    type: integer
+    format: int32
+  longValue:
+    type: integer
+    format: int64
+  bigIntegerValue:
+    type: integer
+  doubleValue:
+    type: number
+    format: double
+  decimalValue:
+    type: number
+  booleanValue:
+    type: boolean
+  binaryValue:
+    type: array
+    items:
+      type: string
+      format: byte
+  valueAsInt:
+    type: integer
+    format: int32
+  valueAsLong:
+    type: integer
+    format: int64
+  valueAsDouble:
+    type: number
+    format: double
+  valueAsBoolean:
+    type: boolean
+  textValue:
+    type: string
+  valueAsText:
+    type: string
+  fieldNames:
+    type: object
+additionalProperties: false

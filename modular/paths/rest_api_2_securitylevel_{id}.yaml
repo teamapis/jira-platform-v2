@@ -1,0 +1,59 @@
+get:
+  tags:
+    - Issue security level
+  summary: Get issue security level
+  description: >-
+    Returns details of an issue security level.
+
+
+    Use [Get issue security scheme](#api-rest-api-2-issuesecurityschemes-id-get)
+    to obtain the IDs of issue security levels associated with the issue
+    security scheme.
+
+
+    This operation can be accessed anonymously.
+
+
+    **[Permissions](#permissions) required:** None.
+  operationId: getIssueSecurityLevel
+  parameters:
+    - name: id
+      in: path
+      description: The ID of the issue security level.
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/SecurityLevel.yaml
+          example: >-
+            {"self":"https://your-domain.atlassian.net/rest/api/2/securitylevel/10021","id":"10021","description":"Only
+            the reporter and internal staff can see this
+            issue.","name":"Reporter Only"}
+    '401':
+      description: Returned if the authentication credentials are incorrect.
+    '404':
+      description: Returned if the issue security level is not found.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-configuration
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-configuration
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:field:jira
+        - read:issue-security-level:jira
+        - read:project-role:jira
+        - read:user:jira
+  x-atlassian-connect-scope: PROJECT_ADMIN

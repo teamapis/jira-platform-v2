@@ -1,0 +1,15 @@
+type: object
+properties:
+  entries:
+    type: array
+    items:
+      $ref: ./AttachmentArchiveEntry.yaml
+  moreAvailable:
+    type: boolean
+  totalNumberOfEntriesAvailable:
+    type: integer
+    format: int32
+  totalEntryCount:
+    type: integer
+    format: int32
+additionalProperties: false

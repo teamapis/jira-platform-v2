@@ -1,0 +1,19 @@
+type: object
+properties:
+  visibleFieldNames:
+    type: array
+    description: List of fields usable in JQL queries.
+    items:
+      $ref: ./FieldReferenceData.yaml
+  visibleFunctionNames:
+    type: array
+    description: List of functions usable in JQL queries.
+    items:
+      $ref: ./FunctionReferenceData.yaml
+  jqlReservedWords:
+    type: array
+    description: List of JQL query reserved words.
+    items:
+      type: string
+additionalProperties: false
+description: Lists of JQL reference data.

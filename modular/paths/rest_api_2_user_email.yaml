@@ -1,0 +1,42 @@
+get:
+  tags:
+    - Users
+  summary: Get user email
+  description: >-
+    Returns a user's email address. This API is only available to apps approved
+    by Atlassian, according to these
+    [guidelines](https://community.developer.atlassian.com/t/guidelines-for-requesting-access-to-email-address/27603).
+  operationId: getUserEmail
+  parameters:
+    - name: accountId
+      in: query
+      description: >-
+        The account ID of the user, which uniquely identifies the user across
+        all Atlassian products. For example, `5b10ac8d82e05b22cc7d4ef5`.
+      required: true
+      schema:
+        maxLength: 128
+        type: string
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/UnrestrictedUserEmail.yaml
+          example: name@example.com
+    '400':
+      description: Returned if the calling app is not approved to use this API.
+    '401':
+      description: >-
+        Returned if the authentication credentials are incorrect or missing from
+        the request (for example if a user is trying to access this API).
+    '404':
+      description: Returned if a user with the given `accountId` doesn't exist
+    '503':
+      description: Indicates the API is not currently enabled
+  deprecated: false
+  security:
+    - basicAuth: []
+  x-experimental: true
+  x-atlassian-connect-scope: ACCESS_EMAIL_ADDRESSES

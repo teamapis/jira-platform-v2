@@ -1,0 +1,96 @@
+post:
+  tags:
+    - JQL
+  summary: Parse JQL query
+  description: |-
+    Parses and validates JQL queries.
+
+    Validation is performed in context of the current user.
+
+    This operation can be accessed anonymously.
+
+    **[Permissions](#permissions) required:** None.
+  operationId: parseJqlQueries
+  parameters:
+    - name: validation
+      in: query
+      description: >-
+        How to validate the JQL query and treat the validation results.
+        Validation options include:
+
+         *  `strict` Returns all errors. If validation fails, the query structure is not returned.
+         *  `warn` Returns all errors. If validation fails but the JQL query is correctly formed, the query structure is returned.
+         *  `none` No validation is performed. If JQL query is correctly formed, the query structure is returned.
+      schema:
+        type: string
+        default: strict
+        enum:
+          - strict
+          - warn
+          - none
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/JqlQueriesToParse.yaml
+        example:
+          queries:
+            - >-
+              summary ~ test AND (labels in (urgent, blocker) OR lastCommentedBy
+              = currentUser()) AND status CHANGED AFTER startOfMonth(-1M) ORDER
+              BY updated DESC
+            - invalid query
+            - summary = test
+            - summary in test
+            - project = INVALID
+            - universe = 42
+    required: true
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ParsedJqlQueries.yaml
+          example: >-
+            {"queries":[{"query":"summary ~ test AND (labels in (urgent,
+            blocker) OR lastCommentedBy = currentUser()) AND status CHANGED
+            AFTER -5d ORDER BY updated
+            DESC","structure":{"where":{"clauses":[{"field":{"name":"summary"},"operator":"~","operand":{"value":"test"}},{"clauses":[{"field":{"name":"labels"},"operator":"in","operand":{"values":[{"value":"urgent"},{"value":"blocker"}]}},{"field":{"name":"lastCommentedBy","property":[{"entity":"issue","key":"propertyKey","path":"path.in.property","type":"user"}]},"operator":"=","operand":{"function":"currentUser","arguments":[]}}],"operator":"or"},{"field":{"name":"status"},"operator":"changed","predicates":[{"operator":"after","operand":{"function":"startOfMonth","arguments":["-1M"]}}]}],"operator":"and"},"orderBy":{"fields":[{"field":{"name":"updated"},"direction":"desc"}]}}},{"query":"invalid
+            query","errors":["Error in the JQL Query: Expecting operator but got
+            'query'. The valid operators are '=', '!=', '<', '>', '<=', '>=',
+            '~', '!~', 'IN', 'NOT IN', 'IS' and 'IS NOT'. (line 1, character
+            9)"]},{"query":"summary = test","errors":["The operator '=' is not
+            supported by the 'summary' field."]},{"query":"summary in
+            test","errors":["Operator 'in' does not support the non-list value
+            '\"test\"' for field 'summary'."]},{"query":"project =
+            INVALID","errors":["The value 'INVALID' does not exist for the field
+            'project'."]},{"query":"universe = 42","errors":["Field 'universe'
+            does not exist or you do not have permission to view it."]}]}
+    '400':
+      description: Returned if the request is invalid.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ErrorCollection.yaml
+    '401':
+      description: Returned if the authentication credentials are incorrect.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - read:jira-work
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - read:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:field:jira
+        - validate:jql:jira
+        - read:jql:jira
+  x-experimental: true
+  x-atlassian-connect-scope: READ

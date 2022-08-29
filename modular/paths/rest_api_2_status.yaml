@@ -1,0 +1,47 @@
+get:
+  tags:
+    - Workflow statuses
+  summary: Get all statuses
+  description: |-
+    Returns a list of all statuses associated with active workflows.
+
+    This operation can be accessed anonymously.
+
+    **[Permissions](#permissions) required:** None.
+  operationId: getStatuses
+  parameters: []
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: ../components/schemas/StatusDetails.yaml
+          example: >-
+            [{"self":"https://your-domain.atlassian.net/rest/api/2/status/10000","description":"The
+            issue is currently being worked
+            on.","iconUrl":"https://your-domain.atlassian.net/images/icons/progress.gif","name":"In
+            Progress","id":"10000","statusCategory":{"self":"https://your-domain.atlassian.net/rest/api/2/statuscategory/1","id":1,"key":"in-flight","colorName":"yellow","name":"In
+            Progress"}},{"self":"https://your-domain.atlassian.net/rest/api/2/status/5","description":"The
+            issue is
+            closed.","iconUrl":"https://your-domain.atlassian.net/images/icons/closed.gif","name":"Closed","id":"5","statusCategory":{"self":"https://your-domain.atlassian.net/rest/api/2/statuscategory/9","id":9,"key":"completed","colorName":"green"}}]
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - read:jira-work
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - read:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:status:jira
+  x-atlassian-connect-scope: READ

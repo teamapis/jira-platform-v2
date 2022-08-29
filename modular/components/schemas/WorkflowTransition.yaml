@@ -1,0 +1,14 @@
+required:
+  - id
+  - name
+type: object
+properties:
+  id:
+    type: integer
+    description: The transition ID.
+    format: int32
+  name:
+    type: string
+    description: The transition name.
+additionalProperties: false
+description: A workflow transition.

@@ -1,0 +1,10 @@
+type: object
+properties:
+  system:
+    type: array
+    description: A list of avatar details.
+    readOnly: true
+    items:
+      $ref: ./Avatar.yaml
+additionalProperties: false
+description: List of system avatars.

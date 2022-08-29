@@ -1,0 +1,36 @@
+type: object
+properties:
+  name:
+    maxLength: 60
+    type: string
+    description: The name of the priority. Must be unique.
+    writeOnly: true
+  description:
+    maxLength: 255
+    type: string
+    description: The description of the priority.
+    writeOnly: true
+  iconUrl:
+    maxLength: 255
+    type: string
+    description: >-
+      The URL of an icon for the priority. Accepted protocols are HTTP and
+      HTTPS. Built in icons can also be used.
+    writeOnly: true
+    enum:
+      - /images/icons/priorities/blocker.png
+      - /images/icons/priorities/critical.png
+      - /images/icons/priorities/high.png
+      - /images/icons/priorities/highest.png
+      - /images/icons/priorities/low.png
+      - /images/icons/priorities/lowest.png
+      - /images/icons/priorities/major.png
+      - /images/icons/priorities/medium.png
+      - /images/icons/priorities/minor.png
+      - /images/icons/priorities/trivial.png
+  statusColor:
+    type: string
+    description: The status color of the priority in 3-digit or 6-digit hexadecimal format.
+    writeOnly: true
+additionalProperties: true
+description: Details of an issue priority.

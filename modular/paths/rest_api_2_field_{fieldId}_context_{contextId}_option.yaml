@@ -1,0 +1,313 @@
+get:
+  tags:
+    - Issue custom field options
+  summary: Get custom field options (context)
+  description: >-
+    Returns a [paginated](#pagination) list of all custom field option for a
+    context. Options are returned first then cascading options, in the order
+    they display in Jira.
+
+
+    This operation works for custom field options created in Jira or the
+    operations from this resource. **To work with issue field select list
+    options created for Connect apps use the [Issue custom field options
+    (apps)](#api-group-issue-custom-field-options--apps-) operations.**
+
+
+    **[Permissions](#permissions) required:** *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg).
+  operationId: getOptionsForContext
+  parameters:
+    - name: fieldId
+      in: path
+      description: The ID of the custom field.
+      required: true
+      schema:
+        type: string
+    - name: contextId
+      in: path
+      description: The ID of the context.
+      required: true
+      schema:
+        type: integer
+        format: int64
+    - name: optionId
+      in: query
+      description: The ID of the option.
+      schema:
+        type: integer
+        format: int64
+    - name: onlyOptions
+      in: query
+      description: Whether only options are returned.
+      schema:
+        type: boolean
+        default: false
+    - name: startAt
+      in: query
+      description: >-
+        The index of the first item to return in a page of results (page
+        offset).
+      schema:
+        type: integer
+        format: int64
+        default: 0
+    - name: maxResults
+      in: query
+      description: The maximum number of items to return per page.
+      schema:
+        type: integer
+        format: int32
+        default: 100
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/PageBeanCustomFieldContextOption.yaml
+          example: >-
+            {"maxResults":100,"startAt":0,"total":4,"isLast":true,"values":[{"id":"10001","value":"New
+            York"},{"id":"10002","value":"Boston","disabled":true},{"id":"10004","value":"Denver"},{"id":"10003","value":"Brooklyn","optionId":"10001"}]}
+    '400':
+      description: Returned if the request is not valid.
+      content:
+        application/json:
+          example: >-
+            {"errorMessages":["The custom field doesn't support
+            options."],"errors":{}}
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: Returned if the user does not have the necessary permission.
+      content:
+        application/json:
+          example: >-
+            {"errorMessages":["Only Jira administrators can manage custom field
+            options."],"errors":{}}
+    '404':
+      description: >-
+        Returned if the custom field is not found or the context doesn't match
+        the custom field.
+      content:
+        application/json:
+          example: '{"errorMessages":["The custom field was not found."],"errors":{}}'
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-configuration
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-configuration
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:field.option:jira
+  x-experimental: true
+  x-atlassian-connect-scope: READ
+put:
+  tags:
+    - Issue custom field options
+  summary: Update custom field options (context)
+  description: >-
+    Updates the options of a custom field.
+
+
+    If any of the options are not found, no options are updated. Options where
+    the values in the request match the current values aren't updated and aren't
+    reported in the response.
+
+
+    Note that this operation **only works for issue field select list options
+    created in Jira or using operations from the [Issue custom field
+    options](#api-group-Issue-custom-field-options) resource**, it cannot be
+    used with issue field select list options created by Connect apps.
+
+
+    **[Permissions](#permissions) required:** *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg).
+  operationId: updateCustomFieldOption
+  parameters:
+    - name: fieldId
+      in: path
+      description: The ID of the custom field.
+      required: true
+      schema:
+        type: string
+    - name: contextId
+      in: path
+      description: The ID of the context.
+      required: true
+      schema:
+        type: integer
+        format: int64
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/BulkCustomFieldOptionUpdateRequest.yaml
+        example:
+          options:
+            - disabled: false
+              id: '10001'
+              value: Scranton
+            - disabled: true
+              id: '10002'
+              value: Manhattan
+            - disabled: false
+              id: '10003'
+              value: The Electric City
+    required: true
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/CustomFieldUpdatedContextOptionsList.yaml
+          example: >-
+            {"options":[{"id":"10001","value":"Scranton","disabled":false},{"id":"10002","value":"Manhattan","disabled":true},{"id":"10003","value":"The
+            Electric City","disabled":false}]}
+    '400':
+      description: Returned if the request is not valid.
+      content:
+        application/json:
+          example: >-
+            {"errorMessages":["The custom field doesn't support
+            options."],"errors":{}}
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: Returned if the user does not have the necessary permission.
+      content:
+        application/json:
+          example: >-
+            {"errorMessages":["Only Jira administrators can manage custom field
+            options."],"errors":{}}
+    '404':
+      description: Returned if the field, context, or one or more options is not found.
+      content:
+        application/json:
+          example: '{"errorMessages":["The custom field was not found."],"errors":{}}'
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-configuration
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-configuration
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:field.option:jira
+        - write:field.option:jira
+  x-experimental: true
+  x-atlassian-connect-scope: ADMIN
+post:
+  tags:
+    - Issue custom field options
+  summary: Create custom field options (context)
+  description: >-
+    Creates options and, where the custom select field is of the type Select
+    List (cascading), cascading options for a custom select field. The options
+    are added to a context of the field.
+
+
+    The maximum number of options that can be created per request is 1000 and
+    each field can have a maximum of 10000 options.
+
+
+    This operation works for custom field options created in Jira or the
+    operations from this resource. **To work with issue field select list
+    options created for Connect apps use the [Issue custom field options
+    (apps)](#api-group-issue-custom-field-options--apps-) operations.**
+
+
+    **[Permissions](#permissions) required:** *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg).
+  operationId: createCustomFieldOption
+  parameters:
+    - name: fieldId
+      in: path
+      description: The ID of the custom field.
+      required: true
+      schema:
+        type: string
+    - name: contextId
+      in: path
+      description: The ID of the context.
+      required: true
+      schema:
+        type: integer
+        format: int64
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/BulkCustomFieldOptionCreateRequest.yaml
+        example:
+          options:
+            - disabled: false
+              value: Scranton
+            - optionId: '10000'
+              disabled: true
+              value: Manhattan
+            - disabled: false
+              value: The Electric City
+    required: true
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/CustomFieldCreatedContextOptionsList.yaml
+          example: >-
+            {"options":[{"id":"10001","value":"Scranton","disabled":false},{"id":"10002","value":"Manhattan","optionId":"10000","disabled":true},{"id":"10003","value":"The
+            Electric City","disabled":false}]}
+    '400':
+      description: Returned if the request is not valid.
+      content:
+        application/json:
+          example: >-
+            {"errorMessages":["The custom field doesn't support
+            options."],"errors":{}}
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: Returned if the user does not have the necessary permission.
+      content:
+        application/json:
+          example: >-
+            {"errorMessages":["Only Jira administrators can manage custom field
+            options."],"errors":{}}
+    '404':
+      description: >-
+        Returned if the custom field is not found or the context doesn't match
+        the custom field.
+      content:
+        application/json:
+          example: '{"errorMessages":["The custom field was not found."],"errors":{}}'
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-configuration
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-configuration
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:field.option:jira
+        - write:field.option:jira
+  x-experimental: true
+  x-atlassian-connect-scope: ADMIN

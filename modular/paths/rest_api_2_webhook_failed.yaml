@@ -1,0 +1,89 @@
+get:
+  tags:
+    - Webhooks
+  summary: Get failed webhooks
+  description: >-
+    Returns webhooks that have recently failed to be delivered to the requesting
+    app after the maximum number of retries.
+
+
+    After 72 hours the failure may no longer be returned by this operation.
+
+
+    The oldest failure is returned first.
+
+
+    This method uses a cursor-based pagination. To request the next page use the
+    failure time of the last webhook on the list as the `failedAfter` value or
+    use the URL provided in `next`.
+
+
+    **[Permissions](#permissions) required:** Only [Connect
+    apps](https://developer.atlassian.com/cloud/jira/platform/index/#connect-apps)
+    can use this operation.
+  operationId: getFailedWebhooks
+  parameters:
+    - name: maxResults
+      in: query
+      description: >-
+        The maximum number of webhooks to return per page. If obeying the
+        maxResults directive would result in records with the same failure time
+        being split across pages, the directive is ignored and all records with
+        the same failure time included on the page.
+      schema:
+        type: integer
+        format: int32
+    - name: after
+      in: query
+      description: >-
+        The time after which any webhook failure must have occurred for the
+        record to be returned, expressed as milliseconds since the UNIX epoch.
+      schema:
+        type: integer
+        format: int64
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/FailedWebhooks.yaml
+          example: >-
+            {"values":[{"id":"1","body":"{\"data\":\"webhook
+            data\"}","url":"https://example.com","failureTime":1573118132000},{"id":"2","url":"https://example.com","failureTime":1573540473480}],"maxResults":100,"next":"https://your-domain.atlassian.net/rest/api/2/webhook/failed?failedAfter=1573540473480&maxResults=100"}
+    '400':
+      description: 400 response
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ErrorCollection.yaml
+    '403':
+      description: Returned if the caller is not a Connect app.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ErrorCollection.yaml
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - read:jira-work
+        - manage:jira-webhook
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - read:jira-work
+        - manage:jira-webhook
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:issue-details:jira
+        - read:webhook:jira
+        - read:comment.property:jira
+        - read:group:jira
+        - read:issue-type:jira
+        - read:project-role:jira
+        - read:epic:jira-software
+  x-experimental: true
+  x-atlassian-connect-scope: READ

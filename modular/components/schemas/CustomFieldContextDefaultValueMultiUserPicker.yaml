@@ -1,0 +1,18 @@
+required:
+  - accountIds
+  - contextId
+  - type
+type: object
+properties:
+  contextId:
+    type: string
+    description: The ID of the context.
+  accountIds:
+    type: array
+    description: The IDs of the default users.
+    items:
+      type: string
+      description: The IDs of the default users.
+  type:
+    type: string
+description: The default value for a User Picker (multiple) custom field.

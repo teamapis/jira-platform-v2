@@ -1,0 +1,196 @@
+get:
+  tags:
+    - Issue type screen schemes
+  summary: Get issue type screen schemes
+  description: >-
+    Returns a [paginated](#pagination) list of issue type screen schemes.
+
+
+    Only issue type screen schemes used in classic projects are returned.
+
+
+    **[Permissions](#permissions) required:** *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg).
+  operationId: getIssueTypeScreenSchemes
+  parameters:
+    - name: startAt
+      in: query
+      description: >-
+        The index of the first item to return in a page of results (page
+        offset).
+      schema:
+        type: integer
+        format: int64
+        default: 0
+    - name: maxResults
+      in: query
+      description: The maximum number of items to return per page.
+      schema:
+        type: integer
+        format: int32
+        default: 50
+    - name: id
+      in: query
+      description: >-
+        The list of issue type screen scheme IDs. To include multiple IDs,
+        provide an ampersand-separated list. For example, `id=10000&id=10001`.
+      schema:
+        uniqueItems: true
+        type: array
+        items:
+          type: integer
+          format: int64
+    - name: queryString
+      in: query
+      description: >-
+        String used to perform a case-insensitive partial match with issue type
+        screen scheme name.
+      schema:
+        type: string
+        default: ''
+    - name: orderBy
+      in: query
+      description: |-
+        [Order](#ordering) the results by a field:
+
+         *  `name` Sorts by issue type screen scheme name.
+         *  `id` Sorts by issue type screen scheme ID.
+      schema:
+        type: string
+        default: id
+        enum:
+          - name
+          - '-name'
+          - +name
+          - id
+          - '-id'
+          - +id
+    - name: expand
+      in: query
+      description: >-
+        Use [expand](#expansion) to include additional information in the
+        response. This parameter accepts `projects` that, for each issue type
+        screen schemes, returns information about the projects the issue type
+        screen scheme is assigned to.
+      schema:
+        type: string
+        default: ''
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/PageBeanIssueTypeScreenScheme.yaml
+          example: >-
+            {"maxResults":100,"startAt":0,"total":2,"isLast":true,"values":[{"id":"1","name":"Default
+            Issue Type Screen Scheme","description":"The default issue type
+            screen scheme"},{"id":"10000","name":"Office issue type screen
+            scheme","description":"Managing office
+            projects","projects":{"maxResults":100,"startAt":0,"total":1,"isLast":true,"values":[{"self":"project/EX","id":"10000","key":"EX","name":"Example","projectTypeKey":"ProjectTypeKey{key='software'}","simplified":false,"avatarUrls":{"48x48":"secure/projectavatar?size=large&pid=10000","24x24":"secure/projectavatar?size=small&pid=10000","16x16":"secure/projectavatar?size=xsmall&pid=10000","32x32":"secure/projectavatar?size=medium&pid=10000"},"projectCategory":{"id":"10000","description":"Project
+            category description","name":"A project category"}}]}}]}
+    '400':
+      description: Returned if the request is not valid.
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: Returned if the user does not have the required permissions.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-configuration
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-configuration
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:issue-type-screen-scheme:jira
+  x-atlassian-connect-scope: ADMIN
+post:
+  tags:
+    - Issue type screen schemes
+  summary: Create issue type screen scheme
+  description: >-
+    Creates an issue type screen scheme.
+
+
+    **[Permissions](#permissions) required:** *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg).
+  operationId: createIssueTypeScreenScheme
+  parameters: []
+  requestBody:
+    description: An issue type screen scheme bean.
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/IssueTypeScreenSchemeDetails.yaml
+        example:
+          name: Scrum issue type screen scheme
+          issueTypeMappings:
+            - issueTypeId: default
+              screenSchemeId: '10001'
+            - issueTypeId: '10001'
+              screenSchemeId: '10002'
+            - issueTypeId: '10002'
+              screenSchemeId: '10002'
+    required: true
+  responses:
+    '201':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/IssueTypeScreenSchemeId.yaml
+          example: '{"id":"10001"}'
+    '400':
+      description: Returned if the request is not valid.
+      content:
+        application/json:
+          example: >-
+            {"errorMessages":["One or more issue type IDs are repeated, an issue
+            type ID can only be specified once."],"errors":{}}
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: Returned if the user does not have the required permissions.
+      content:
+        application/json:
+          example: >-
+            {"errorMessages":["Only Jira administrators can access issue type
+            screen schemes."],"errors":{}}
+    '404':
+      description: Returned if the issue type or screen scheme is not found.
+      content:
+        application/json:
+          example: >-
+            {"errorMessages":["One or more issue type IDs were not
+            found."],"errors":{}}
+    '409':
+      description: >-
+        Returned if the issue type is a sub-task, but sub-tasks are disabled in
+        Jira settings.
+      content:
+        application/json:
+          example: >-
+            {"errorMessages":["Sub-tasks are disabled in Jira. At least one of
+            the issue types is a sub-task."],"errors":{}}
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-configuration
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-configuration
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - write:issue-type-screen-scheme:jira
+  x-experimental: true
+  x-atlassian-connect-scope: ADMIN

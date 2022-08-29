@@ -1,0 +1,58 @@
+get:
+  tags:
+    - Project versions
+  summary: Get version's related issues count
+  description: >-
+    Returns the following counts for a version:
+
+     *  Number of issues where the `fixVersion` is set to the version.
+     *  Number of issues where the `affectedVersion` is set to the version.
+     *  Number of issues where a version custom field is set to the version.
+
+    This operation can be accessed anonymously.
+
+
+    **[Permissions](#permissions) required:** *Browse projects* project
+    permission for the project that contains the version.
+  operationId: getVersionRelatedIssues
+  parameters:
+    - name: id
+      in: path
+      description: The ID of the version.
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/VersionIssueCounts.yaml
+          example: >-
+            {"self":"https://your-domain.atlassian.net/rest/api/2/version/10000","issuesFixedCount":23,"issuesAffectedCount":101,"issueCountWithCustomFieldsShowingVersion":54,"customFieldUsage":[{"fieldName":"Field1","customFieldId":10000,"issueCountWithVersionInCustomField":2},{"fieldName":"Field2","customFieldId":10010,"issueCountWithVersionInCustomField":3}]}
+    '401':
+      description: Returned if the authentication credentials are incorrect.
+    '404':
+      description: |-
+        Returned if:
+
+         *  the version is not found.
+         *  the user does not have the required permissions.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - read:jira-work
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - read:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:field:jira
+        - read:project-version:jira
+  x-atlassian-connect-scope: READ

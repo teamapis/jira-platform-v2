@@ -1,0 +1,51 @@
+get:
+  tags:
+    - Screens
+  summary: Get available screen fields
+  description: >-
+    Returns the fields that can be added to a tab on a screen.
+
+
+    **[Permissions](#permissions) required:** *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg).
+  operationId: getAvailableScreenFields
+  parameters:
+    - name: screenId
+      in: path
+      description: The ID of the screen.
+      required: true
+      schema:
+        type: integer
+        format: int64
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: ../components/schemas/ScreenableField.yaml
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: Returned if the user does not have the necessary permission.
+    '404':
+      description: Returned if the screen is not found.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-project
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-project
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:screen-field:jira
+        - read:screenable-field:jira
+  x-atlassian-connect-scope: ADMIN

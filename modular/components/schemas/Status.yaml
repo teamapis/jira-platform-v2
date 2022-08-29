@@ -1,0 +1,16 @@
+type: object
+properties:
+  resolved:
+    type: boolean
+    description: >-
+      Whether the item is resolved. If set to "true", the link to the issue is
+      displayed in a strikethrough font, otherwise the link displays in normal
+      font.
+  icon:
+    description: >-
+      Details of the icon representing the status. If not provided, no status
+      icon displays in Jira.
+    allOf:
+      - $ref: ./Icon.yaml
+additionalProperties: true
+description: The status of the item.

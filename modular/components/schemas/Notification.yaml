@@ -1,0 +1,23 @@
+type: object
+properties:
+  subject:
+    type: string
+    description: >-
+      The subject of the email notification for the issue. If this is not
+      specified, then the subject is set to the issue key and summary.
+  textBody:
+    type: string
+    description: The plain text body of the email notification for the issue.
+  htmlBody:
+    type: string
+    description: The HTML body of the email notification for the issue.
+  to:
+    description: The recipients of the email notification for the issue.
+    allOf:
+      - $ref: ./NotificationRecipients.yaml
+  restrict:
+    description: Restricts the notifications to users with the specified permissions.
+    allOf:
+      - $ref: ./NotificationRecipientsRestrictions.yaml
+additionalProperties: true
+description: Details about a notification.

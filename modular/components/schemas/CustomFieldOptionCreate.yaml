@@ -1,0 +1,17 @@
+required:
+  - value
+type: object
+properties:
+  value:
+    type: string
+    description: The value of the custom field option.
+  optionId:
+    type: string
+    description: >-
+      For cascading options, the ID of the custom field object containing the
+      cascading option.
+  disabled:
+    type: boolean
+    description: Whether the option is disabled.
+additionalProperties: false
+description: Details of a custom field option to create.

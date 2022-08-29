@@ -1,0 +1,82 @@
+get:
+  tags:
+    - Issue attachments
+  summary: Get all metadata for an expanded attachment
+  description: >-
+    Returns the metadata for the contents of an attachment, if it is an archive,
+    and metadata for the attachment itself. For example, if the attachment is a
+    ZIP archive, then information about the files in the archive is returned and
+    metadata for the ZIP archive. Currently, only the ZIP archive format is
+    supported.
+
+
+    Use this operation to retrieve data that is presented to the user, as this
+    operation returns the metadata for the attachment itself, such as the
+    attachment's ID and name. Otherwise, use [ Get contents metadata for an
+    expanded attachment](#api-rest-api-2-attachment-id-expand-raw-get), which
+    only returns the metadata for the attachment's contents.
+
+
+    This operation can be accessed anonymously.
+
+
+    **[Permissions](#permissions) required:** For the issue containing the
+    attachment:
+
+     *  *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project that the issue is in.
+     *  If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue.
+  operationId: expandAttachmentForHumans
+  parameters:
+    - name: id
+      in: path
+      description: The ID of the attachment.
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: >-
+        Returned if the request is successful. If an empty list is returned in
+        the response, the attachment is empty, corrupt, or not an archive.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/AttachmentArchiveMetadataReadable.yaml
+          example: >-
+            {"id":7237823,"name":"images.zip","entries":[{"path":"MG00N067.JPG","index":0,"size":"119
+            kB","mediaType":"image/jpeg","label":"MG00N067.JPG"},{"path":"Allegro
+            from Duet in C Major.mp3","index":1,"size":"1.36
+            MB","mediaType":"audio/mpeg","label":"Allegro from Duet in C
+            Major.mp3"},{"path":"long/path/thanks/to/lots/of/subdirectories/inside/making/it/quite/hard/to/reach/the/leaf.txt","index":2,"size":"0.0
+            k","mediaType":"text/plain","label":"long/path/thanks/to/.../reach/the/leaf.txt"}],"totalEntryCount":39,"mediaType":"application/zip"}
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: The user does not have the necessary permission.
+    '404':
+      description: |-
+        Returned if:
+
+         *  the attachment is not found.
+         *  attachments are disabled in the Jira settings.
+    '409':
+      description: >-
+        Returned if the attachment is an archive, but not a supported archive
+        format.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - read:jira-work
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - read:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:attachment:jira
+  x-experimental: true
+  x-atlassian-connect-scope: READ

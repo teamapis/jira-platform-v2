@@ -1,0 +1,17 @@
+required:
+  - contextId
+  - issueTypeId
+  - projectId
+type: object
+properties:
+  projectId:
+    type: string
+    description: The ID of the project.
+  issueTypeId:
+    type: string
+    description: The ID of the issue type.
+  contextId:
+    type: string
+    description: The ID of the custom field context.
+additionalProperties: false
+description: The project and issue type mapping with a matching custom field context.

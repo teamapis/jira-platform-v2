@@ -1,0 +1,83 @@
+get:
+  tags:
+    - Issue types
+  summary: Get issue types for project
+  description: >-
+    Returns issue types for a project.
+
+
+    This operation can be accessed anonymously.
+
+
+    **[Permissions](#permissions) required:** *Browse projects* [project
+    permission](https://confluence.atlassian.com/x/yodKLg) in the relevant
+    project or *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg).
+  operationId: getIssueTypesForProject
+  parameters:
+    - name: projectId
+      in: query
+      description: The ID of the project.
+      required: true
+      schema:
+        type: integer
+        format: int64
+    - name: level
+      in: query
+      description: |-
+        The level of the issue type to filter by. Use:
+
+         *  `-1` for Subtask.
+         *  `0` for Base.
+         *  `1` for Epic.
+      schema:
+        type: integer
+        format: int32
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: ../components/schemas/IssueTypeDetails.yaml
+          example: >-
+            [{"self":"https://your-domain.atlassian.net/rest/api/2/issueType/1","id":"1","description":"A
+            problem with the
+            software.","iconUrl":"https://your-domain.atlassian.net/secure/viewavatar?size=xsmall&avatarId=10316&avatarType=issuetype\",","name":"Bug","subtask":false,"avatarId":10002,"entityId":"9d7dd6f7-e8b6-4247-954b-7b2c9b2a5ba2","hierarchyLevel":0,"scope":{"type":"PROJECT","project":{"id":"10000","key":"KEY","name":"Next
+            Gen
+            Project"}}},{"self":"https://your-domain.atlassian.net/rest/api/2/issueType/3","id":"3","description":"A
+            task that needs to be
+            done.","iconUrl":"https://your-domain.atlassian.net/secure/viewavatar?size=xsmall&avatarId=10299&avatarType=issuetype\",","name":"Task","subtask":false,"avatarId":1,"hierarchyLevel":0,"scope":{"type":"PROJECT","project":{"id":"10000","key":"KEY","name":"Next
+            Gen Project"}}}]
+    '400':
+      description: Returned if the request is not valid.
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '404':
+      description: |-
+        Returned if:
+
+         *  the project is not found.
+         *  the user does not have the necessary permission.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - read:jira-work
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - read:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:issue-type:jira
+        - read:avatar:jira
+        - read:project-category:jira
+        - read:project:jira
+  x-experimental: true
+  x-atlassian-connect-scope: READ

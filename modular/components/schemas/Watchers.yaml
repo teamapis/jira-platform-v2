@@ -1,0 +1,25 @@
+type: object
+properties:
+  self:
+    type: string
+    description: The URL of these issue watcher details.
+    readOnly: true
+  isWatching:
+    type: boolean
+    description: Whether the calling user is watching this issue.
+    readOnly: true
+  watchCount:
+    type: integer
+    description: The number of users watching this issue.
+    format: int32
+    readOnly: true
+  watchers:
+    type: array
+    description: Details of the users watching this issue.
+    readOnly: true
+    items:
+      $ref: ./UserDetails.yaml
+additionalProperties: false
+description: The details of watchers on an issue.
+xml:
+  name: watchers

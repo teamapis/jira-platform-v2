@@ -1,0 +1,37 @@
+required:
+  - inwardIssue
+  - outwardIssue
+  - type
+type: object
+properties:
+  id:
+    type: string
+    description: The ID of the issue link.
+    readOnly: true
+  self:
+    type: string
+    description: The URL of the issue link.
+    format: uri
+    readOnly: true
+  type:
+    description: The type of link between the issues.
+    allOf:
+      - $ref: ./IssueLinkType.yaml
+  inwardIssue:
+    description: >-
+      Provides details about the linked issue. If presenting this link in a user
+      interface, use the `inward` field of the issue link type to label the
+      link.
+    allOf:
+      - $ref: ./LinkedIssue.yaml
+  outwardIssue:
+    description: >-
+      Provides details about the linked issue. If presenting this link in a user
+      interface, use the `outward` field of the issue link type to label the
+      link.
+    allOf:
+      - $ref: ./LinkedIssue.yaml
+additionalProperties: false
+description: Details of a link between issues.
+xml:
+  name: issueLinks

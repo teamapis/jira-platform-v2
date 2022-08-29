@@ -1,0 +1,18 @@
+required:
+  - value
+type: object
+properties:
+  value:
+    type: string
+    description: The option's name, which is displayed in Jira.
+  properties:
+    type: object
+    additionalProperties: {}
+    description: >-
+      The properties of the option as arbitrary key-value pairs. These
+      properties can be searched using JQL, if the extractions (see
+      https://developer.atlassian.com/cloud/jira/platform/modules/issue-field-option-property-index/)
+      are defined in the descriptor for the issue field module.
+  config:
+    $ref: ./IssueFieldOptionConfiguration.yaml
+additionalProperties: true

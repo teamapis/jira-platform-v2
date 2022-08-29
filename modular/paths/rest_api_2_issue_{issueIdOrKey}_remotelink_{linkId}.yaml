@@ -1,0 +1,252 @@
+get:
+  tags:
+    - Issue remote links
+  summary: Get remote issue link by ID
+  description: >-
+    Returns a remote issue link for an issue.
+
+
+    This operation requires [issue linking to be
+    active](https://confluence.atlassian.com/x/yoXKM).
+
+
+    This operation can be accessed anonymously.
+
+
+    **[Permissions](#permissions) required:**
+
+     *  *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project that the issue is in.
+     *  If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue.
+  operationId: getRemoteIssueLinkById
+  parameters:
+    - name: issueIdOrKey
+      in: path
+      description: The ID or key of the issue.
+      required: true
+      schema:
+        type: string
+    - name: linkId
+      in: path
+      description: The ID of the remote issue link.
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/RemoteIssueLink.yaml
+          example: >-
+            {"id":10000,"self":"https://your-domain.atlassian.net/rest/api/issue/MKY-1/remotelink/10000","globalId":"system=http://www.mycompany.com/support&id=1","application":{"type":"com.acme.tracker","name":"My
+            Acme
+            Tracker"},"relationship":"causes","object":{"url":"http://www.mycompany.com/support?id=1","title":"TSTSUP-111","summary":"Customer
+            support
+            issue","icon":{"url16x16":"http://www.mycompany.com/support/ticket.png","title":"Support
+            Ticket"},"status":{"resolved":true,"icon":{"url16x16":"http://www.mycompany.com/support/resolved.png","title":"Case
+            Closed","link":"http://www.mycompany.com/support?id=1&details=closed"}}}}
+    '400':
+      description: >-
+        Returned if the link ID is invalid or the remote issue link does not
+        belong to the issue.
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: Returned if issue linking is disabled.
+    '404':
+      description: >-
+        Returned if the issue or remote issue link is not found or the user does
+        not have permission to view the issue.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - read:jira-work
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - read:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:issue.remote-link:jira
+        - read:status:jira
+  x-atlassian-connect-scope: READ
+put:
+  tags:
+    - Issue remote links
+  summary: Update remote issue link by ID
+  description: >-
+    Updates a remote issue link for an issue.
+
+
+    Note: Fields without values in the request are set to null.
+
+
+    This operation requires [issue linking to be
+    active](https://confluence.atlassian.com/x/yoXKM).
+
+
+    This operation can be accessed anonymously.
+
+
+    **[Permissions](#permissions) required:**
+
+     *  *Browse projects* and *Link issues* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project that the issue is in.
+     *  If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue.
+  operationId: updateRemoteIssueLink
+  parameters:
+    - name: issueIdOrKey
+      in: path
+      description: The ID or key of the issue.
+      required: true
+      schema:
+        type: string
+        example: '10000'
+      x-showInExample: 'true'
+    - name: linkId
+      in: path
+      description: The ID of the remote issue link.
+      required: true
+      schema:
+        type: string
+        example: '10000'
+      x-showInExample: 'true'
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/RemoteIssueLinkRequest.yaml
+        example:
+          application:
+            name: My Acme Tracker
+            type: com.acme.tracker
+          globalId: system=http://www.mycompany.com/support&id=1
+          relationship: causes
+          object:
+            summary: Customer support issue
+            icon:
+              url16x16: http://www.mycompany.com/support/ticket.png
+              title: Support Ticket
+            title: TSTSUP-111
+            url: http://www.mycompany.com/support?id=1
+            status:
+              icon:
+                url16x16: http://www.mycompany.com/support/resolved.png
+                link: http://www.mycompany.com/support?id=1&details=closed
+                title: Case Closed
+              resolved: true
+    required: true
+  responses:
+    '204':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema: {}
+    '400':
+      description: |-
+        Returned if:
+
+         *  the link ID is invalid.
+         *  the remote issue link does not belong to the issue.
+         *  the request body is invalid.
+      content:
+        application/json:
+          example: '{"errorMessages":[],"errors":{"title":"''title'' is required."}}'
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: Returned if the user does not have permission to link issues.
+    '404':
+      description: >-
+        Returned if the issue or remote issue link is not found or the user does
+        not have permission to view the issue.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - write:jira-work
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - write:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - write:issue:jira
+        - write:issue.remote-link:jira
+  x-atlassian-connect-scope: WRITE
+delete:
+  tags:
+    - Issue remote links
+  summary: Delete remote issue link by ID
+  description: >-
+    Deletes a remote issue link from an issue.
+
+
+    This operation requires [issue linking to be
+    active](https://confluence.atlassian.com/x/yoXKM).
+
+
+    This operation can be accessed anonymously.
+
+
+    **[Permissions](#permissions) required:**
+
+     *  *Browse projects*, *Edit issues*, and *Link issues* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project that the issue is in.
+     *  If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue.
+  operationId: deleteRemoteIssueLinkById
+  parameters:
+    - name: issueIdOrKey
+      in: path
+      description: The ID or key of the issue.
+      required: true
+      schema:
+        type: string
+        example: '10000'
+      x-showInExample: 'true'
+    - name: linkId
+      in: path
+      description: The ID of a remote issue link.
+      required: true
+      schema:
+        type: string
+        example: '10000'
+      x-showInExample: 'true'
+  responses:
+    '204':
+      description: Returned if the request is successful.
+    '400':
+      description: >-
+        Returned if the link ID is invalid or the remote issue link does not
+        belong to the issue.
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: Returned if the user does not have permission to link issues.
+    '404':
+      description: >-
+        Returned if the issue or remote issue link is not found or the user does
+        not have permission to view the issue.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - write:jira-work
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - write:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - delete:issue.remote-link:jira
+        - write:issue:jira
+  x-atlassian-connect-scope: DELETE

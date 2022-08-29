@@ -1,0 +1,151 @@
+get:
+  tags:
+    - Issue field configurations
+  summary: Get field configuration schemes for projects
+  description: >-
+    Returns a [paginated](#pagination) list of field configuration schemes and,
+    for each scheme, a list of the projects that use it.
+
+
+    The list is sorted by field configuration scheme ID. The first item contains
+    the list of project IDs assigned to the default field configuration scheme.
+
+
+    Only field configuration schemes used in classic projects are returned.
+
+
+    **[Permissions](#permissions) required:** *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg).
+  operationId: getFieldConfigurationSchemeProjectMapping
+  parameters:
+    - name: startAt
+      in: query
+      description: >-
+        The index of the first item to return in a page of results (page
+        offset).
+      schema:
+        type: integer
+        format: int64
+        default: 0
+    - name: maxResults
+      in: query
+      description: The maximum number of items to return per page.
+      schema:
+        type: integer
+        format: int32
+        default: 50
+    - name: projectId
+      in: query
+      description: >-
+        The list of project IDs. To include multiple projects, separate IDs with
+        ampersand: `projectId=10000&projectId=10001`.
+      required: true
+      schema:
+        uniqueItems: true
+        type: array
+        items:
+          type: integer
+          format: int64
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: >-
+              ../components/schemas/PageBeanFieldConfigurationSchemeProjects.yaml
+          example: >-
+            {"maxResults":50,"startAt":0,"total":5,"isLast":true,"values":[{"projectIds":["10","11"]},{"fieldConfigurationScheme":{"id":"10002","name":"Field
+            Configuration Scheme for software related
+            projects","description":"We can use this one for software
+            projects."},"projectIds":["12","13","14"]}]}
+    '400':
+      description: Returned if the request is not valid.
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: Returned if the user does not have the necessary permission.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-configuration
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-configuration
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:field-configuration-scheme:jira
+  x-atlassian-connect-scope: ADMIN
+put:
+  tags:
+    - Issue field configurations
+  summary: Assign field configuration scheme to project
+  description: >-
+    Assigns a field configuration scheme to a project. If the field
+    configuration scheme ID is `null`, the operation assigns the default field
+    configuration scheme.
+
+
+    Field configuration schemes can only be assigned to classic projects.
+
+
+    **[Permissions](#permissions) required:** *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg).
+  operationId: assignFieldConfigurationSchemeToProject
+  parameters: []
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: >-
+            ../components/schemas/FieldConfigurationSchemeProjectAssociation.yaml
+        example:
+          fieldConfigurationSchemeId: '10000'
+          projectId: '10000'
+    required: true
+  responses:
+    '204':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema: {}
+    '400':
+      description: Returned if the project is not a classic project.
+      content:
+        application/json:
+          example: >-
+            {"errorMessages":["Only classic projects can have field
+            configuration schemes assigned."],"errors":{}}
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: Returned if the user does not have the necessary permissions.
+      content:
+        application/json:
+          example: >-
+            {"errorMessages":["Only Jira administrators can access field
+            configurations."],"errors":{}}
+    '404':
+      description: Returned if the project is missing.
+      content:
+        application/json:
+          example: '{"errorMessages":["The project was not found."],"errors":{}}'
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-configuration
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-configuration
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - write:field-configuration-scheme:jira
+  x-atlassian-connect-scope: ADMIN

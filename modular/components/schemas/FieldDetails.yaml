@@ -1,0 +1,44 @@
+type: object
+properties:
+  id:
+    type: string
+    description: The ID of the field.
+  key:
+    type: string
+    description: The key of the field.
+  name:
+    type: string
+    description: The name of the field.
+  custom:
+    type: boolean
+    description: Whether the field is a custom field.
+  orderable:
+    type: boolean
+    description: Whether the content of the field can be used to order lists.
+  navigable:
+    type: boolean
+    description: Whether the field can be used as a column on the issue navigator.
+  searchable:
+    type: boolean
+    description: Whether the content of the field can be searched.
+  clauseNames:
+    uniqueItems: true
+    type: array
+    description: >-
+      The names that can be used to reference the field in an advanced search.
+      For more information, see [Advanced searching - fields
+      reference](https://confluence.atlassian.com/x/gwORLQ).
+    items:
+      type: string
+  scope:
+    description: The scope of the field.
+    allOf:
+      - $ref: ./Scope.yaml
+  schema:
+    description: The data schema for the field.
+    allOf:
+      - $ref: ./JsonTypeBean.yaml
+additionalProperties: false
+description: Details about a field.
+xml:
+  name: field

@@ -1,0 +1,24 @@
+type: object
+properties:
+  id:
+    type: integer
+    description: The ID of the screen scheme.
+    format: int64
+  name:
+    type: string
+    description: The name of the screen scheme.
+  description:
+    type: string
+    description: The description of the screen scheme.
+  screens:
+    description: The IDs of the screens for the screen types of the screen scheme.
+    allOf:
+      - $ref: ./ScreenTypes.yaml
+  issueTypeScreenSchemes:
+    description: >-
+      Details of the issue type screen schemes associated with the screen
+      scheme.
+    allOf:
+      - $ref: ./PageBeanIssueTypeScreenScheme.yaml
+additionalProperties: false
+description: A screen scheme.

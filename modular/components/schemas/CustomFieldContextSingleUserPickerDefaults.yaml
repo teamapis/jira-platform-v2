@@ -1,0 +1,18 @@
+required:
+  - accountId
+  - contextId
+  - type
+  - userFilter
+type: object
+properties:
+  contextId:
+    type: string
+    description: The ID of the context.
+  accountId:
+    type: string
+    description: The ID of the default user.
+  userFilter:
+    $ref: ./UserFilter.yaml
+  type:
+    type: string
+description: Defaults for a User Picker (single) custom field.

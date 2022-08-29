@@ -1,0 +1,60 @@
+type: object
+additionalProperties: false
+discriminator:
+  propertyName: type
+  mapping:
+    option.cascading: ./CustomFieldContextDefaultValueCascadingOption.yaml
+    option.multiple: ./CustomFieldContextDefaultValueMultipleOption.yaml
+    option.single: ./CustomFieldContextDefaultValueSingleOption.yaml
+    single.user.select: ./CustomFieldContextSingleUserPickerDefaults.yaml
+    multi.user.select: ./CustomFieldContextDefaultValueMultiUserPicker.yaml
+    grouppicker.single: ./CustomFieldContextDefaultValueSingleGroupPicker.yaml
+    grouppicker.multiple: ./CustomFieldContextDefaultValueMultipleGroupPicker.yaml
+    datepicker: ./CustomFieldContextDefaultValueDate.yaml
+    datetimepicker: ./CustomFieldContextDefaultValueDateTime.yaml
+    url: ./CustomFieldContextDefaultValueURL.yaml
+    project: ./CustomFieldContextDefaultValueProject.yaml
+    float: ./CustomFieldContextDefaultValueFloat.yaml
+    labels: ./CustomFieldContextDefaultValueLabels.yaml
+    textfield: ./CustomFieldContextDefaultValueTextField.yaml
+    textarea: ./CustomFieldContextDefaultValueTextArea.yaml
+    readonly: ./CustomFieldContextDefaultValueReadOnly.yaml
+    version.single: ./CustomFieldContextDefaultValueSingleVersionPicker.yaml
+    version.multiple: ./CustomFieldContextDefaultValueMultipleVersionPicker.yaml
+    forge.string: ./CustomFieldContextDefaultValueForgeStringField.yaml
+    forge.string.list: ./CustomFieldContextDefaultValueForgeMultiStringField.yaml
+    forge.object: ./CustomFieldContextDefaultValueForgeObjectField.yaml
+    forge.datetime: ./CustomFieldContextDefaultValueForgeDateTimeField.yaml
+    forge.group: ./CustomFieldContextDefaultValueForgeGroupField.yaml
+    forge.group.list: ./CustomFieldContextDefaultValueForgeMultiGroupField.yaml
+    forge.number: ./CustomFieldContextDefaultValueForgeNumberField.yaml
+    forge.user: ./CustomFieldContextDefaultValueForgeUserField.yaml
+    forge.user.list: ./CustomFieldContextDefaultValueForgeMultiUserField.yaml
+oneOf:
+  - $ref: ./CustomFieldContextDefaultValueCascadingOption.yaml
+  - $ref: ./CustomFieldContextDefaultValueMultipleOption.yaml
+  - $ref: ./CustomFieldContextDefaultValueSingleOption.yaml
+  - $ref: ./CustomFieldContextSingleUserPickerDefaults.yaml
+  - $ref: ./CustomFieldContextDefaultValueMultiUserPicker.yaml
+  - $ref: ./CustomFieldContextDefaultValueSingleGroupPicker.yaml
+  - $ref: ./CustomFieldContextDefaultValueMultipleGroupPicker.yaml
+  - $ref: ./CustomFieldContextDefaultValueDate.yaml
+  - $ref: ./CustomFieldContextDefaultValueDateTime.yaml
+  - $ref: ./CustomFieldContextDefaultValueURL.yaml
+  - $ref: ./CustomFieldContextDefaultValueProject.yaml
+  - $ref: ./CustomFieldContextDefaultValueFloat.yaml
+  - $ref: ./CustomFieldContextDefaultValueLabels.yaml
+  - $ref: ./CustomFieldContextDefaultValueTextField.yaml
+  - $ref: ./CustomFieldContextDefaultValueTextArea.yaml
+  - $ref: ./CustomFieldContextDefaultValueReadOnly.yaml
+  - $ref: ./CustomFieldContextDefaultValueSingleVersionPicker.yaml
+  - $ref: ./CustomFieldContextDefaultValueMultipleVersionPicker.yaml
+  - $ref: ./CustomFieldContextDefaultValueForgeStringField.yaml
+  - $ref: ./CustomFieldContextDefaultValueForgeMultiStringField.yaml
+  - $ref: ./CustomFieldContextDefaultValueForgeObjectField.yaml
+  - $ref: ./CustomFieldContextDefaultValueForgeDateTimeField.yaml
+  - $ref: ./CustomFieldContextDefaultValueForgeGroupField.yaml
+  - $ref: ./CustomFieldContextDefaultValueForgeMultiGroupField.yaml
+  - $ref: ./CustomFieldContextDefaultValueForgeNumberField.yaml
+  - $ref: ./CustomFieldContextDefaultValueForgeUserField.yaml
+  - $ref: ./CustomFieldContextDefaultValueForgeMultiUserField.yaml

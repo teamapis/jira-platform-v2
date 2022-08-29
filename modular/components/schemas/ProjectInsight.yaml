@@ -1,0 +1,14 @@
+type: object
+properties:
+  totalIssueCount:
+    type: integer
+    description: Total issue count.
+    format: int64
+    readOnly: true
+  lastIssueUpdateTime:
+    type: string
+    description: The last issue update time.
+    format: date-time
+    readOnly: true
+additionalProperties: false
+description: Additional details about a project.

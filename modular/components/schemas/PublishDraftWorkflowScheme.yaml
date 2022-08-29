@@ -1,0 +1,10 @@
+type: object
+properties:
+  statusMappings:
+    uniqueItems: true
+    type: array
+    description: Mappings of statuses to new statuses for issue types.
+    items:
+      $ref: ./StatusMapping.yaml
+additionalProperties: false
+description: Details about the status mappings for publishing a draft workflow scheme.

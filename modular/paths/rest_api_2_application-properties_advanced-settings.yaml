@@ -1,0 +1,49 @@
+get:
+  tags:
+    - Jira settings
+  summary: Get advanced settings
+  description: >-
+    Returns the application properties that are accessible on the *Advanced
+    Settings* page. To navigate to the *Advanced Settings* page in Jira, choose
+    the Jira icon > **Jira settings** > **System**, **General Configuration**
+    and then click **Advanced Settings** (in the upper right).
+
+
+    **[Permissions](#permissions) required:** *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg).
+  operationId: getAdvancedSettings
+  parameters: []
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: ../components/schemas/ApplicationProperty.yaml
+          example: >-
+            [{"id":"jira.home","key":"jira.home","value":"/var/jira/jira-home","name":"jira.home","desc":"Jira
+            home
+            directory","type":"string","defaultValue":""},{"id":"jira.clone.prefix","key":"jira.clone.prefix","value":"CLONE
+            -","name":"The prefix added to the Summary field of cloned
+            issues","type":"string","defaultValue":"CLONE -"}]
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: Returned if the user is not an administrator.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-configuration
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-configuration
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:instance-configuration:jira
+  x-atlassian-connect-scope: ADMIN

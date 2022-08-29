@@ -1,0 +1,157 @@
+get:
+  tags:
+    - Workflow scheme project associations
+  summary: Get workflow scheme project associations
+  description: >-
+    Returns a list of the workflow schemes associated with a list of projects.
+    Each returned workflow scheme includes a list of the requested projects
+    associated with it. Any team-managed or non-existent projects in the request
+    are ignored and no errors are returned.
+
+
+    If the project is associated with the `Default Workflow Scheme` no ID is
+    returned. This is because the way the `Default Workflow Scheme` is stored
+    means it has no ID.
+
+
+    **[Permissions](#permissions) required:** *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg).
+  operationId: getWorkflowSchemeProjectAssociations
+  parameters:
+    - name: projectId
+      in: query
+      description: >-
+        The ID of a project to return the workflow schemes for. To include
+        multiple projects, provide an ampersand-Jim: oneseparated list. For
+        example, `projectId=10000&projectId=10001`.
+      required: true
+      schema:
+        maxItems: 100
+        minItems: 1
+        uniqueItems: true
+        type: array
+        items:
+          type: integer
+          format: int64
+          example: 10010
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ContainerOfWorkflowSchemeAssociations.yaml
+          example: >-
+            {"values":[{"projectIds":["10010","10020"],"workflowScheme":{"id":101010,"name":"Example
+            workflow scheme","description":"The description of the example
+            workflow
+            scheme.","defaultWorkflow":"jira","issueTypeMappings":{"10000":"scrum
+            workflow","10001":"builds
+            workflow"},"self":"https://your-domain.atlassian.net/rest/api/2/workflowscheme/101010"}}]}
+    '400':
+      description: Returned if the request is invalid.
+      content:
+        application/json:
+          example: >-
+            {"errorMessages":[],"errors":{"projectId":"The ID of a project has
+            to be provided."}}
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: Returned if the user does not have the necessary permission.
+      content:
+        application/json:
+          example: >-
+            {"errorMessages":["Only Jira administrators can access workflow
+            scheme associations."],"errors":{}}
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-configuration
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-configuration
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:workflow-scheme:jira
+        - read:workflow:jira
+        - read:application-role:jira
+        - read:avatar:jira
+        - read:group:jira
+        - read:issue-type:jira
+        - read:project-category:jira
+        - read:project:jira
+        - read:user:jira
+  x-atlassian-connect-scope: ADMIN
+put:
+  tags:
+    - Workflow scheme project associations
+  summary: Assign workflow scheme to project
+  description: >-
+    Assigns a workflow scheme to a project. This operation is performed only
+    when there are no issues in the project.
+
+
+    Workflow schemes can only be assigned to classic projects.
+
+
+    **[Permissions](#permissions) required:** *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg).
+  operationId: assignSchemeToProject
+  parameters: []
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/WorkflowSchemeProjectAssociation.yaml
+        example:
+          workflowSchemeId: '10032'
+          projectId: '10001'
+    required: true
+  responses:
+    '204':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema: {}
+    '400':
+      description: Returned if the request is not valid.
+      content:
+        application/json:
+          example: >-
+            {"errorMessages":["Only classic projects can have workflow schemes
+            assigned."],"errors":{}}
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: Returned if the user does not have the required permissions.
+      content:
+        application/json:
+          example: >-
+            {"errorMessages":["Only Jira administrators can access workflow
+            scheme associations."],"errors":{}}
+    '404':
+      description: Returned if the workflow scheme or the project are not found.
+      content:
+        application/json:
+          example: '{"errorMessages":["The workflow scheme was not found."],"errors":{}}'
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-configuration
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-configuration
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - write:workflow-scheme:jira
+  x-experimental: true
+  x-atlassian-connect-scope: ADMIN

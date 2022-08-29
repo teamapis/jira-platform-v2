@@ -1,0 +1,46 @@
+get:
+  tags:
+    - Project key and name validation
+  summary: Validate project key
+  description: >-
+    Validates a project key by confirming the key is a valid string and not in
+    use.
+
+
+    **[Permissions](#permissions) required:** None.
+  operationId: validateProjectKey
+  parameters:
+    - name: key
+      in: query
+      description: The project key.
+      schema:
+        type: string
+        example: HSP
+      x-showInExample: 'true'
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ErrorCollection.yaml
+          example: >-
+            {"errorMessages":[],"errors":{"projectKey":"A project with that
+            project key already exists."}}
+    '401':
+      description: Returned if the authentication credentials are incorrect.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - read:jira-work
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - read:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:project:jira
+  x-atlassian-connect-scope: READ

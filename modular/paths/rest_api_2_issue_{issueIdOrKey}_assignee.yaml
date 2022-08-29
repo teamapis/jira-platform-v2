@@ -1,0 +1,72 @@
+put:
+  tags:
+    - Issues
+  summary: Assign issue
+  description: >-
+    Assigns an issue to a user. Use this operation when the calling user does
+    not have the *Edit Issues* permission but has the *Assign issue* permission
+    for the project that the issue is in.
+
+
+    If `name` or `accountId` is set to:
+
+     *  `"-1"`, the issue is assigned to the default assignee for the project.
+     *  `null`, the issue is set to unassigned.
+
+    This operation can be accessed anonymously.
+
+
+    **[Permissions](#permissions) required:**
+
+     *  *Browse Projects* and *Assign Issues* [ project permission](https://confluence.atlassian.com/x/yodKLg) for the project that the issue is in.
+     *  If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue.
+  operationId: assignIssue
+  parameters:
+    - name: issueIdOrKey
+      in: path
+      description: The ID or key of the issue to be assigned.
+      required: true
+      schema:
+        type: string
+  requestBody:
+    description: The request object with the user that the issue is assigned to.
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/User.yaml
+        example:
+          accountId: 5b10ac8d82e05b22cc7d4ef5
+    required: true
+  responses:
+    '204':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema: {}
+    '400':
+      description: |-
+        Returned if:
+
+         *  the user is not found.
+         *  `name`, `key`, or `accountId` is missing.
+         *  more than one of `name`, `key`, and `accountId` are provided.
+    '403':
+      description: Returned if the user does not have the necessary permission.
+    '404':
+      description: Returned if the issue is not found.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - write:jira-work
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - write:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - write:issue:jira
+  x-atlassian-connect-scope: WRITE

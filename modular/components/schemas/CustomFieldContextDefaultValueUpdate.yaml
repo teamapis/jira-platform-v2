@@ -1,0 +1,8 @@
+type: object
+properties:
+  defaultValues:
+    type: array
+    items:
+      $ref: ./CustomFieldContextDefaultValue.yaml
+additionalProperties: false
+description: Default values to update.

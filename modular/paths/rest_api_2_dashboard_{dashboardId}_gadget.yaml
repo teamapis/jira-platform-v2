@@ -1,0 +1,178 @@
+get:
+  tags:
+    - Dashboards
+  summary: Get gadgets
+  description: |-
+    Returns a list of dashboard gadgets on a dashboard.
+
+    This operation returns:
+
+     *  Gadgets from a list of IDs, when `id` is set.
+     *  Gadgets with a module key, when `moduleKey` is set.
+     *  Gadgets from a list of URIs, when `uri` is set.
+     *  All gadgets, when no other parameters are set.
+
+    This operation can be accessed anonymously.
+
+    **[Permissions](#permissions) required:** None.
+  operationId: getAllGadgets
+  parameters:
+    - name: dashboardId
+      in: path
+      description: The ID of the dashboard.
+      required: true
+      schema:
+        type: integer
+        format: int64
+    - name: moduleKey
+      in: query
+      description: >-
+        The list of gadgets module keys. To include multiple module keys,
+        separate module keys with ampersand:
+        `moduleKey=key:one&moduleKey=key:two`.
+      schema:
+        type: array
+        items:
+          type: string
+    - name: uri
+      in: query
+      description: >-
+        The list of gadgets URIs. To include multiple URIs, separate URIs with
+        ampersand: `uri=/rest/example/uri/1&uri=/rest/example/uri/2`.
+      schema:
+        type: array
+        items:
+          type: string
+    - name: gadgetId
+      in: query
+      description: >-
+        The list of gadgets IDs. To include multiple IDs, separate IDs with
+        ampersand: `gadgetId=10000&gadgetId=10001`.
+      schema:
+        type: array
+        items:
+          type: integer
+          format: int64
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/DashboardGadgetResponse.yaml
+          example: >-
+            {"gadgets":[{"id":10001,"moduleKey":"com.atlassian.plugins.atlassian-connect-plugin:com.atlassian.connect.node.sample-addon__sample-dashboard-item","color":"blue","position":{"row":0,"column":0},"title":"Issue
+            statistics"},{"id":10002,"moduleKey":"com.atlassian.plugins.atlassian-connect-plugin:com.atlassian.connect.node.sample-addon__sample-dashboard-graph","color":"red","position":{"row":1,"column":0},"title":"Activity
+            stream"},{"id":10003,"moduleKey":"com.atlassian.plugins.atlassian-connect-plugin:com.atlassian.connect.node.sample-addon__sample-dashboard-item","color":"yellow","position":{"row":0,"column":1},"title":"Bubble
+            chart"}]}
+    '401':
+      description: Returned if the authentication credentials are incorrect.
+    '404':
+      description: Returned if the dashboard is not found.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ErrorCollection.yaml
+          example: >-
+            {"errorMessages":["The dashboard you requested either does not exist
+            or you don't have the required permissions to perform this
+            action."],"errors":{}}
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - read:jira-work
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - read:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:dashboard:jira
+  x-experimental: true
+  x-atlassian-connect-scope: READ
+post:
+  tags:
+    - Dashboards
+  summary: Add gadget to dashboard
+  description: |-
+    Adds a gadget to a dashboard.
+
+    **[Permissions](#permissions) required:** None.
+  operationId: addGadget
+  parameters:
+    - name: dashboardId
+      in: path
+      description: The ID of the dashboard.
+      required: true
+      schema:
+        type: integer
+        format: int64
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/DashboardGadgetSettings.yaml
+        example:
+          color: blue
+          ignoreUriAndModuleKeyValidation: false
+          position:
+            column: 1
+            row: 0
+          title: Issue statistics
+          moduleKey: >-
+            com.atlassian.plugins.atlassian-connect-plugin:com.atlassian.connect.node.sample-addon__sample-dashboard-item
+    required: true
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/DashboardGadget.yaml
+          example: >-
+            {"id":10001,"moduleKey":"com.atlassian.plugins.atlassian-connect-plugin:com.atlassian.connect.node.sample-addon__sample-dashboard-item","color":"blue","position":{"row":0,"column":1},"title":"Issue
+            statistics"}
+    '400':
+      description: Returned if the request is invalid.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ErrorCollection.yaml
+          example: >-
+            {"errorMessages":["Cannot add another gadget. The maximum number of
+            gadgets the dashboard can hold has been reached."],"errors":{}}
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '404':
+      description: Returned if the dashboard is not found.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ErrorCollection.yaml
+          example: >-
+            {"errorMessages":["The dashboard you requested either does not exist
+            or you don't have the required permissions to perform this
+            action."],"errors":{}}
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - write:jira-work
+        - read:jira-work
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - write:jira-work
+        - read:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - write:dashboard:jira
+        - read:dashboard:jira
+  x-experimental: true
+  x-atlassian-connect-scope: WRITE

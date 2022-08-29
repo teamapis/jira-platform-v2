@@ -1,0 +1,9 @@
+type: object
+properties:
+  queueId:
+    type: integer
+    format: int64
+  queueName:
+    type: string
+  queueCategory:
+    type: string

@@ -1,0 +1,22 @@
+type: object
+properties:
+  moveFixIssuesTo:
+    type: integer
+    description: >-
+      The ID of the version to update `fixVersion` to when the field contains
+      the deleted version.
+    format: int64
+  moveAffectedIssuesTo:
+    type: integer
+    description: >-
+      The ID of the version to update `affectedVersion` to when the field
+      contains the deleted version.
+    format: int64
+  customFieldReplacementList:
+    type: array
+    description: >-
+      An array of custom field IDs (`customFieldId`) and version IDs (`moveTo`)
+      to update when the fields contain the deleted version.
+    items:
+      $ref: ./CustomFieldReplacement.yaml
+additionalProperties: false

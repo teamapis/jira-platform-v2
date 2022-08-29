@@ -1,0 +1,13 @@
+required:
+  - type
+type: object
+properties:
+  values:
+    type: array
+    description: List of string values. The maximum length for a value is 254 characters.
+    items:
+      type: string
+      description: List of string values. The maximum length for a value is 254 characters.
+  type:
+    type: string
+description: The default text for a Forge collection of strings custom field.

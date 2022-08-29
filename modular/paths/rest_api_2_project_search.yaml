@@ -1,0 +1,244 @@
+get:
+  tags:
+    - Projects
+  summary: Get projects paginated
+  description: >-
+    Returns a [paginated](#pagination) list of projects visible to the user.
+
+
+    This operation can be accessed anonymously.
+
+
+    **[Permissions](#permissions) required:** Projects are returned only where
+    the user has one of:
+
+     *  *Browse Projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project.
+     *  *Administer Projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project.
+     *  *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg).
+  operationId: searchProjects
+  parameters:
+    - name: startAt
+      in: query
+      description: >-
+        The index of the first item to return in a page of results (page
+        offset).
+      schema:
+        type: integer
+        format: int64
+        default: 0
+    - name: maxResults
+      in: query
+      description: The maximum number of items to return per page.
+      schema:
+        type: integer
+        format: int32
+        default: 50
+    - name: orderBy
+      in: query
+      description: |-
+        [Order](#ordering) the results by a field.
+
+         *  `category` Sorts by project category. A complete list of category IDs is found using [Get all project categories](#api-rest-api-2-projectCategory-get).
+         *  `issueCount` Sorts by the total number of issues in each project.
+         *  `key` Sorts by project key.
+         *  `lastIssueUpdatedTime` Sorts by the last issue update time.
+         *  `name` Sorts by project name.
+         *  `owner` Sorts by project lead.
+         *  `archivedDate` EXPERIMENTAL. Sorts by project archived date.
+         *  `deletedDate` EXPERIMENTAL. Sorts by project deleted date.
+      schema:
+        type: string
+        default: key
+        enum:
+          - category
+          - '-category'
+          - +category
+          - key
+          - '-key'
+          - +key
+          - name
+          - '-name'
+          - +name
+          - owner
+          - '-owner'
+          - +owner
+          - issueCount
+          - '-issueCount'
+          - +issueCount
+          - lastIssueUpdatedDate
+          - '-lastIssueUpdatedDate'
+          - +lastIssueUpdatedDate
+          - archivedDate
+          - +archivedDate
+          - '-archivedDate'
+          - deletedDate
+          - +deletedDate
+          - '-deletedDate'
+    - name: id
+      in: query
+      description: >-
+        The project IDs to filter the results by. To include multiple IDs,
+        provide an ampersand-separated list. For example, `id=10000&id=10001`.
+        Up to 50 project IDs can be provided.
+      schema:
+        uniqueItems: true
+        type: array
+        items:
+          type: integer
+          format: int64
+    - name: keys
+      in: query
+      description: >-
+        The project keys to filter the results by. To include multiple keys,
+        provide an ampersand-separated list. For example, `keys=PA&keys=PB`. Up
+        to 50 project keys can be provided.
+      schema:
+        uniqueItems: true
+        type: array
+        items:
+          type: string
+    - name: query
+      in: query
+      description: >-
+        Filter the results using a literal string. Projects with a matching
+        `key` or `name` are returned (case insensitive).
+      schema:
+        type: string
+    - name: typeKey
+      in: query
+      description: >-
+        Orders results by the [project
+        type](https://confluence.atlassian.com/x/GwiiLQ#Jiraapplicationsoverview-Productfeaturesandprojecttypes).
+        This parameter accepts a comma-separated list. Valid values are
+        `business`, `service_desk`, and `software`.
+      schema:
+        type: string
+    - name: categoryId
+      in: query
+      description: >-
+        The ID of the project's category. A complete list of category IDs is
+        found using the [Get all project
+        categories](#api-rest-api-2-projectCategory-get) operation.
+      schema:
+        type: integer
+        format: int64
+    - name: action
+      in: query
+      description: |-
+        Filter results by projects for which the user can:
+
+         *  `view` the project, meaning that they have one of the following permissions:
+            
+             *  *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project.
+             *  *Administer projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project.
+             *  *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg).
+         *  `browse` the project, meaning that they have the *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project.
+         *  `edit` the project, meaning that they have one of the following permissions:
+            
+             *  *Administer projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project.
+             *  *Administer Jira* [global permission](https://confluence.atlassian.com/x/x4dKLg).
+      schema:
+        type: string
+        default: view
+        enum:
+          - view
+          - browse
+          - edit
+    - name: expand
+      in: query
+      description: >-
+        Use [expand](#expansion) to include additional information in the
+        response. This parameter accepts a comma-separated list. Expanded
+        options include:
+
+         *  `description` Returns the project description.
+         *  `projectKeys` Returns all project keys associated with a project.
+         *  `lead` Returns information about the project lead.
+         *  `issueTypes` Returns all issue types associated with the project.
+         *  `url` Returns the URL associated with the project.
+         *  `insight` EXPERIMENTAL. Returns the insight details of total issue count and last issue update time for the project.
+      schema:
+        type: string
+    - name: status
+      in: query
+      description: |-
+        EXPERIMENTAL. Filter results by project status:
+
+         *  `live` Search live projects.
+         *  `archived` Search archived projects.
+         *  `deleted` Search deleted projects, those in the recycle bin.
+      schema:
+        type: array
+        items:
+          type: string
+          default: live
+          enum:
+            - live
+            - archived
+            - deleted
+    - name: properties
+      in: query
+      description: >-
+        EXPERIMENTAL. A list of project properties to return for the project.
+        This parameter accepts a comma-separated list.
+      schema:
+        type: array
+        items:
+          $ref: ../components/schemas/StringList.yaml
+    - name: propertyQuery
+      in: query
+      description: >-
+        EXPERIMENTAL. A query string used to search properties. The query string
+        cannot be specified using a JSON object. For example, to search for the
+        value of `nested` from `{"something":{"nested":1,"other":2}}` use
+        `[thepropertykey].something.nested=1`. Note that the propertyQuery key
+        is enclosed in square brackets to enable searching where the
+        propertyQuery key includes dot (.) or equals (=) characters. Note that
+        `thepropertykey` is only returned when included in `properties`.
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/PageBeanProject.yaml
+          example: >-
+            {"self":"https://your-domain.atlassian.net/rest/api/2/project/search?startAt=0&maxResults=2","nextPage":"https://your-domain.atlassian.net/rest/api/2/project/search?startAt=2&maxResults=2","maxResults":2,"startAt":0,"total":7,"isLast":false,"values":[{"self":"https://your-domain.atlassian.net/rest/api/2/project/EX","id":"10000","key":"EX","name":"Example","avatarUrls":{"48x48":"https://your-domain.atlassian.net/secure/projectavatar?size=large&pid=10000","24x24":"https://your-domain.atlassian.net/secure/projectavatar?size=small&pid=10000","16x16":"https://your-domain.atlassian.net/secure/projectavatar?size=xsmall&pid=10000","32x32":"https://your-domain.atlassian.net/secure/projectavatar?size=medium&pid=10000"},"projectCategory":{"self":"https://your-domain.atlassian.net/rest/api/2/projectCategory/10000","id":"10000","name":"FIRST","description":"First
+            Project
+            Category"},"simplified":false,"style":"classic","insight":{"totalIssueCount":100,"lastIssueUpdateTime":"2022-08-25T16:11:09.604+0000"}},{"self":"https://your-domain.atlassian.net/rest/api/2/project/ABC","id":"10001","key":"ABC","name":"Alphabetical","avatarUrls":{"48x48":"https://your-domain.atlassian.net/secure/projectavatar?size=large&pid=10001","24x24":"https://your-domain.atlassian.net/secure/projectavatar?size=small&pid=10001","16x16":"https://your-domain.atlassian.net/secure/projectavatar?size=xsmall&pid=10001","32x32":"https://your-domain.atlassian.net/secure/projectavatar?size=medium&pid=10001"},"projectCategory":{"self":"https://your-domain.atlassian.net/rest/api/2/projectCategory/10000","id":"10000","name":"FIRST","description":"First
+            Project
+            Category"},"simplified":false,"style":"classic","insight":{"totalIssueCount":100,"lastIssueUpdateTime":"2022-08-25T16:11:09.604+0000"}}]}
+    '400':
+      description: Returned if the request is not valid.
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '404':
+      description: Returned if no projects matching the search criteria are found.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - read:jira-work
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - read:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:issue-type:jira
+        - read:project:jira
+        - read:project.property:jira
+        - read:user:jira
+        - read:application-role:jira
+        - read:avatar:jira
+        - read:group:jira
+        - read:issue-type-hierarchy:jira
+        - read:project-category:jira
+        - read:project-version:jira
+        - read:project.component:jira
+  x-atlassian-connect-scope: READ

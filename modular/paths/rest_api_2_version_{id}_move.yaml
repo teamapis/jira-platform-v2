@@ -1,0 +1,73 @@
+post:
+  tags:
+    - Project versions
+  summary: Move version
+  description: >-
+    Modifies the version's sequence within the project, which affects the
+    display order of the versions in Jira.
+
+
+    This operation can be accessed anonymously.
+
+
+    **[Permissions](#permissions) required:** *Browse projects* project
+    permission for the project that contains the version.
+  operationId: moveVersion
+  parameters:
+    - name: id
+      in: path
+      description: The ID of the version to be moved.
+      required: true
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/VersionMoveBean.yaml
+        example:
+          after: https://your-domain.atlassian.net/rest/api/~ver~/version/10000
+    required: true
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/Version.yaml
+          example: >-
+            {"self":"https://your-domain.atlassian.net/rest/api/2/version/10000","id":"10000","description":"An
+            excellent version","name":"New Version
+            1","archived":false,"released":true,"releaseDate":"2010-07-06","overdue":true,"userReleaseDate":"6/Jul/2010","projectId":10000}
+    '400':
+      description: |-
+        Returned if:
+
+         *  no body parameters are provided.
+         *  `after` and `position` are provided.
+         *  `position` is invalid.
+    '401':
+      description: |-
+        Returned if:
+
+         *  the authentication credentials are incorrect or missing
+         *  the user does not have the required commissions.
+    '404':
+      description: Returned if the version or move after version are not found.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-project
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-project
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - write:project-version:jira
+        - read:project-version:jira
+  x-atlassian-connect-scope: PROJECT_ADMIN

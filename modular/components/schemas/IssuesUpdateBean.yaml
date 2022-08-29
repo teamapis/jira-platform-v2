@@ -1,0 +1,7 @@
+type: object
+properties:
+  issueUpdates:
+    type: array
+    items:
+      $ref: ./IssueUpdateDetails.yaml
+additionalProperties: true

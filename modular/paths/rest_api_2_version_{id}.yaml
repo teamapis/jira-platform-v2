@@ -1,0 +1,225 @@
+get:
+  tags:
+    - Project versions
+  summary: Get version
+  description: >-
+    Returns a project version.
+
+
+    This operation can be accessed anonymously.
+
+
+    **[Permissions](#permissions) required:** *Browse projects* [project
+    permission](https://confluence.atlassian.com/x/yodKLg) for the project
+    containing the version.
+  operationId: getVersion
+  parameters:
+    - name: id
+      in: path
+      description: The ID of the version.
+      required: true
+      schema:
+        type: string
+    - name: expand
+      in: query
+      description: >-
+        Use [expand](#expansion) to include additional information about version
+        in the response. This parameter accepts a comma-separated list. Expand
+        options include:
+
+         *  `operations` Returns the list of operations available for this version.
+         *  `issuesstatus` Returns the count of issues in this version for each of the status categories *to do*, *in progress*, *done*, and *unmapped*. The *unmapped* property represents the number of issues with a status other than *to do*, *in progress*, and *done*.
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/Version.yaml
+          example: >-
+            {"self":"https://your-domain.atlassian.net/rest/api/2/version/10000","id":"10000","description":"An
+            excellent version","name":"New Version
+            1","archived":false,"released":true,"releaseDate":"2010-07-06","overdue":true,"userReleaseDate":"6/Jul/2010","projectId":10000}
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '404':
+      description: >-
+        Returned if the version is not found or the user does not have the
+        necessary permission.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - read:jira-work
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - read:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:project-version:jira
+  x-atlassian-connect-scope: READ
+put:
+  tags:
+    - Project versions
+  summary: Update version
+  description: >-
+    Updates a project version.
+
+
+    This operation can be accessed anonymously.
+
+
+    **[Permissions](#permissions) required:** *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg) or *Administer
+    Projects* [project permission](https://confluence.atlassian.com/x/yodKLg)
+    for the project that contains the version.
+  operationId: updateVersion
+  parameters:
+    - name: id
+      in: path
+      description: The ID of the version.
+      required: true
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/Version.yaml
+        example:
+          archived: false
+          overdue: true
+          releaseDate: '2010-07-06'
+          name: New Version 1
+          self: https://your-domain.atlassian.net/rest/api/~ver~/version/10000
+          description: An excellent version
+          userReleaseDate: 6/Jul/2010
+          id: '10000'
+          projectId: 10000
+          released: true
+    required: true
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/Version.yaml
+          example: >-
+            {"self":"https://your-domain.atlassian.net/rest/api/2/version/10000","id":"10000","description":"An
+            excellent version","name":"New Version
+            1","archived":false,"released":true,"releaseDate":"2010-07-06","userReleaseDate":"6/Jul/2010","project":"PXA","projectId":10000}
+    '400':
+      description: |-
+        Returned if:
+
+         *  the request is invalid.
+         *  the user does not have the required permissions.
+    '401':
+      description: Returned if the authentication credentials are incorrect.
+    '404':
+      description: Returned if the version is not found.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-project
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-project
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - write:project-version:jira
+        - read:project-version:jira
+  x-atlassian-connect-scope: PROJECT_ADMIN
+delete:
+  tags:
+    - Project versions
+  summary: Delete version
+  description: >-
+    Deletes a project version.
+
+
+    Deprecated, use [ Delete and replace
+    version](#api-rest-api-2-version-id-removeAndSwap-post) that supports
+    swapping version values in custom fields, in addition to the swapping for
+    `fixVersion` and `affectedVersion` provided in this resource.
+
+
+    Alternative versions can be provided to update issues that use the deleted
+    version in `fixVersion` or `affectedVersion`. If alternatives are not
+    provided, occurrences of `fixVersion` and `affectedVersion` that contain the
+    deleted version are cleared.
+
+
+    This operation can be accessed anonymously.
+
+
+    **[Permissions](#permissions) required:** *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg) or *Administer
+    Projects* [project permission](https://confluence.atlassian.com/x/yodKLg)
+    for the project that contains the version.
+  operationId: deleteVersion
+  parameters:
+    - name: id
+      in: path
+      description: The ID of the version.
+      required: true
+      schema:
+        type: string
+    - name: moveFixIssuesTo
+      in: query
+      description: >-
+        The ID of the version to update `fixVersion` to when the field contains
+        the deleted version. The replacement version must be in the same project
+        as the version being deleted and cannot be the version being deleted.
+      schema:
+        type: string
+    - name: moveAffectedIssuesTo
+      in: query
+      description: >-
+        The ID of the version to update `affectedVersion` to when the field
+        contains the deleted version. The replacement version must be in the
+        same project as the version being deleted and cannot be the version
+        being deleted.
+      schema:
+        type: string
+  responses:
+    '204':
+      description: Returned if the version is deleted.
+    '400':
+      description: Returned if the request is invalid.
+    '401':
+      description: |-
+        Returned if:
+
+         *  the authentication credentials are incorrect.
+         *  the user does not have the required permissions.
+    '404':
+      description: Returned if the version is not found.
+  deprecated: true
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-project
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-project
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - delete:project-version:jira
+  x-atlassian-connect-scope: PROJECT_ADMIN

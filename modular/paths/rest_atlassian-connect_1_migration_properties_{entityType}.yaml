@@ -1,0 +1,51 @@
+put:
+  tags:
+    - App migration
+  summary: Bulk update entity properties
+  description: >-
+    Updates the values of multiple entity properties for an object, up to 50
+    updates per request. This operation is for use by Connect apps during app
+    migration.
+  operationId: MigrationResource.updateEntityPropertiesValue_put
+  parameters:
+    - name: Atlassian-Transfer-Id
+      in: header
+      description: The app migration transfer ID.
+      required: true
+      schema:
+        type: string
+        format: uuid
+    - name: entityType
+      in: path
+      description: The type indicating the object that contains the entity properties.
+      required: true
+      schema:
+        type: string
+        enum:
+          - IssueProperty
+          - CommentProperty
+          - DashboardItemProperty
+          - IssueTypeProperty
+          - ProjectProperty
+          - UserProperty
+          - WorklogProperty
+          - BoardProperty
+          - SprintProperty
+  requestBody:
+    content:
+      application/json:
+        schema:
+          maxItems: 50
+          minItems: 1
+          type: array
+          items:
+            $ref: ../components/schemas/EntityPropertyDetails.yaml
+    required: true
+  responses:
+    '200':
+      description: Returned if the request is successful.
+    '400':
+      description: Returned if the request is not valid.
+    '403':
+      description: Returned if the authorisation credentials are incorrect or missing.
+  x-atlassian-connect-scope: NONE

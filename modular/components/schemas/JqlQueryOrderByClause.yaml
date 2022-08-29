@@ -1,0 +1,11 @@
+required:
+  - fields
+type: object
+properties:
+  fields:
+    type: array
+    description: The list of order-by clause fields and their ordering directives.
+    items:
+      $ref: ./JqlQueryOrderByClauseElement.yaml
+additionalProperties: false
+description: Details of the order-by JQL clause.

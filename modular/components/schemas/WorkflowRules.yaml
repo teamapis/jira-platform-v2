@@ -1,0 +1,16 @@
+type: object
+properties:
+  conditionsTree:
+    $ref: ./WorkflowCondition.yaml
+  validators:
+    type: array
+    description: The workflow validators.
+    items:
+      $ref: ./WorkflowTransitionRule.yaml
+  postFunctions:
+    type: array
+    description: The workflow post functions.
+    items:
+      $ref: ./WorkflowTransitionRule.yaml
+additionalProperties: false
+description: A collection of transition rules.

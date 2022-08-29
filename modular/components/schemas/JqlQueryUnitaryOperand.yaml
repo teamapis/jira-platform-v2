@@ -1,0 +1,6 @@
+type: object
+description: An operand that can be part of a list operand.
+anyOf:
+  - $ref: ./ValueOperand.yaml
+  - $ref: ./FunctionOperand.yaml
+  - $ref: ./KeywordOperand.yaml

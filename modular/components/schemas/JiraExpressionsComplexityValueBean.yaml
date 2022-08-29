@@ -1,0 +1,16 @@
+required:
+  - limit
+  - value
+type: object
+properties:
+  value:
+    type: integer
+    description: The complexity value of the current expression.
+    format: int32
+  limit:
+    type: integer
+    description: >-
+      The maximum allowed complexity. The evaluation will fail if this value is
+      exceeded.
+    format: int32
+additionalProperties: false

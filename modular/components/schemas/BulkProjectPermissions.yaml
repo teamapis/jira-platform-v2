@@ -1,0 +1,26 @@
+required:
+  - permissions
+type: object
+properties:
+  issues:
+    uniqueItems: true
+    type: array
+    description: List of issue IDs.
+    items:
+      type: integer
+      format: int64
+  projects:
+    uniqueItems: true
+    type: array
+    description: List of project IDs.
+    items:
+      type: integer
+      format: int64
+  permissions:
+    uniqueItems: true
+    type: array
+    description: List of project permissions.
+    items:
+      type: string
+additionalProperties: false
+description: Details of project permissions and associated issues and projects to look up.

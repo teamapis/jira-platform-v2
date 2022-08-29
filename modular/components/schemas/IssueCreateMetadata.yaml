@@ -1,0 +1,16 @@
+type: object
+properties:
+  expand:
+    type: string
+    description: Expand options that include additional project details in the response.
+    readOnly: true
+    xml:
+      attribute: true
+  projects:
+    type: array
+    description: List of projects and their issue creation metadata.
+    readOnly: true
+    items:
+      $ref: ./ProjectIssueCreateMetadata.yaml
+additionalProperties: false
+description: The wrapper for the issue creation metadata for a list of projects.

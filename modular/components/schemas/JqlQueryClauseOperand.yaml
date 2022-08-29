@@ -1,0 +1,7 @@
+type: object
+description: Details of an operand in a JQL clause.
+anyOf:
+  - $ref: ./ListOperand.yaml
+  - $ref: ./ValueOperand.yaml
+  - $ref: ./FunctionOperand.yaml
+  - $ref: ./KeywordOperand.yaml

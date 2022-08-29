@@ -1,0 +1,14 @@
+required:
+  - scope
+  - statuses
+type: object
+properties:
+  statuses:
+    type: array
+    description: Details of the statuses being created.
+    items:
+      $ref: ./StatusCreate.yaml
+  scope:
+    $ref: ./StatusScope.yaml
+additionalProperties: false
+description: Details of the statuses being created and their scope.

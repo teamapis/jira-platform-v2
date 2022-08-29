@@ -1,0 +1,62 @@
+put:
+  tags:
+    - Issue priorities
+  summary: Set default priority
+  description: >-
+    Sets default issue priority.
+
+
+    **[Permissions](#permissions) required:** *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg).
+  operationId: setDefaultPriority
+  parameters: []
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/SetDefaultPriorityRequest.yaml
+        example:
+          id: '3'
+    required: true
+  responses:
+    '204':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema: {}
+    '400':
+      description: Returned if the request is not valid.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ErrorCollection.yaml
+          example: '{"errorMessages":["The id has to be provided."],"errors":{}}'
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ErrorCollection.yaml
+    '403':
+      description: Returned if the user does not have the necessary permission.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ErrorCollection.yaml
+          example: >-
+            {"errorMessages":["Only Jira administrators can access issue
+            priorities."],"errors":{}}
+    '404':
+      description: Returned if the issue priority is not found.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ErrorCollection.yaml
+          example: '{"errorMessages":["Priority with ID 10000 not found."],"errors":{}}'
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-configuration
+  x-experimental: true
+  x-atlassian-connect-scope: INACCESSIBLE

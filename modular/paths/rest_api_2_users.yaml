@@ -1,0 +1,72 @@
+get:
+  tags:
+    - Users
+  summary: Get all users default
+  description: >-
+    Returns a list of all users, including active users, inactive users and
+    previously deleted users that have an Atlassian account.
+
+
+    Privacy controls are applied to the response based on the users'
+    preferences. This could mean, for example, that the user's email address is
+    hidden. See the [Profile visibility
+    overview](https://developer.atlassian.com/cloud/jira/platform/profile-visibility/)
+    for more details.
+
+
+    **[Permissions](#permissions) required:** *Browse users and groups* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg).
+  operationId: getAllUsersDefault
+  parameters:
+    - name: startAt
+      in: query
+      description: The index of the first item to return.
+      schema:
+        type: integer
+        format: int32
+        default: 0
+    - name: maxResults
+      in: query
+      description: The maximum number of items to return.
+      schema:
+        type: integer
+        format: int32
+        default: 50
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: ../components/schemas/User.yaml
+          example: >-
+            [{"self":"https://your-domain.atlassian.net/rest/api/2/user?accountId=5b10a2844c20165700ede21g","key":"","accountId":"5b10a2844c20165700ede21g","accountType":"atlassian","name":"","avatarUrls":{"48x48":"https://avatar-management--avatars.server-location.prod.public.atl-paas.net/initials/MK-5.png?size=48&s=48","24x24":"https://avatar-management--avatars.server-location.prod.public.atl-paas.net/initials/MK-5.png?size=24&s=24","16x16":"https://avatar-management--avatars.server-location.prod.public.atl-paas.net/initials/MK-5.png?size=16&s=16","32x32":"https://avatar-management--avatars.server-location.prod.public.atl-paas.net/initials/MK-5.png?size=32&s=32"},"displayName":"Mia
+            Krystof","active":false},{"self":"https://your-domain.atlassian.net/rest/api/2/user?accountId=5b10ac8d82e05b22cc7d4ef5","key":"","accountId":"5b10ac8d82e05b22cc7d4ef5","accountType":"atlassian","name":"","avatarUrls":{"48x48":"https://avatar-management--avatars.server-location.prod.public.atl-paas.net/initials/AA-3.png?size=48&s=48","24x24":"https://avatar-management--avatars.server-location.prod.public.atl-paas.net/initials/AA-3.png?size=24&s=24","16x16":"https://avatar-management--avatars.server-location.prod.public.atl-paas.net/initials/AA-3.png?size=16&s=16","32x32":"https://avatar-management--avatars.server-location.prod.public.atl-paas.net/initials/AA-3.png?size=32&s=32"},"displayName":"Emma
+            Richards","active":false}]
+    '400':
+      description: Returned if the request is invalid.
+    '403':
+      description: Returned if the user doesn't have the necessary permission.
+    '409':
+      description: Returned if the request takes longer than 10 seconds or is interrupted.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - read:jira-user
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - read:jira-user
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:user:jira
+        - read:application-role:jira
+        - read:avatar:jira
+        - read:group:jira
+  x-atlassian-connect-scope: INACCESSIBLE

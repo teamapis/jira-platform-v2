@@ -1,0 +1,49 @@
+get:
+  tags:
+    - Dashboards
+  summary: Get available gadgets
+  description: |-
+    Gets a list of all available gadgets that can be added to all dashboards.
+
+    **[Permissions](#permissions) required:** None.
+  operationId: getAllAvailableDashboardGadgets
+  parameters: []
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/AvailableDashboardGadgetsResponse.yaml
+          example: >-
+            {"gadgets":[{"moduleKey":"com.atlassian.plugins.atlassian-connect-plugin:com.atlassian.connect.node.sample-addon__sample-dashboard-item","title":"Issue
+            statistics"},{"uri":"rest/gadgets/1.0/g/com.atlassian.streams.streams-jira-plugin:activitystream-gadget/gadgets/activitystream-gadget.xml","title":"Activity
+            Stream"}]}
+    '400':
+      description: 400 response
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ErrorCollection.yaml
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ErrorCollection.yaml
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - read:jira-work
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - read:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:dashboard:jira
+  x-experimental: true
+  x-atlassian-connect-scope: READ

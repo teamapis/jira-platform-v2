@@ -1,0 +1,14 @@
+required:
+  - queries
+type: object
+properties:
+  queries:
+    type: array
+    description: >-
+      The list of JQL queries to sanitize. Must contain unique values. Maximum
+      of 20 queries.
+    items:
+      $ref: ./JqlQueryToSanitize.yaml
+additionalProperties: false
+description: The list of JQL queries to sanitize for the given account IDs.
+writeOnly: true

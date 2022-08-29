@@ -1,0 +1,164 @@
+get:
+  tags:
+    - Issue type schemes
+  summary: Get issue type schemes for projects
+  description: >-
+    Returns a [paginated](#pagination) list of issue type schemes and, for each
+    issue type scheme, a list of the projects that use it.
+
+
+    Only issue type schemes used in classic projects are returned.
+
+
+    **[Permissions](#permissions) required:** *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg).
+  operationId: getIssueTypeSchemeForProjects
+  parameters:
+    - name: startAt
+      in: query
+      description: >-
+        The index of the first item to return in a page of results (page
+        offset).
+      schema:
+        type: integer
+        format: int64
+        default: 0
+    - name: maxResults
+      in: query
+      description: The maximum number of items to return per page.
+      schema:
+        type: integer
+        format: int32
+        default: 50
+    - name: projectId
+      in: query
+      description: >-
+        The list of project IDs. To include multiple project IDs, provide an
+        ampersand-separated list. For example,
+        `projectId=10000&projectId=10001`.
+      required: true
+      schema:
+        uniqueItems: true
+        type: array
+        items:
+          type: integer
+          format: int64
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/PageBeanIssueTypeSchemeProjects.yaml
+          example: >-
+            {"maxResults":100,"startAt":0,"total":3,"isLast":true,"values":[{"issueTypeScheme":{"id":"10000","name":"Default
+            Issue Type Scheme","description":"Default issue type scheme is the
+            list of global issue types. All newly created issue types will
+            automatically be added to this
+            scheme.","defaultIssueTypeId":"10003","isDefault":true},"projectIds":["10000","10001"]},{"issueTypeScheme":{"id":"10001","name":"SUP:
+            Kanban Issue Type Scheme","description":"A collection of issue types
+            suited to use in a kanban style
+            project.","projects":{"maxResults":100,"startAt":0,"total":1,"isLast":true,"values":[{"self":"project/EX","id":"10000","key":"EX","name":"Example","projectTypeKey":"ProjectTypeKey{key='software'}","simplified":false,"avatarUrls":{"48x48":"secure/projectavatar?size=large&pid=10000","24x24":"secure/projectavatar?size=small&pid=10000","16x16":"secure/projectavatar?size=xsmall&pid=10000","32x32":"secure/projectavatar?size=medium&pid=10000"},"projectCategory":{"id":"10000","description":"Project
+            category description","name":"A project
+            category"}}]}},"projectIds":["10002"]},{"issueTypeScheme":{"id":"10002","name":"HR:
+            Scrum issue type
+            scheme","description":"","defaultIssueTypeId":"10004","issueTypes":{"maxResults":100,"startAt":0,"total":1,"isLast":true,"values":[{"id":"1000L","description":"Improvement
+            Issue
+            Type","iconUrl":"www.example.com","name":"Improvements","subtask":true,"hierarchyLevel":-1}]}},"projectIds":["10003","10004","10005"]}]}
+    '400':
+      description: Returned if the request is not valid.
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: Returned if the user does not have the required permissions.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-configuration
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-configuration
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:issue-type-scheme:jira
+  x-atlassian-connect-scope: ADMIN
+put:
+  tags:
+    - Issue type schemes
+  summary: Assign issue type scheme to project
+  description: >-
+    Assigns an issue type scheme to a project.
+
+
+    If any issues in the project are assigned issue types not present in the new
+    scheme, the operation will fail. To complete the assignment those issues
+    must be updated to use issue types in the new scheme.
+
+
+    Issue type schemes can only be assigned to classic projects.
+
+
+    **[Permissions](#permissions) required:** *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg).
+  operationId: assignIssueTypeSchemeToProject
+  parameters: []
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/IssueTypeSchemeProjectAssociation.yaml
+        example:
+          issueTypeSchemeId: '10000'
+          projectId: '10000'
+    required: true
+  responses:
+    '204':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema: {}
+    '400':
+      description: Returned if the request is not valid.
+      content:
+        application/json:
+          example: >-
+            {"errorMessages":["This issue type scheme can't be assigned to the
+            project. This is because some issues in this project use issue types
+            not present in the scheme. Before assigning the scheme to the
+            project, update the issue types on these issues: 7"],"errors":{}}
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: Returned if the user does not have the required permissions.
+      content:
+        application/json:
+          example: >-
+            {"errorMessages":["Only Jira administrators can access issue type
+            schemes."],"errors":{}}
+    '404':
+      description: Returned if the issue type scheme or the project is not found.
+      content:
+        application/json:
+          example: >-
+            {"errorMessages":["The issue type scheme was not
+            found."],"errors":{}}
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-configuration
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-configuration
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - write:issue-type-scheme:jira
+        - write:project:jira
+  x-atlassian-connect-scope: ADMIN

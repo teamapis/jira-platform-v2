@@ -1,0 +1,128 @@
+get:
+  tags:
+    - UI modifications (apps)
+  summary: Get UI modifications
+  description: |-
+    Gets UI modifications. UI modifications can only be retrieved by Forge apps.
+
+    **[Permissions](#permissions) required:** None.
+  operationId: getUiModifications
+  parameters:
+    - name: startAt
+      in: query
+      description: >-
+        The index of the first item to return in a page of results (page
+        offset).
+      schema:
+        type: integer
+        format: int64
+        default: 0
+    - name: maxResults
+      in: query
+      description: The maximum number of items to return per page.
+      schema:
+        type: integer
+        format: int32
+        default: 50
+    - name: expand
+      in: query
+      description: >-
+        Use expand to include additional information in the response. This
+        parameter accepts a comma-separated list. Expand options include:
+
+         *  `data` Returns UI modification data.
+         *  `contexts` Returns UI modification contexts.
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/PageBeanUiModificationDetails.yaml
+          example: >-
+            {"maxResults":100,"startAt":0,"total":3,"isLast":true,"values":[{"id":"d7dbda8a-6239-4b63-8e13-a5ef975c8e61","name":"Reveal
+            Story Points","description":"Reveals Story Points field when any
+            Sprint is
+            selected.","self":"https://api.atlassian.com/ex/jira/{cloudid}/rest/api/2/uiModifications/d7dbda8a-6239-4b63-8e13-a5ef975c8e61","data":"{field:
+            'Story Points', config: {hidden:
+            false}}","contexts":[{"id":"1533537a-bda3-4ac6-8481-846128cd9ef4","projectId":"10000","issueTypeId":"10000","viewType":"GIC","isAvailable":true},{"id":"c016fefa-6eb3-40c9-8596-4c4ef273e67c","projectId":"10000","issueTypeId":"10001","viewType":"GIC","isAvailable":true}]},{"id":"e4fe8db5-f82f-416b-a3aa-b260b55da577","name":"Set
+            Assignee","description":"Sets the Assignee field
+            automatically.","self":"https://api.atlassian.com/ex/jira/{cloudid}/rest/api/2/uiModifications/e4fe8db5-f82f-416b-a3aa-b260b55da577","contexts":[{"id":"8b3740f9-8780-4958-8228-69dcfbda11d9","projectId":"10000","issueTypeId":"10000","viewType":"GIC","isAvailable":true}]},{"id":"1453f993-79ce-4389-a36d-eb72d5c85dd6","name":"Hide
+            Labels","description":"Hides Labels if any component is
+            provided.","self":"https://api.atlassian.com/ex/jira/{cloudid}/rest/api/2/uiModifications/1453f993-79ce-4389-a36d-eb72d5c85dd6","contexts":[]}]}
+    '400':
+      description: Returned if the request is not valid.
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: Returned if the request is not from a Forge app.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - read:jira-work
+  x-experimental: true
+  x-atlassian-connect-scope: INACCESSIBLE
+post:
+  tags:
+    - UI modifications (apps)
+  summary: Create UI modification
+  description: >-
+    Creates a UI modification. UI modification can only be created by Forge
+    apps.
+
+
+    Each app can define up to 100 UI modifications. Each UI modification can
+    define up to 1000 contexts.
+
+
+    **[Permissions](#permissions) required:**
+
+     *  *None* if the UI modification is created without contexts.
+     *  *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for one or more projects, if the UI modification is created with contexts.
+  operationId: createUiModification
+  parameters: []
+  requestBody:
+    description: Details of the UI modification.
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/CreateUiModificationDetails.yaml
+        example:
+          data: '{field: ''Story Points'', config: {hidden: false}}'
+          name: Reveal Story Points
+          description: Reveals Story Points field when any Sprint is selected.
+          contexts:
+            - issueTypeId: '10000'
+              viewType: GIC
+              projectId: '10000'
+            - issueTypeId: '10001'
+              viewType: GIC
+              projectId: '10000'
+    required: true
+  responses:
+    '201':
+      description: Returned if the UI modification is created.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/UiModificationIdentifiers.yaml
+          example: >-
+            {"id":"d7dbda8a-6239-4b63-8e13-a5ef975c8e61","self":"https://api.atlassian.com/ex/jira/{cloudid}/rest/api/2/uiModifications/d7dbda8a-6239-4b63-8e13-a5ef975c8e61"}
+    '400':
+      description: Returned if the request is not valid.
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: Returned if the request is not from a Forge app.
+    '404':
+      description: Returned if a project or an issue type in the context are not found.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - read:jira-work
+  x-experimental: true
+  x-atlassian-connect-scope: INACCESSIBLE

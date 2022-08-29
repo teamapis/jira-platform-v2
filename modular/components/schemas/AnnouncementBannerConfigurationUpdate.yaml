@@ -1,0 +1,17 @@
+type: object
+properties:
+  message:
+    type: string
+    description: The text on the announcement banner.
+  isDismissible:
+    type: boolean
+    description: Flag indicating if the announcement banner can be dismissed by the user.
+  isEnabled:
+    type: boolean
+    description: Flag indicating if the announcement banner is enabled or not.
+  visibility:
+    type: string
+    description: Visibility of the announcement banner. Can be public or private.
+additionalProperties: false
+description: Configuration of the announcement banner.
+writeOnly: true

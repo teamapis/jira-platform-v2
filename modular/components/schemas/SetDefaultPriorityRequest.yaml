@@ -1,0 +1,12 @@
+required:
+  - id
+type: object
+properties:
+  id:
+    type: string
+    description: >-
+      The ID of the new default issue priority. Must be an existing ID or null.
+      Setting this to null erases the default priority setting.
+    writeOnly: true
+additionalProperties: false
+description: The new default issue priority.

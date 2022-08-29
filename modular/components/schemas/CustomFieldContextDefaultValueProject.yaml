@@ -1,0 +1,15 @@
+required:
+  - contextId
+  - projectId
+  - type
+type: object
+properties:
+  contextId:
+    type: string
+    description: The ID of the context.
+  projectId:
+    type: string
+    description: The ID of the default project.
+  type:
+    type: string
+description: The default value for a project custom field.

@@ -1,0 +1,14 @@
+required:
+  - labels
+  - type
+type: object
+properties:
+  labels:
+    type: array
+    description: The default labels value.
+    items:
+      type: string
+      description: The default labels value.
+  type:
+    type: string
+description: Default value for a labels custom field.

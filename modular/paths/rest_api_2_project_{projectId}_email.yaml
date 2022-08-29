@@ -1,0 +1,114 @@
+get:
+  tags:
+    - Project email
+  summary: Get project's sender email
+  description: >-
+    Returns the [project's sender email
+    address](https://confluence.atlassian.com/x/dolKLg).
+
+
+    **[Permissions](#permissions) required:** *Browse projects* [project
+    permission](https://confluence.atlassian.com/x/yodKLg) for the project.
+  operationId: getProjectEmail
+  parameters:
+    - name: projectId
+      in: path
+      description: The project ID.
+      required: true
+      schema:
+        type: integer
+        format: int64
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ProjectEmailAddress.yaml
+          example: >-
+            {"emailAddress":"jira@example.customdomain.com","emailAddressStatus":["Email
+            address or domain not verified."]}
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: Returned if the user does not have permission to read project.
+    '404':
+      description: Returned if the project or project's sender email address is not found.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-project
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-project
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:project.email:jira
+  x-experimental: true
+  x-atlassian-connect-scope: READ
+put:
+  tags:
+    - Project email
+  summary: Set project's sender email
+  description: >-
+    Sets the [project's sender email
+    address](https://confluence.atlassian.com/x/dolKLg).
+
+
+    If `emailAddress` is an empty string, the default email address is restored.
+
+
+    **[Permissions](#permissions) required:** *Browse projects* [project
+    permission](https://confluence.atlassian.com/x/yodKLg) for the project.
+  operationId: updateProjectEmail
+  parameters:
+    - name: projectId
+      in: path
+      description: The project ID.
+      required: true
+      schema:
+        type: integer
+        format: int64
+  requestBody:
+    description: The project's sender email address to be set.
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/ProjectEmailAddress.yaml
+        example:
+          emailAddress: jira@example.atlassian.net
+    required: true
+  responses:
+    '204':
+      description: Returned if the project's sender email address is successfully set.
+      content:
+        application/json:
+          schema: {}
+    '400':
+      description: Returned if the request is not valid, if the email address is not valid.
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: Returned if the user does not have permission to read project.
+    '404':
+      description: Returned if the project is not found.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-project
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-project
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - write:project.email:jira
+  x-experimental: true
+  x-atlassian-connect-scope: PROJECT_ADMIN

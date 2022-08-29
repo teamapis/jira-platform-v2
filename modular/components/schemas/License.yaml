@@ -1,0 +1,12 @@
+required:
+  - applications
+type: object
+properties:
+  applications:
+    type: array
+    description: The applications under this license.
+    readOnly: true
+    items:
+      $ref: ./LicensedApplication.yaml
+additionalProperties: false
+description: Details about a license for the Jira instance.

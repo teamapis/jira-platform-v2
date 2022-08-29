@@ -1,0 +1,10 @@
+type: object
+properties:
+  event:
+    $ref: ./NotificationEvent.yaml
+  notifications:
+    type: array
+    items:
+      $ref: ./EventNotification.yaml
+additionalProperties: false
+description: Details about a notification scheme event.

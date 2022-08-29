@@ -1,0 +1,60 @@
+get:
+  tags:
+    - Issue properties
+  summary: Get issue property keys
+  description: >-
+    Returns the URLs and keys of an issue's properties.
+
+
+    This operation can be accessed anonymously.
+
+
+    **[Permissions](#permissions) required:** Property details are only returned
+    where the user has:
+
+     *  *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project containing the issue.
+     *  If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue.
+  operationId: getIssuePropertyKeys
+  parameters:
+    - name: issueIdOrKey
+      in: path
+      description: The key or ID of the issue.
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/PropertyKeys.yaml
+          example: >-
+            {"keys":[{"self":"https://your-domain.atlassian.net/rest/api/2/issue/EX-2/properties/issue.support","key":"issue.support"}]}
+    '404':
+      description: >-
+        Returned if the issue is not found or the user does not have permissions
+        to view the issue.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - read:jira-work
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - read:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:issue.property:jira
+        - read:comment.property:jira
+        - read:dashboard.property:jira
+        - read:issue-type.property:jira
+        - read:issue-worklog.property:jira
+        - read:project.property:jira
+        - read:user.property:jira
+        - read:workflow.property:jira
+  x-atlassian-connect-scope: READ

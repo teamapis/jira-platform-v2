@@ -1,0 +1,80 @@
+post:
+  tags:
+    - Issue worklogs
+  summary: Get worklogs
+  description: >-
+    Returns worklog details for a list of worklog IDs.
+
+
+    The returned list of worklogs is limited to 1000 items.
+
+
+    **[Permissions](#permissions) required:** Permission to access Jira,
+    however, worklogs are only returned where either of the following is true:
+
+     *  the worklog is set as *Viewable by All Users*.
+     *  the user is a member of a project role or group with permission to view the worklog.
+  operationId: getWorklogsForIds
+  parameters:
+    - name: expand
+      in: query
+      description: >-
+        Use [expand](#expansion) to include additional information about
+        worklogs in the response. This parameter accepts `properties` that
+        returns the properties of each worklog.
+      schema:
+        type: string
+        default: ''
+  requestBody:
+    description: A JSON object containing a list of worklog IDs.
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/WorklogIdsRequestBean.yaml
+        example:
+          ids:
+            - 1
+            - 2
+            - 5
+            - 10
+    required: true
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: ../components/schemas/Worklog.yaml
+          example: >-
+            [{"self":"https://your-domain.atlassian.net/rest/api/2/issue/10010/worklog/10000","author":{"self":"https://your-domain.atlassian.net/rest/api/2/user?accountId=5b10a2844c20165700ede21g","accountId":"5b10a2844c20165700ede21g","displayName":"Mia
+            Krystof","active":false},"updateAuthor":{"self":"https://your-domain.atlassian.net/rest/api/2/user?accountId=5b10a2844c20165700ede21g","accountId":"5b10a2844c20165700ede21g","displayName":"Mia
+            Krystof","active":false},"comment":"I did some work
+            here.","updated":"2021-01-18T23:45:00.000+0000","visibility":{"type":"group","value":"jira-developers","identifier":"276f955c-63d7-42c8-9520-92d01dca0625"},"started":"2021-01-17T12:34:00.000+0000","timeSpent":"3h
+            20m","timeSpentSeconds":12000,"id":"100028","issueId":"10002"}]
+    '400':
+      description: Returned if the request contains more than 1000 worklog IDs or is empty.
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - read:jira-work
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - read:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:comment:jira
+        - read:group:jira
+        - read:issue-worklog:jira
+        - read:issue-worklog.property:jira
+        - read:project-role:jira
+        - read:user:jira
+        - read:avatar:jira
+  x-atlassian-connect-scope: READ

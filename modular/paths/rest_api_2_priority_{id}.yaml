@@ -1,0 +1,120 @@
+get:
+  tags:
+    - Issue priorities
+  summary: Get priority
+  description: |-
+    Returns an issue priority.
+
+    **[Permissions](#permissions) required:** Permission to access Jira.
+  operationId: getPriority
+  parameters:
+    - name: id
+      in: path
+      description: The ID of the issue priority.
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/Priority.yaml
+          example: >-
+            {"self":"https://your-domain.atlassian.net/rest/api/2/priority/3","statusColor":"#009900","description":"Major
+            loss of
+            function.","iconUrl":"https://your-domain.atlassian.net/images/icons/priorities/major.png","name":"Major","id":"1"}
+    '401':
+      description: Returned if the authentication credentials are incorrect.
+    '404':
+      description: Returned if the issue priority is not found.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - read:jira-work
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - read:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:priority:jira
+  x-atlassian-connect-scope: READ
+put:
+  tags:
+    - Issue priorities
+  summary: Update priority
+  description: >-
+    Updates an issue priority.
+
+
+    **[Permissions](#permissions) required:** *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg).
+  operationId: updatePriority
+  parameters:
+    - name: id
+      in: path
+      description: The ID of the issue priority.
+      required: true
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/UpdatePriorityDetails.yaml
+        example:
+          statusColor: '#123456'
+          name: My updated priority
+          description: My updated priority description
+          iconUrl: images/icons/priorities/minor.png
+    required: true
+  responses:
+    '204':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema: {}
+    '400':
+      description: Returned if the request is not valid.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ErrorCollection.yaml
+          example: >-
+            {"errorMessages":["The length of the description must not exceed 255
+            characters."],"errors":{}}
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ErrorCollection.yaml
+    '403':
+      description: Returned if the user does not have the necessary permission.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ErrorCollection.yaml
+          example: >-
+            {"errorMessages":["Only Jira administrators can access issue
+            priorities."],"errors":{}}
+    '404':
+      description: Returned if the issue priority is not found.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ErrorCollection.yaml
+          example: '{"errorMessages":["Priority with ID 10000 not found."],"errors":{}}'
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-configuration
+  x-experimental: true
+  x-atlassian-connect-scope: INACCESSIBLE

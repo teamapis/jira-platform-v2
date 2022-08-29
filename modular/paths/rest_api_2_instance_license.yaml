@@ -1,0 +1,37 @@
+get:
+  tags:
+    - Instance information
+  summary: Get license
+  description: |-
+    Returns licensing information about the Jira instance.
+
+    **[Permissions](#permissions) required:** None.
+  operationId: getLicense
+  parameters: []
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/License.yaml
+          example: >-
+            {"applications":[{"id":"jira-core","plan":"PAID"},{"id":"jira-servicedesk","plan":"FREE"},{"id":"jira-software","plan":"PAID"},{"id":"jira-product-discovery","plan":"FREE"}]}
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-configuration
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-configuration
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:license:jira
+  x-experimental: true
+  x-atlassian-connect-scope: READ

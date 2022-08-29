@@ -1,0 +1,10 @@
+required:
+  - screenSchemeId
+type: object
+properties:
+  screenSchemeId:
+    type: string
+    description: The ID of the screen scheme.
+    writeOnly: true
+additionalProperties: false
+description: The ID of a screen scheme.

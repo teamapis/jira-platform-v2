@@ -1,0 +1,1867 @@
+openapi: 3.0.1
+info:
+  title: The Jira Cloud platform REST API
+  description: Jira Cloud platform REST API documentation
+  termsOfService: http://atlassian.com/terms/
+  contact:
+    email: ecosystem@atlassian.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1001.0.0-SNAPSHOT
+externalDocs:
+  description: Find out more about Atlassian products and services.
+  url: http://www.atlassian.com
+servers:
+  - url: https://your-domain.atlassian.net
+tags:
+  - name: Announcement banner
+    description: >-
+      This resource represents an announcement banner. Use it to retrieve and
+      update banner configuration.
+  - name: Application roles
+    description: >-
+      This resource represents application roles. Use it to get details of an
+      application role or all application roles.
+  - name: Audit records
+    description: >-
+      This resource represents audits that record activities undertaken in Jira.
+      Use it to get a list of audit records.
+  - name: Avatars
+    description: >-
+      This resource represents system and custom avatars. Use it to obtain the
+      details of system or custom avatars, add and remove avatars from a project
+      or issue type, and obtain avatar images.
+  - name: Dashboards
+    description: >-
+      This resource represents dashboards. Use it to obtain the details of
+      dashboards as well as get, create, update, or remove item properties and
+      gadgets from dashboards.
+  - name: Filters
+    description: >-
+      This resource represents
+      [filters](https://confluence.atlassian.com/x/eQiiLQ). Use it to get,
+      create, update, or delete filters. Also use it to configure the columns
+      for a filter and set favorite filters.
+  - name: Filter sharing
+    description: >-
+      This resource represents options for sharing
+      [filters](#api-group-Filters). Use it to get share scopes as well as add
+      and remove share scopes from filters.
+  - name: Group and user picker
+    description: >-
+      This resource represents a list of users and a list of groups. Use it to
+      obtain the details to populate user and group picker suggestions list.
+  - name: Groups
+    description: >-
+      This resource represents groups of users. Use it to get, create, find, and
+      delete groups as well as add and remove users from groups. (\[WARNING\]
+      The standard Atlassian group names are default names only and can be
+      edited or deleted. For example, an admin or Atlassian support could delete
+      the default group jira-software-users or rename it to jsw-users at any
+      point. See
+      https://support.atlassian.com/user-management/docs/create-and-update-groups/
+      for details.)
+  - name: Instance information
+    description: >-
+      This resource represents information about the Jira instance. Use it to
+      get license details.
+  - name: Issues
+    description: |-
+      This resource represents Jira issues. Use it to:
+
+       *  create or edit issues, individually or in bulk.
+       *  retrieve metadata about the options for creating or editing issues.
+       *  delete an issue.
+       *  assign a user to an issue.
+       *  get issue changelogs.
+       *  send notifications about an issue.
+       *  get details of the transitions available for an issue.
+       *  transition an issue.
+  - name: UI modifications (apps)
+    description: >-
+      UI modifications is an experimental feature available for **Forge apps
+      only**. It enables Forge apps to control how selected Jira fields behave
+      on global create issue dialog. For example: hide specific fields, set them
+      as required, etc.
+  - name: Issue attachments
+    description: >-
+      This resource represents issue attachments and the attachment settings for
+      Jira. Use it to get the metadata for an attachment, delete an attachment,
+      and view the metadata for the contents of an attachment. Also, use it to
+      get the attachment settings for Jira.
+  - name: Issue comments
+    description: |-
+      This resource represents issue comments. Use it to:
+
+       *  get, create, update, and delete a comment from an issue.
+       *  get all comments from issue.
+       *  get a list of comments by comment ID.
+  - name: Issue comment properties
+    description: >-
+      This resource represents [issue comment](#api-group-Issue-comments)
+      properties, which provides for storing custom data against an issue
+      comment. Use is to get, set, and delete issue comment properties as well
+      as obtain the keys of all properties on a comment. Comment properties are
+      a type of [entity
+      property](https://developer.atlassian.com/cloud/jira/platform/jira-entity-properties/).
+  - name: Issue fields
+    description: >-
+      This resource represents issue fields, both system and custom fields. Use
+      it to get fields, field configurations, and create custom fields.
+  - name: Issue field configurations
+    description: >-
+      This resource represents issue field configurations. Use it to get, set,
+      and delete field configurations and field configuration schemes.
+  - name: Issue custom field contexts
+    description: |-
+      This resource represents issue custom field contexts. Use it to:
+
+       *  get, create, update, and delete custom field contexts.
+       *  get context to issue types and projects mappings.
+       *  get custom field contexts for projects and issue types.
+       *  assign custom field contexts to projects.
+       *  remove custom field contexts from projects.
+       *  add issue types to custom field contexts.
+  - name: Issue custom field options
+    description: >-
+      This resource represents custom issue field select list options created in
+      Jira or using the REST API. This resource supports the following field
+      types:
+
+       *  Checkboxes.
+       *  Radio Buttons.
+       *  Select List (single choice).
+       *  Select List (multiple choices).
+       *  Select List (cascading).
+
+      See [Issue custom field options
+      (apps)](#api-group-Issue-custom-field-options--apps-) to manipulate custom
+      issue field select list options created by a Connect app.
+
+
+      Use it to retrieve, create, update, order, and delete custom field
+      options.
+  - name: Issue custom field options (apps)
+    description: >-
+      This resource represents custom issue field select list options created by
+      a Connect app. See [Issue custom field
+      options](#api-group-Issue-custom-field-options) to manipulate options
+      created in Jira or using the REST API.
+
+
+      A select list issue field is a type of [issue
+      field](https://developer.atlassian.com/cloud/jira/platform/modules/issue-field/)
+      that enables a user to select an option from a list. Use it to add,
+      remove, and update the options of a select list issue field.
+  - name: Issue custom field values (apps)
+    description: >-
+      This resource represents the values of custom fields added by [Forge
+      apps](https://developer.atlassian.com/platform/forge/). Use it to update
+      the value of a custom field on issues.
+  - name: Issue custom field configuration (apps)
+    description: >-
+      This resource represents configurations stored against a custom field
+      context by a [Forge app](https://developer.atlassian.com/platform/forge/).
+      Configurations are information used by the Forge app at runtime to
+      determine how to handle or process the data in a custom field in a given
+      context. Use this resource to set and read configurations.
+  - name: Issue links
+    description: >-
+      This resource represents links between issues. Use it to get, create, and
+      delete links between issues.
+
+
+      To use it, the site must have [issue
+      linking](https://confluence.atlassian.com/x/yoXKM) enabled.
+  - name: Issue link types
+    description: >-
+      This resource represents [issue link](#api-group-Issue-links) types. Use
+      it to get, create, update, and delete link issue types as well as get
+      lists of all link issue types.
+
+
+      To use it, the site must have [issue
+      linking](https://confluence.atlassian.com/x/yoXKM) enabled.
+  - name: Issue navigator settings
+    description: >-
+      This resource represents issue navigator settings. Use it to get and set
+      issue navigator default columns.
+  - name: Issue notification schemes
+    description: >-
+      This resource represents notification schemes, lists of events and the
+      recipients who will receive notifications for those events. Use it to get
+      details of a notification scheme and a list of notification schemes.
+  - name: Issue priorities
+    description: >-
+      This resource represents issue priorities. Use it to get, create and
+      update issue priorities and details for individual issue priorities.
+  - name: Issue properties
+    description: >-
+      This resource represents [issue](#api-group-Issues) properties, which
+      provides for storing custom data against an issue. Use it to get, set, and
+      delete issue properties as well as obtain details of all properties on an
+      issue. Operations to bulk update and delete issue properties are also
+      provided. Issue properties are a type of [entity
+      property](https://developer.atlassian.com/cloud/jira/platform/jira-entity-properties/).
+  - name: Issue remote links
+    description: >-
+      This resource represents remote issue links, a way of linking Jira to
+      information in other systems. Use it to get, create, update, and delete
+      remote issue links either by ID or global ID. The global ID provides a way
+      of accessing remote issue links using information about the item's remote
+      system host and remote system identifier.
+  - name: Issue resolutions
+    description: >-
+      This resource represents issue resolution values. Use it to obtain a list
+      of all issue resolution values and the details of individual resolution
+      values.
+  - name: Issue search
+    description: >-
+      This resource represents various ways to search for issues. Use it to
+      search for issues with a JQL query and find issues to populate an issue
+      picker.
+  - name: Issue security level
+    description: >-
+      This resource represents issue security levels. Use it to obtain the
+      details of any issue security level. For more information about issue
+      security levels, see [Configuring issue-level
+      security](https://confluence.atlassian.com/x/J4lKLg).
+  - name: Issue security schemes
+    description: >-
+      This resource represents issue security schemes. Use it to get an issue
+      security scheme or list of issues security schemes.
+
+
+      Issue security schemes control which users or groups of users can view an
+      issue. When an issue security scheme is associated with a project, its
+      security levels can be applied to issues in that project. Sub-tasks also
+      inherit the security level of their parent issue.
+  - name: Issue types
+    description: |-
+      This resource represents issues types. Use it to:
+
+       *  get, create, update, and delete issue types.
+       *  get all issue types for a user.
+       *  get alternative issue types.
+       *  set an avatar for an issue type.
+  - name: Issue type schemes
+    description: >-
+      This resource represents issue type schemes in classic projects. Use it
+      to:
+
+       *  get issue type schemes and a list of the projects that use them.
+       *  associate issue type schemes with projects.
+       *  add issue types to issue type schemes.
+       *  delete issue types from issue type schemes.
+       *  create, update, and delete issue type schemes.
+       *  change the order of issue types in issue type schemes.
+  - name: Issue type screen schemes
+    description: |-
+      This resource represents issue type screen schemes. Use it to:
+
+       *  get issue type screen schemes and a list of the projects that use them.
+       *  create issue type screen schemes.
+       *  update issue type screen schemes.
+       *  delete issue type screen schemes.
+       *  associate issue type screen schemes with projects.
+       *  append issue type to screen scheme mappings to issue type screen schemes.
+       *  remove issue type to screen scheme mappings from issue type screen schemes.
+       *  update default screen scheme of issue type screen scheme.
+  - name: Issue type properties
+    description: >-
+      This resource represents [issue type](#api-group-Issue-types) properties,
+      which provides for storing custom data against an issue type. Use it to
+      get, create, and delete issue type properties as well as obtain the keys
+      of all properties on a issues type. Issue type properties are a type of
+      [entity
+      property](https://developer.atlassian.com/cloud/jira/platform/jira-entity-properties/).
+  - name: Issue votes
+    description: >-
+      This resource represents votes cast by users on an issue. Use it to get
+      details of votes on an issue as well as cast and withdrawal votes.
+  - name: Issue watchers
+    description: >-
+      This resource represents users watching an issue. Use it to get details of
+      users watching an issue as well as start and stop a user watching an
+      issue.
+  - name: Issue worklogs
+    description: |-
+      This resource represents issue worklogs. Use it to:
+
+       *  get, create, update, and delete worklogs.
+       *  obtain lists of updated or deleted worklogs.
+  - name: Issue worklog properties
+    description: >-
+      This resource represents [issue worklog](#api-group-Issue-worklogs)
+      properties, which provides for storing custom data against an issue
+      worklog. Use it to get, create, and delete issue worklog properties as
+      well as obtain the keys of all properties on a issue worklog. Issue
+      worklog properties are a type of [entity
+      property](https://developer.atlassian.com/cloud/jira/platform/jira-entity-properties/).
+  - name: Jira expressions
+    description: >-
+      This resource is a collection of operations for [Jira
+      expressions](https://developer.atlassian.com/cloud/jira/platform/jira-expressions/).
+  - name: Jira settings
+    description: >-
+      This resource represents various settings in Jira. Use it to get and
+      update Jira settings and properties.
+  - name: JQL
+    description: >-
+      This resource represents JQL search auto-complete details. Use it to
+      obtain JQL search auto-complete data and suggestions for use in
+      programmatic construction of queries or custom query builders. It also
+      provides operations to:
+
+       *  convert one or more JQL queries with user identifiers (username or user key) to equivalent JQL queries with account IDs.
+       *  convert readable details in one or more JQL queries to IDs where a user doesn't have permission to view the entity whose details are readable.
+  - name: Labels
+    description: >-
+      This resource represents available labels. Use it to get available labels
+      for the global label field.
+  - name: Myself
+    description: >-
+      This resource represents information about the current user, such as basic
+      details, group membership, application roles, preferences, and locale. Use
+      it to get, create, update, and delete (restore default) values of the
+      user's preferences and locale.
+  - name: Permissions
+    description: >-
+      This resource represents permissions. Use it to obtain details of all
+      permissions and determine whether the user has certain permissions.
+  - name: Permission schemes
+    description: >-
+      This resource represents permission schemes. Use it to get, create,
+      update, and delete permission schemes as well as get, create, update, and
+      delete details of the permissions granted in those schemes.
+  - name: Projects
+    description: >-
+      This resource represents projects. Use it to get, create, update, and
+      delete projects. Also get statuses available to a project, a project's
+      notification schemes, and update a project's type.
+  - name: Project avatars
+    description: >-
+      This resource represents avatars associated with a project. Use it to get,
+      load, set, and remove project avatars.
+  - name: Project categories
+    description: >-
+      This resource represents project categories. Use it to create, update, and
+      delete project categories as well as obtain a list of all project
+      categories and details of individual categories. For more information on
+      managing project categories, see [Adding, assigning, and deleting project
+      categories](https://confluence.atlassian.com/x/-A5WMg).
+  - name: Project components
+    description: >-
+      This resource represents project components. Use it to get, create,
+      update, and delete project components. Also get components for project and
+      get a count of issues by component.
+  - name: Project email
+    description: >-
+      This resource represents the email address used to send a project's
+      notifications. Use it to get and set the [project's sender email
+      address](https://confluence.atlassian.com/x/dolKLg).
+  - name: Project features
+    description: >-
+      This resource represents project features. Use it to get the list of
+      features for a project and modify the state of a feature.
+  - name: Project key and name validation
+    description: This resource provides validation for project keys and names.
+  - name: Project permission schemes
+    description: >-
+      This resource represents permission schemes for a project. Use this
+      resource to:
+
+       *  get details of a project's issue security levels available to the calling user.
+       *  get the permission scheme associated with the project or assign different permission scheme to the project.
+       *  get details of a project's issue security scheme.
+
+      See [Managing project
+      permissions](https://confluence.atlassian.com/x/yodKLg) for more
+      information about permission schemes.
+  - name: Project properties
+    description: >-
+      This resource represents [project](#api-group-Projects) properties, which
+      provides for storing custom data against a project. Use it to get, create,
+      and delete project properties as well as get a list of property keys for a
+      project. Project properties are a type of [entity
+      property](https://developer.atlassian.com/cloud/jira/platform/jira-entity-properties/).
+  - name: Project roles
+    description: >-
+      This resource represents the roles that users can play in projects. Use
+      this resource to get, create, update, and delete project roles.
+  - name: Project role actors
+    description: >-
+      This resource represents the users assigned to [project
+      roles](#api-group-Issue-comments). Use it to get, add, and remove default
+      users from project roles. Also use it to add and remove users from a
+      project role associated with a project.
+  - name: Project types
+    description: >-
+      This resource represents project types. Use it to obtain a list of all
+      project types, a list of project types accessible to the calling user, and
+      details of a project type.
+  - name: Project versions
+    description: >-
+      This resource represents project versions. Use it to get, get lists of,
+      create, update, move, merge, and delete project versions. This resource
+      also provides counts of issues by version.
+  - name: Screens
+    description: >-
+      This resource represents the screens used to record issue details. Use it
+      to:
+
+       *  get details of all screens.
+       *  get details of all the fields available for use on screens.
+       *  create screens.
+       *  delete screens.
+       *  update screens.
+       *  add a field to the default screen.
+  - name: Screen tabs
+    description: >-
+      This resource represents the screen tabs used to record issue details. Use
+      it to get, create, update, move, and delete screen tabs.
+  - name: Screen tab fields
+    description: >-
+      This resource represents the screen tab fields used to record issue
+      details. Use it to get, add, move, and remove fields from screen tabs.
+  - name: Screen schemes
+    description: >-
+      This resource represents screen schemes in classic projects. Use it to
+      get, create, update, and delete screen schemes.
+  - name: Server info
+    description: This resource provides information about the Jira instance.
+  - name: Status
+    description: >-
+      This resource represents statuses. Use it to search, get, create, delete,
+      and change statuses.
+  - name: Tasks
+    description: >-
+      This resource represents a [long-running asynchronous
+      tasks](#async-operations). Use it to obtain details about the progress of
+      a long-running task or cancel a long-running task.
+  - name: Time tracking
+    description: >-
+      This resource represents time tracking and time tracking providers. Use it
+      to get and set the time tracking provider, get and set the time tracking
+      options, and disable time tracking.
+  - name: Users
+    description: |-
+      This resource represent users. Use it to:
+
+       *  get, get a list of, create, and delete users.
+       *  get, set, and reset a user's default issue table columns.
+       *  get a list of the groups the user belongs to.
+       *  get a list of user account IDs for a list of usernames or user keys.
+  - name: User properties
+    description: >-
+      This resource represents [user](#api-group-Users) properties and provides
+      for storing custom data against a user. Use it to get, create, and delete
+      user properties as well as get a list of property keys for a user. This
+      resourse is designed for integrations and apps to store per-user data and
+      settings. This enables data used to customized the user experience to be
+      kept in the Jira Cloud instance's database. User properties are a type of
+      [entity
+      property](https://developer.atlassian.com/cloud/jira/platform/jira-entity-properties/).
+
+
+      This resource does not access the [user
+      properties](https://confluence.atlassian.com/x/8YxjL) created and
+      maintained in Jira.
+  - name: User search
+    description: >-
+      This resource represents various ways to search for and find users. Use it
+      to obtain list of users including users assignable to projects and issues,
+      users with permissions, user lists for pickup fields, and user lists
+      generated using structured queries. Note that the operations in this
+      resource only return users found within the first 1000 users.
+  - name: Webhooks
+    description: >-
+      This resource represents webhooks. Webhooks are calls sent to a URL when
+      an event occurs in Jira for issues specified by a JQL query. Only Connect
+      and OAuth 2.0 apps can register and manage webhooks. For more information,
+      see
+      [Webhooks](https://developer.atlassian.com/cloud/jira/platform/webhooks/#registering-a-webhook-via-the-jira-rest-api-for-connect-apps).
+  - name: Workflows
+    description: |-
+      This resource represents workflows. Use it to:
+
+       *  get workflows.
+       *  create workflows.
+       *  delete inactive workflows.
+  - name: Workflow transition rules
+    description: >-
+      This resource represents workflow transition rules. Workflow transition
+      rules define a Connect app routine, such as a [workflow post
+      functions](https://developer.atlassian.com/cloud/jira/platform/modules/workflow-post-function/)
+      that is executed in association with the workflow. Use it to read and
+      modify configuration of workflow transition rules.
+  - name: Workflow schemes
+    description: >-
+      This resource represents workflow schemes. Use it to manage workflow
+      schemes and the workflow scheme's workflows and issue types.
+
+
+      A workflow scheme maps issue types to workflows. A workflow scheme can be
+      associated with one or more projects, which enables the projects to use
+      the workflow-issue type mappings.
+
+
+      Active workflow schemes (workflow schemes that are used by projects)
+      cannot be edited. When an active workflow scheme is edited, a draft copy
+      of the scheme is created. The draft workflow scheme is then be edited and
+      published (replacing the active scheme).
+
+
+      See [Configuring workflow
+      schemes](https://confluence.atlassian.com/x/tohKLg) for more information.
+  - name: Workflow scheme project associations
+    description: >-
+      This resource represents the associations between workflow schemes and
+      projects.
+
+
+      For more information, see [Managing your
+      workflows](https://confluence.atlassian.com/x/q4hKLg).
+  - name: Workflow scheme drafts
+    description: >-
+      This resource represents draft workflow schemes. Use it to manage drafts
+      of workflow schemes.
+
+
+      A workflow scheme maps issue types to workflows. A workflow scheme can be
+      associated with one or more projects, which enables the projects to use
+      the workflow-issue type mappings.
+
+
+      Active workflow schemes (workflow schemes that are used by projects)
+      cannot be edited. Editing an active workflow scheme creates a draft copy
+      of the scheme. The draft workflow scheme can then be edited and published
+      (replacing the active scheme).
+
+
+      See [Configuring workflow
+      schemes](https://confluence.atlassian.com/x/tohKLg) for more information.
+  - name: Workflow statuses
+    description: >-
+      This resource represents issue workflow statuses. Use it to obtain a list
+      of all statuses associated with workflows and the details of a status.
+  - name: Workflow status categories
+    description: >-
+      This resource represents status categories. Use it to obtain a list of all
+      status categories and the details of a category. Status categories
+      provided a mechanism for categorizing
+      [statuses](#api-group-Workflow-statuses).
+  - name: Workflow transition properties
+    description: >-
+      This resource represents workflow transition properties, which provides
+      for storing custom data against a workflow transition. Use it to get,
+      create, and delete workflow transition properties as well as get a list of
+      property keys for a workflow transition. Workflow transition properties
+      are a type of [entity
+      property](https://developer.atlassian.com/cloud/jira/platform/jira-entity-properties/).
+  - name: App properties
+    description: >-
+      This resource represents app properties. Use it to store arbitrary data
+      for your
+
+      [Connect
+      app](https://developer.atlassian.com/cloud/jira/platform/index/#connect-apps).
+  - name: Dynamic modules
+    description: >-
+      This resource represents [modules registered
+      dynamically](https://developer.atlassian.com/cloud/jira/platform/dynamic-modules/)
+
+      by [Connect
+      apps](https://developer.atlassian.com/cloud/jira/platform/index/#connect-apps).
+  - name: App migration
+    description: >-
+      This resource supports [app
+      migrations](https://developer.atlassian.com/platform/app-migration/). Use
+      it to:
+
+      - [to request migrated workflow rules
+      details](https://developer.atlassian.com/platform/app-migration/tutorials/migration-app-workflow-rules/).
+
+      - [perform bulk updates of entity
+      properties](https://developer.atlassian.com/platform/app-migration/tutorials/entity-properties-bulk-api/).
+
+      - [perform bulk updates of issue custom field
+      values](https://developer.atlassian.com/platform/app-migration/tutorials/migrating-app-custom-fields/).
+paths:
+  /rest/api/2/announcementBanner:
+    $ref: paths/rest_api_2_announcementBanner.yaml
+  /rest/api/2/app/field/value:
+    $ref: paths/rest_api_2_app_field_value.yaml
+  /rest/api/2/app/field/{fieldIdOrKey}/context/configuration:
+    $ref: paths/rest_api_2_app_field_{fieldIdOrKey}_context_configuration.yaml
+  /rest/api/2/app/field/{fieldIdOrKey}/value:
+    $ref: paths/rest_api_2_app_field_{fieldIdOrKey}_value.yaml
+  /rest/api/2/application-properties:
+    $ref: paths/rest_api_2_application-properties.yaml
+  /rest/api/2/application-properties/advanced-settings:
+    $ref: paths/rest_api_2_application-properties_advanced-settings.yaml
+  /rest/api/2/application-properties/{id}:
+    $ref: paths/rest_api_2_application-properties_{id}.yaml
+  /rest/api/2/applicationrole:
+    $ref: paths/rest_api_2_applicationrole.yaml
+  /rest/api/2/applicationrole/{key}:
+    $ref: paths/rest_api_2_applicationrole_{key}.yaml
+  /rest/api/2/attachment/content/{id}:
+    $ref: paths/rest_api_2_attachment_content_{id}.yaml
+  /rest/api/2/attachment/meta:
+    $ref: paths/rest_api_2_attachment_meta.yaml
+  /rest/api/2/attachment/thumbnail/{id}:
+    $ref: paths/rest_api_2_attachment_thumbnail_{id}.yaml
+  /rest/api/2/attachment/{id}:
+    $ref: paths/rest_api_2_attachment_{id}.yaml
+  /rest/api/2/attachment/{id}/expand/human:
+    $ref: paths/rest_api_2_attachment_{id}_expand_human.yaml
+  /rest/api/2/attachment/{id}/expand/raw:
+    $ref: paths/rest_api_2_attachment_{id}_expand_raw.yaml
+  /rest/api/2/auditing/record:
+    $ref: paths/rest_api_2_auditing_record.yaml
+  /rest/api/2/avatar/{type}/system:
+    $ref: paths/rest_api_2_avatar_{type}_system.yaml
+  /rest/api/2/comment/list:
+    $ref: paths/rest_api_2_comment_list.yaml
+  /rest/api/2/comment/{commentId}/properties:
+    $ref: paths/rest_api_2_comment_{commentId}_properties.yaml
+  /rest/api/2/comment/{commentId}/properties/{propertyKey}:
+    $ref: paths/rest_api_2_comment_{commentId}_properties_{propertyKey}.yaml
+  /rest/api/2/component:
+    $ref: paths/rest_api_2_component.yaml
+  /rest/api/2/component/{id}:
+    $ref: paths/rest_api_2_component_{id}.yaml
+  /rest/api/2/component/{id}/relatedIssueCounts:
+    $ref: paths/rest_api_2_component_{id}_relatedIssueCounts.yaml
+  /rest/api/2/configuration:
+    $ref: paths/rest_api_2_configuration.yaml
+  /rest/api/2/configuration/timetracking:
+    $ref: paths/rest_api_2_configuration_timetracking.yaml
+  /rest/api/2/configuration/timetracking/list:
+    $ref: paths/rest_api_2_configuration_timetracking_list.yaml
+  /rest/api/2/configuration/timetracking/options:
+    $ref: paths/rest_api_2_configuration_timetracking_options.yaml
+  /rest/api/2/customFieldOption/{id}:
+    $ref: paths/rest_api_2_customFieldOption_{id}.yaml
+  /rest/api/2/dashboard:
+    $ref: paths/rest_api_2_dashboard.yaml
+  /rest/api/2/dashboard/gadgets:
+    $ref: paths/rest_api_2_dashboard_gadgets.yaml
+  /rest/api/2/dashboard/search:
+    $ref: paths/rest_api_2_dashboard_search.yaml
+  /rest/api/2/dashboard/{dashboardId}/gadget:
+    $ref: paths/rest_api_2_dashboard_{dashboardId}_gadget.yaml
+  /rest/api/2/dashboard/{dashboardId}/gadget/{gadgetId}:
+    $ref: paths/rest_api_2_dashboard_{dashboardId}_gadget_{gadgetId}.yaml
+  /rest/api/2/dashboard/{dashboardId}/items/{itemId}/properties:
+    $ref: paths/rest_api_2_dashboard_{dashboardId}_items_{itemId}_properties.yaml
+  /rest/api/2/dashboard/{dashboardId}/items/{itemId}/properties/{propertyKey}:
+    $ref: >-
+      paths/rest_api_2_dashboard_{dashboardId}_items_{itemId}_properties_{propertyKey}.yaml
+  /rest/api/2/dashboard/{id}:
+    $ref: paths/rest_api_2_dashboard_{id}.yaml
+  /rest/api/2/dashboard/{id}/copy:
+    $ref: paths/rest_api_2_dashboard_{id}_copy.yaml
+  /rest/api/2/events:
+    $ref: paths/rest_api_2_events.yaml
+  /rest/api/2/expression/analyse:
+    $ref: paths/rest_api_2_expression_analyse.yaml
+  /rest/api/2/expression/eval:
+    $ref: paths/rest_api_2_expression_eval.yaml
+  /rest/api/2/field:
+    $ref: paths/rest_api_2_field.yaml
+  /rest/api/2/field/search:
+    $ref: paths/rest_api_2_field_search.yaml
+  /rest/api/2/field/search/trashed:
+    $ref: paths/rest_api_2_field_search_trashed.yaml
+  /rest/api/2/field/{fieldId}:
+    $ref: paths/rest_api_2_field_{fieldId}.yaml
+  /rest/api/2/field/{fieldId}/context:
+    $ref: paths/rest_api_2_field_{fieldId}_context.yaml
+  /rest/api/2/field/{fieldId}/context/defaultValue:
+    $ref: paths/rest_api_2_field_{fieldId}_context_defaultValue.yaml
+  /rest/api/2/field/{fieldId}/context/issuetypemapping:
+    $ref: paths/rest_api_2_field_{fieldId}_context_issuetypemapping.yaml
+  /rest/api/2/field/{fieldId}/context/mapping:
+    $ref: paths/rest_api_2_field_{fieldId}_context_mapping.yaml
+  /rest/api/2/field/{fieldId}/context/projectmapping:
+    $ref: paths/rest_api_2_field_{fieldId}_context_projectmapping.yaml
+  /rest/api/2/field/{fieldId}/context/{contextId}:
+    $ref: paths/rest_api_2_field_{fieldId}_context_{contextId}.yaml
+  /rest/api/2/field/{fieldId}/context/{contextId}/issuetype:
+    $ref: paths/rest_api_2_field_{fieldId}_context_{contextId}_issuetype.yaml
+  /rest/api/2/field/{fieldId}/context/{contextId}/issuetype/remove:
+    $ref: paths/rest_api_2_field_{fieldId}_context_{contextId}_issuetype_remove.yaml
+  /rest/api/2/field/{fieldId}/context/{contextId}/option:
+    $ref: paths/rest_api_2_field_{fieldId}_context_{contextId}_option.yaml
+  /rest/api/2/field/{fieldId}/context/{contextId}/option/move:
+    $ref: paths/rest_api_2_field_{fieldId}_context_{contextId}_option_move.yaml
+  /rest/api/2/field/{fieldId}/context/{contextId}/option/{optionId}:
+    $ref: >-
+      paths/rest_api_2_field_{fieldId}_context_{contextId}_option_{optionId}.yaml
+  /rest/api/2/field/{fieldId}/context/{contextId}/project:
+    $ref: paths/rest_api_2_field_{fieldId}_context_{contextId}_project.yaml
+  /rest/api/2/field/{fieldId}/context/{contextId}/project/remove:
+    $ref: paths/rest_api_2_field_{fieldId}_context_{contextId}_project_remove.yaml
+  /rest/api/2/field/{fieldId}/contexts:
+    $ref: paths/rest_api_2_field_{fieldId}_contexts.yaml
+  /rest/api/2/field/{fieldId}/screens:
+    $ref: paths/rest_api_2_field_{fieldId}_screens.yaml
+  /rest/api/2/field/{fieldKey}/option:
+    $ref: paths/rest_api_2_field_{fieldKey}_option.yaml
+  /rest/api/2/field/{fieldKey}/option/suggestions/edit:
+    $ref: paths/rest_api_2_field_{fieldKey}_option_suggestions_edit.yaml
+  /rest/api/2/field/{fieldKey}/option/suggestions/search:
+    $ref: paths/rest_api_2_field_{fieldKey}_option_suggestions_search.yaml
+  /rest/api/2/field/{fieldKey}/option/{optionId}:
+    $ref: paths/rest_api_2_field_{fieldKey}_option_{optionId}.yaml
+  /rest/api/2/field/{fieldKey}/option/{optionId}/issue:
+    $ref: paths/rest_api_2_field_{fieldKey}_option_{optionId}_issue.yaml
+  /rest/api/2/field/{id}:
+    $ref: paths/rest_api_2_field_{id}.yaml
+  /rest/api/2/field/{id}/restore:
+    $ref: paths/rest_api_2_field_{id}_restore.yaml
+  /rest/api/2/field/{id}/trash:
+    $ref: paths/rest_api_2_field_{id}_trash.yaml
+  /rest/api/2/fieldconfiguration:
+    $ref: paths/rest_api_2_fieldconfiguration.yaml
+  /rest/api/2/fieldconfiguration/{id}:
+    $ref: paths/rest_api_2_fieldconfiguration_{id}.yaml
+  /rest/api/2/fieldconfiguration/{id}/fields:
+    $ref: paths/rest_api_2_fieldconfiguration_{id}_fields.yaml
+  /rest/api/2/fieldconfigurationscheme:
+    $ref: paths/rest_api_2_fieldconfigurationscheme.yaml
+  /rest/api/2/fieldconfigurationscheme/mapping:
+    $ref: paths/rest_api_2_fieldconfigurationscheme_mapping.yaml
+  /rest/api/2/fieldconfigurationscheme/project:
+    $ref: paths/rest_api_2_fieldconfigurationscheme_project.yaml
+  /rest/api/2/fieldconfigurationscheme/{id}:
+    $ref: paths/rest_api_2_fieldconfigurationscheme_{id}.yaml
+  /rest/api/2/fieldconfigurationscheme/{id}/mapping:
+    $ref: paths/rest_api_2_fieldconfigurationscheme_{id}_mapping.yaml
+  /rest/api/2/fieldconfigurationscheme/{id}/mapping/delete:
+    $ref: paths/rest_api_2_fieldconfigurationscheme_{id}_mapping_delete.yaml
+  /rest/api/2/filter:
+    $ref: paths/rest_api_2_filter.yaml
+  /rest/api/2/filter/defaultShareScope:
+    $ref: paths/rest_api_2_filter_defaultShareScope.yaml
+  /rest/api/2/filter/favourite:
+    $ref: paths/rest_api_2_filter_favourite.yaml
+  /rest/api/2/filter/my:
+    $ref: paths/rest_api_2_filter_my.yaml
+  /rest/api/2/filter/search:
+    $ref: paths/rest_api_2_filter_search.yaml
+  /rest/api/2/filter/{id}:
+    $ref: paths/rest_api_2_filter_{id}.yaml
+  /rest/api/2/filter/{id}/columns:
+    $ref: paths/rest_api_2_filter_{id}_columns.yaml
+  /rest/api/2/filter/{id}/favourite:
+    $ref: paths/rest_api_2_filter_{id}_favourite.yaml
+  /rest/api/2/filter/{id}/owner:
+    $ref: paths/rest_api_2_filter_{id}_owner.yaml
+  /rest/api/2/filter/{id}/permission:
+    $ref: paths/rest_api_2_filter_{id}_permission.yaml
+  /rest/api/2/filter/{id}/permission/{permissionId}:
+    $ref: paths/rest_api_2_filter_{id}_permission_{permissionId}.yaml
+  /rest/api/2/group:
+    $ref: paths/rest_api_2_group.yaml
+  /rest/api/2/group/bulk:
+    $ref: paths/rest_api_2_group_bulk.yaml
+  /rest/api/2/group/member:
+    $ref: paths/rest_api_2_group_member.yaml
+  /rest/api/2/group/user:
+    $ref: paths/rest_api_2_group_user.yaml
+  /rest/api/2/groups/picker:
+    $ref: paths/rest_api_2_groups_picker.yaml
+  /rest/api/2/groupuserpicker:
+    $ref: paths/rest_api_2_groupuserpicker.yaml
+  /rest/api/2/instance/license:
+    $ref: paths/rest_api_2_instance_license.yaml
+  /rest/api/2/issue:
+    $ref: paths/rest_api_2_issue.yaml
+  /rest/api/2/issue/bulk:
+    $ref: paths/rest_api_2_issue_bulk.yaml
+  /rest/api/2/issue/createmeta:
+    $ref: paths/rest_api_2_issue_createmeta.yaml
+  /rest/api/2/issue/picker:
+    $ref: paths/rest_api_2_issue_picker.yaml
+  /rest/api/2/issue/properties:
+    $ref: paths/rest_api_2_issue_properties.yaml
+  /rest/api/2/issue/properties/multi:
+    $ref: paths/rest_api_2_issue_properties_multi.yaml
+  /rest/api/2/issue/properties/{propertyKey}:
+    $ref: paths/rest_api_2_issue_properties_{propertyKey}.yaml
+  /rest/api/2/issue/watching:
+    $ref: paths/rest_api_2_issue_watching.yaml
+  /rest/api/2/issue/{issueIdOrKey}:
+    $ref: paths/rest_api_2_issue_{issueIdOrKey}.yaml
+  /rest/api/2/issue/{issueIdOrKey}/assignee:
+    $ref: paths/rest_api_2_issue_{issueIdOrKey}_assignee.yaml
+  /rest/api/2/issue/{issueIdOrKey}/attachments:
+    $ref: paths/rest_api_2_issue_{issueIdOrKey}_attachments.yaml
+  /rest/api/2/issue/{issueIdOrKey}/changelog:
+    $ref: paths/rest_api_2_issue_{issueIdOrKey}_changelog.yaml
+  /rest/api/2/issue/{issueIdOrKey}/changelog/list:
+    $ref: paths/rest_api_2_issue_{issueIdOrKey}_changelog_list.yaml
+  /rest/api/2/issue/{issueIdOrKey}/comment:
+    $ref: paths/rest_api_2_issue_{issueIdOrKey}_comment.yaml
+  /rest/api/2/issue/{issueIdOrKey}/comment/{id}:
+    $ref: paths/rest_api_2_issue_{issueIdOrKey}_comment_{id}.yaml
+  /rest/api/2/issue/{issueIdOrKey}/editmeta:
+    $ref: paths/rest_api_2_issue_{issueIdOrKey}_editmeta.yaml
+  /rest/api/2/issue/{issueIdOrKey}/notify:
+    $ref: paths/rest_api_2_issue_{issueIdOrKey}_notify.yaml
+  /rest/api/2/issue/{issueIdOrKey}/properties:
+    $ref: paths/rest_api_2_issue_{issueIdOrKey}_properties.yaml
+  /rest/api/2/issue/{issueIdOrKey}/properties/{propertyKey}:
+    $ref: paths/rest_api_2_issue_{issueIdOrKey}_properties_{propertyKey}.yaml
+  /rest/api/2/issue/{issueIdOrKey}/remotelink:
+    $ref: paths/rest_api_2_issue_{issueIdOrKey}_remotelink.yaml
+  /rest/api/2/issue/{issueIdOrKey}/remotelink/{linkId}:
+    $ref: paths/rest_api_2_issue_{issueIdOrKey}_remotelink_{linkId}.yaml
+  /rest/api/2/issue/{issueIdOrKey}/transitions:
+    $ref: paths/rest_api_2_issue_{issueIdOrKey}_transitions.yaml
+  /rest/api/2/issue/{issueIdOrKey}/votes:
+    $ref: paths/rest_api_2_issue_{issueIdOrKey}_votes.yaml
+  /rest/api/2/issue/{issueIdOrKey}/watchers:
+    $ref: paths/rest_api_2_issue_{issueIdOrKey}_watchers.yaml
+  /rest/api/2/issue/{issueIdOrKey}/worklog:
+    $ref: paths/rest_api_2_issue_{issueIdOrKey}_worklog.yaml
+  /rest/api/2/issue/{issueIdOrKey}/worklog/{id}:
+    $ref: paths/rest_api_2_issue_{issueIdOrKey}_worklog_{id}.yaml
+  /rest/api/2/issue/{issueIdOrKey}/worklog/{worklogId}/properties:
+    $ref: paths/rest_api_2_issue_{issueIdOrKey}_worklog_{worklogId}_properties.yaml
+  /rest/api/2/issue/{issueIdOrKey}/worklog/{worklogId}/properties/{propertyKey}:
+    $ref: >-
+      paths/rest_api_2_issue_{issueIdOrKey}_worklog_{worklogId}_properties_{propertyKey}.yaml
+  /rest/api/2/issueLink:
+    $ref: paths/rest_api_2_issueLink.yaml
+  /rest/api/2/issueLink/{linkId}:
+    $ref: paths/rest_api_2_issueLink_{linkId}.yaml
+  /rest/api/2/issueLinkType:
+    $ref: paths/rest_api_2_issueLinkType.yaml
+  /rest/api/2/issueLinkType/{issueLinkTypeId}:
+    $ref: paths/rest_api_2_issueLinkType_{issueLinkTypeId}.yaml
+  /rest/api/2/issuesecurityschemes:
+    $ref: paths/rest_api_2_issuesecurityschemes.yaml
+  /rest/api/2/issuesecurityschemes/{id}:
+    $ref: paths/rest_api_2_issuesecurityschemes_{id}.yaml
+  /rest/api/2/issuesecurityschemes/{issueSecuritySchemeId}/members:
+    $ref: paths/rest_api_2_issuesecurityschemes_{issueSecuritySchemeId}_members.yaml
+  /rest/api/2/issuetype:
+    $ref: paths/rest_api_2_issuetype.yaml
+  /rest/api/2/issuetype/project:
+    $ref: paths/rest_api_2_issuetype_project.yaml
+  /rest/api/2/issuetype/{id}:
+    $ref: paths/rest_api_2_issuetype_{id}.yaml
+  /rest/api/2/issuetype/{id}/alternatives:
+    $ref: paths/rest_api_2_issuetype_{id}_alternatives.yaml
+  /rest/api/2/issuetype/{id}/avatar2:
+    $ref: paths/rest_api_2_issuetype_{id}_avatar2.yaml
+  /rest/api/2/issuetype/{issueTypeId}/properties:
+    $ref: paths/rest_api_2_issuetype_{issueTypeId}_properties.yaml
+  /rest/api/2/issuetype/{issueTypeId}/properties/{propertyKey}:
+    $ref: paths/rest_api_2_issuetype_{issueTypeId}_properties_{propertyKey}.yaml
+  /rest/api/2/issuetypescheme:
+    $ref: paths/rest_api_2_issuetypescheme.yaml
+  /rest/api/2/issuetypescheme/mapping:
+    $ref: paths/rest_api_2_issuetypescheme_mapping.yaml
+  /rest/api/2/issuetypescheme/project:
+    $ref: paths/rest_api_2_issuetypescheme_project.yaml
+  /rest/api/2/issuetypescheme/{issueTypeSchemeId}:
+    $ref: paths/rest_api_2_issuetypescheme_{issueTypeSchemeId}.yaml
+  /rest/api/2/issuetypescheme/{issueTypeSchemeId}/issuetype:
+    $ref: paths/rest_api_2_issuetypescheme_{issueTypeSchemeId}_issuetype.yaml
+  /rest/api/2/issuetypescheme/{issueTypeSchemeId}/issuetype/move:
+    $ref: paths/rest_api_2_issuetypescheme_{issueTypeSchemeId}_issuetype_move.yaml
+  /rest/api/2/issuetypescheme/{issueTypeSchemeId}/issuetype/{issueTypeId}:
+    $ref: >-
+      paths/rest_api_2_issuetypescheme_{issueTypeSchemeId}_issuetype_{issueTypeId}.yaml
+  /rest/api/2/issuetypescreenscheme:
+    $ref: paths/rest_api_2_issuetypescreenscheme.yaml
+  /rest/api/2/issuetypescreenscheme/mapping:
+    $ref: paths/rest_api_2_issuetypescreenscheme_mapping.yaml
+  /rest/api/2/issuetypescreenscheme/project:
+    $ref: paths/rest_api_2_issuetypescreenscheme_project.yaml
+  /rest/api/2/issuetypescreenscheme/{issueTypeScreenSchemeId}:
+    $ref: paths/rest_api_2_issuetypescreenscheme_{issueTypeScreenSchemeId}.yaml
+  /rest/api/2/issuetypescreenscheme/{issueTypeScreenSchemeId}/mapping:
+    $ref: >-
+      paths/rest_api_2_issuetypescreenscheme_{issueTypeScreenSchemeId}_mapping.yaml
+  /rest/api/2/issuetypescreenscheme/{issueTypeScreenSchemeId}/mapping/default:
+    $ref: >-
+      paths/rest_api_2_issuetypescreenscheme_{issueTypeScreenSchemeId}_mapping_default.yaml
+  /rest/api/2/issuetypescreenscheme/{issueTypeScreenSchemeId}/mapping/remove:
+    $ref: >-
+      paths/rest_api_2_issuetypescreenscheme_{issueTypeScreenSchemeId}_mapping_remove.yaml
+  /rest/api/2/issuetypescreenscheme/{issueTypeScreenSchemeId}/project:
+    $ref: >-
+      paths/rest_api_2_issuetypescreenscheme_{issueTypeScreenSchemeId}_project.yaml
+  /rest/api/2/jql/autocompletedata:
+    $ref: paths/rest_api_2_jql_autocompletedata.yaml
+  /rest/api/2/jql/autocompletedata/suggestions:
+    $ref: paths/rest_api_2_jql_autocompletedata_suggestions.yaml
+  /rest/api/2/jql/match:
+    $ref: paths/rest_api_2_jql_match.yaml
+  /rest/api/2/jql/parse:
+    $ref: paths/rest_api_2_jql_parse.yaml
+  /rest/api/2/jql/pdcleaner:
+    $ref: paths/rest_api_2_jql_pdcleaner.yaml
+  /rest/api/2/jql/sanitize:
+    $ref: paths/rest_api_2_jql_sanitize.yaml
+  /rest/api/2/label:
+    $ref: paths/rest_api_2_label.yaml
+  /rest/api/2/mypermissions:
+    $ref: paths/rest_api_2_mypermissions.yaml
+  /rest/api/2/mypreferences:
+    $ref: paths/rest_api_2_mypreferences.yaml
+  /rest/api/2/mypreferences/locale:
+    $ref: paths/rest_api_2_mypreferences_locale.yaml
+  /rest/api/2/myself:
+    $ref: paths/rest_api_2_myself.yaml
+  /rest/api/2/notificationscheme:
+    $ref: paths/rest_api_2_notificationscheme.yaml
+  /rest/api/2/notificationscheme/{id}:
+    $ref: paths/rest_api_2_notificationscheme_{id}.yaml
+  /rest/api/2/permissions:
+    $ref: paths/rest_api_2_permissions.yaml
+  /rest/api/2/permissions/check:
+    $ref: paths/rest_api_2_permissions_check.yaml
+  /rest/api/2/permissions/project:
+    $ref: paths/rest_api_2_permissions_project.yaml
+  /rest/api/2/permissionscheme:
+    $ref: paths/rest_api_2_permissionscheme.yaml
+  /rest/api/2/permissionscheme/{schemeId}:
+    $ref: paths/rest_api_2_permissionscheme_{schemeId}.yaml
+  /rest/api/2/permissionscheme/{schemeId}/permission:
+    $ref: paths/rest_api_2_permissionscheme_{schemeId}_permission.yaml
+  /rest/api/2/permissionscheme/{schemeId}/permission/{permissionId}:
+    $ref: >-
+      paths/rest_api_2_permissionscheme_{schemeId}_permission_{permissionId}.yaml
+  /rest/api/2/priority:
+    $ref: paths/rest_api_2_priority.yaml
+  /rest/api/2/priority/default:
+    $ref: paths/rest_api_2_priority_default.yaml
+  /rest/api/2/priority/search:
+    $ref: paths/rest_api_2_priority_search.yaml
+  /rest/api/2/priority/{id}:
+    $ref: paths/rest_api_2_priority_{id}.yaml
+  /rest/api/2/project:
+    $ref: paths/rest_api_2_project.yaml
+  /rest/api/2/project/recent:
+    $ref: paths/rest_api_2_project_recent.yaml
+  /rest/api/2/project/search:
+    $ref: paths/rest_api_2_project_search.yaml
+  /rest/api/2/project/type:
+    $ref: paths/rest_api_2_project_type.yaml
+  /rest/api/2/project/type/accessible:
+    $ref: paths/rest_api_2_project_type_accessible.yaml
+  /rest/api/2/project/type/{projectTypeKey}:
+    $ref: paths/rest_api_2_project_type_{projectTypeKey}.yaml
+  /rest/api/2/project/type/{projectTypeKey}/accessible:
+    $ref: paths/rest_api_2_project_type_{projectTypeKey}_accessible.yaml
+  /rest/api/2/project/{projectIdOrKey}:
+    $ref: paths/rest_api_2_project_{projectIdOrKey}.yaml
+  /rest/api/2/project/{projectIdOrKey}/archive:
+    $ref: paths/rest_api_2_project_{projectIdOrKey}_archive.yaml
+  /rest/api/2/project/{projectIdOrKey}/avatar:
+    $ref: paths/rest_api_2_project_{projectIdOrKey}_avatar.yaml
+  /rest/api/2/project/{projectIdOrKey}/avatar/{id}:
+    $ref: paths/rest_api_2_project_{projectIdOrKey}_avatar_{id}.yaml
+  /rest/api/2/project/{projectIdOrKey}/avatar2:
+    $ref: paths/rest_api_2_project_{projectIdOrKey}_avatar2.yaml
+  /rest/api/2/project/{projectIdOrKey}/avatars:
+    $ref: paths/rest_api_2_project_{projectIdOrKey}_avatars.yaml
+  /rest/api/2/project/{projectIdOrKey}/component:
+    $ref: paths/rest_api_2_project_{projectIdOrKey}_component.yaml
+  /rest/api/2/project/{projectIdOrKey}/components:
+    $ref: paths/rest_api_2_project_{projectIdOrKey}_components.yaml
+  /rest/api/2/project/{projectIdOrKey}/delete:
+    $ref: paths/rest_api_2_project_{projectIdOrKey}_delete.yaml
+  /rest/api/2/project/{projectIdOrKey}/features:
+    $ref: paths/rest_api_2_project_{projectIdOrKey}_features.yaml
+  /rest/api/2/project/{projectIdOrKey}/features/{featureKey}:
+    $ref: paths/rest_api_2_project_{projectIdOrKey}_features_{featureKey}.yaml
+  /rest/api/2/project/{projectIdOrKey}/properties:
+    $ref: paths/rest_api_2_project_{projectIdOrKey}_properties.yaml
+  /rest/api/2/project/{projectIdOrKey}/properties/{propertyKey}:
+    $ref: paths/rest_api_2_project_{projectIdOrKey}_properties_{propertyKey}.yaml
+  /rest/api/2/project/{projectIdOrKey}/restore:
+    $ref: paths/rest_api_2_project_{projectIdOrKey}_restore.yaml
+  /rest/api/2/project/{projectIdOrKey}/role:
+    $ref: paths/rest_api_2_project_{projectIdOrKey}_role.yaml
+  /rest/api/2/project/{projectIdOrKey}/role/{id}:
+    $ref: paths/rest_api_2_project_{projectIdOrKey}_role_{id}.yaml
+  /rest/api/2/project/{projectIdOrKey}/roledetails:
+    $ref: paths/rest_api_2_project_{projectIdOrKey}_roledetails.yaml
+  /rest/api/2/project/{projectIdOrKey}/statuses:
+    $ref: paths/rest_api_2_project_{projectIdOrKey}_statuses.yaml
+  /rest/api/2/project/{projectIdOrKey}/type/{newProjectTypeKey}:
+    $ref: paths/rest_api_2_project_{projectIdOrKey}_type_{newProjectTypeKey}.yaml
+  /rest/api/2/project/{projectIdOrKey}/version:
+    $ref: paths/rest_api_2_project_{projectIdOrKey}_version.yaml
+  /rest/api/2/project/{projectIdOrKey}/versions:
+    $ref: paths/rest_api_2_project_{projectIdOrKey}_versions.yaml
+  /rest/api/2/project/{projectId}/email:
+    $ref: paths/rest_api_2_project_{projectId}_email.yaml
+  /rest/api/2/project/{projectId}/hierarchy:
+    $ref: paths/rest_api_2_project_{projectId}_hierarchy.yaml
+  /rest/api/2/project/{projectKeyOrId}/issuesecuritylevelscheme:
+    $ref: paths/rest_api_2_project_{projectKeyOrId}_issuesecuritylevelscheme.yaml
+  /rest/api/2/project/{projectKeyOrId}/notificationscheme:
+    $ref: paths/rest_api_2_project_{projectKeyOrId}_notificationscheme.yaml
+  /rest/api/2/project/{projectKeyOrId}/permissionscheme:
+    $ref: paths/rest_api_2_project_{projectKeyOrId}_permissionscheme.yaml
+  /rest/api/2/project/{projectKeyOrId}/securitylevel:
+    $ref: paths/rest_api_2_project_{projectKeyOrId}_securitylevel.yaml
+  /rest/api/2/projectCategory:
+    $ref: paths/rest_api_2_projectCategory.yaml
+  /rest/api/2/projectCategory/{id}:
+    $ref: paths/rest_api_2_projectCategory_{id}.yaml
+  /rest/api/2/projectvalidate/key:
+    $ref: paths/rest_api_2_projectvalidate_key.yaml
+  /rest/api/2/projectvalidate/validProjectKey:
+    $ref: paths/rest_api_2_projectvalidate_validProjectKey.yaml
+  /rest/api/2/projectvalidate/validProjectName:
+    $ref: paths/rest_api_2_projectvalidate_validProjectName.yaml
+  /rest/api/2/resolution:
+    $ref: paths/rest_api_2_resolution.yaml
+  /rest/api/2/resolution/{id}:
+    $ref: paths/rest_api_2_resolution_{id}.yaml
+  /rest/api/2/role:
+    $ref: paths/rest_api_2_role.yaml
+  /rest/api/2/role/{id}:
+    $ref: paths/rest_api_2_role_{id}.yaml
+  /rest/api/2/role/{id}/actors:
+    $ref: paths/rest_api_2_role_{id}_actors.yaml
+  /rest/api/2/screens:
+    $ref: paths/rest_api_2_screens.yaml
+  /rest/api/2/screens/addToDefault/{fieldId}:
+    $ref: paths/rest_api_2_screens_addToDefault_{fieldId}.yaml
+  /rest/api/2/screens/{screenId}:
+    $ref: paths/rest_api_2_screens_{screenId}.yaml
+  /rest/api/2/screens/{screenId}/availableFields:
+    $ref: paths/rest_api_2_screens_{screenId}_availableFields.yaml
+  /rest/api/2/screens/{screenId}/tabs:
+    $ref: paths/rest_api_2_screens_{screenId}_tabs.yaml
+  /rest/api/2/screens/{screenId}/tabs/{tabId}:
+    $ref: paths/rest_api_2_screens_{screenId}_tabs_{tabId}.yaml
+  /rest/api/2/screens/{screenId}/tabs/{tabId}/fields:
+    $ref: paths/rest_api_2_screens_{screenId}_tabs_{tabId}_fields.yaml
+  /rest/api/2/screens/{screenId}/tabs/{tabId}/fields/{id}:
+    $ref: paths/rest_api_2_screens_{screenId}_tabs_{tabId}_fields_{id}.yaml
+  /rest/api/2/screens/{screenId}/tabs/{tabId}/fields/{id}/move:
+    $ref: paths/rest_api_2_screens_{screenId}_tabs_{tabId}_fields_{id}_move.yaml
+  /rest/api/2/screens/{screenId}/tabs/{tabId}/move/{pos}:
+    $ref: paths/rest_api_2_screens_{screenId}_tabs_{tabId}_move_{pos}.yaml
+  /rest/api/2/screenscheme:
+    $ref: paths/rest_api_2_screenscheme.yaml
+  /rest/api/2/screenscheme/{screenSchemeId}:
+    $ref: paths/rest_api_2_screenscheme_{screenSchemeId}.yaml
+  /rest/api/2/search:
+    $ref: paths/rest_api_2_search.yaml
+  /rest/api/2/securitylevel/{id}:
+    $ref: paths/rest_api_2_securitylevel_{id}.yaml
+  /rest/api/2/serverInfo:
+    $ref: paths/rest_api_2_serverInfo.yaml
+  /rest/api/2/settings/columns:
+    $ref: paths/rest_api_2_settings_columns.yaml
+  /rest/api/2/status:
+    $ref: paths/rest_api_2_status.yaml
+  /rest/api/2/status/{idOrName}:
+    $ref: paths/rest_api_2_status_{idOrName}.yaml
+  /rest/api/2/statuscategory:
+    $ref: paths/rest_api_2_statuscategory.yaml
+  /rest/api/2/statuscategory/{idOrKey}:
+    $ref: paths/rest_api_2_statuscategory_{idOrKey}.yaml
+  /rest/api/2/statuses:
+    $ref: paths/rest_api_2_statuses.yaml
+  /rest/api/2/statuses/search:
+    $ref: paths/rest_api_2_statuses_search.yaml
+  /rest/api/2/task/{taskId}:
+    $ref: paths/rest_api_2_task_{taskId}.yaml
+  /rest/api/2/task/{taskId}/cancel:
+    $ref: paths/rest_api_2_task_{taskId}_cancel.yaml
+  /rest/api/2/uiModifications:
+    $ref: paths/rest_api_2_uiModifications.yaml
+  /rest/api/2/uiModifications/{uiModificationId}:
+    $ref: paths/rest_api_2_uiModifications_{uiModificationId}.yaml
+  /rest/api/2/universal_avatar/type/{type}/owner/{entityId}:
+    $ref: paths/rest_api_2_universal_avatar_type_{type}_owner_{entityId}.yaml
+  /rest/api/2/universal_avatar/type/{type}/owner/{owningObjectId}/avatar/{id}:
+    $ref: >-
+      paths/rest_api_2_universal_avatar_type_{type}_owner_{owningObjectId}_avatar_{id}.yaml
+  /rest/api/2/universal_avatar/view/type/{type}:
+    $ref: paths/rest_api_2_universal_avatar_view_type_{type}.yaml
+  /rest/api/2/universal_avatar/view/type/{type}/avatar/{id}:
+    $ref: paths/rest_api_2_universal_avatar_view_type_{type}_avatar_{id}.yaml
+  /rest/api/2/universal_avatar/view/type/{type}/owner/{entityId}:
+    $ref: paths/rest_api_2_universal_avatar_view_type_{type}_owner_{entityId}.yaml
+  /rest/api/2/user:
+    $ref: paths/rest_api_2_user.yaml
+  /rest/api/2/user/assignable/multiProjectSearch:
+    $ref: paths/rest_api_2_user_assignable_multiProjectSearch.yaml
+  /rest/api/2/user/assignable/search:
+    $ref: paths/rest_api_2_user_assignable_search.yaml
+  /rest/api/2/user/bulk:
+    $ref: paths/rest_api_2_user_bulk.yaml
+  /rest/api/2/user/bulk/migration:
+    $ref: paths/rest_api_2_user_bulk_migration.yaml
+  /rest/api/2/user/columns:
+    $ref: paths/rest_api_2_user_columns.yaml
+  /rest/api/2/user/email:
+    $ref: paths/rest_api_2_user_email.yaml
+  /rest/api/2/user/email/bulk:
+    $ref: paths/rest_api_2_user_email_bulk.yaml
+  /rest/api/2/user/groups:
+    $ref: paths/rest_api_2_user_groups.yaml
+  /rest/api/2/user/permission/search:
+    $ref: paths/rest_api_2_user_permission_search.yaml
+  /rest/api/2/user/picker:
+    $ref: paths/rest_api_2_user_picker.yaml
+  /rest/api/2/user/properties:
+    $ref: paths/rest_api_2_user_properties.yaml
+  /rest/api/2/user/properties/{propertyKey}:
+    $ref: paths/rest_api_2_user_properties_{propertyKey}.yaml
+  /rest/api/2/user/search:
+    $ref: paths/rest_api_2_user_search.yaml
+  /rest/api/2/user/search/query:
+    $ref: paths/rest_api_2_user_search_query.yaml
+  /rest/api/2/user/search/query/key:
+    $ref: paths/rest_api_2_user_search_query_key.yaml
+  /rest/api/2/user/viewissue/search:
+    $ref: paths/rest_api_2_user_viewissue_search.yaml
+  /rest/api/2/users:
+    $ref: paths/rest_api_2_users.yaml
+  /rest/api/2/users/search:
+    $ref: paths/rest_api_2_users_search.yaml
+  /rest/api/2/version:
+    $ref: paths/rest_api_2_version.yaml
+  /rest/api/2/version/{id}:
+    $ref: paths/rest_api_2_version_{id}.yaml
+  /rest/api/2/version/{id}/mergeto/{moveIssuesTo}:
+    $ref: paths/rest_api_2_version_{id}_mergeto_{moveIssuesTo}.yaml
+  /rest/api/2/version/{id}/move:
+    $ref: paths/rest_api_2_version_{id}_move.yaml
+  /rest/api/2/version/{id}/relatedIssueCounts:
+    $ref: paths/rest_api_2_version_{id}_relatedIssueCounts.yaml
+  /rest/api/2/version/{id}/removeAndSwap:
+    $ref: paths/rest_api_2_version_{id}_removeAndSwap.yaml
+  /rest/api/2/version/{id}/unresolvedIssueCount:
+    $ref: paths/rest_api_2_version_{id}_unresolvedIssueCount.yaml
+  /rest/api/2/webhook:
+    $ref: paths/rest_api_2_webhook.yaml
+  /rest/api/2/webhook/failed:
+    $ref: paths/rest_api_2_webhook_failed.yaml
+  /rest/api/2/webhook/refresh:
+    $ref: paths/rest_api_2_webhook_refresh.yaml
+  /rest/api/2/workflow:
+    $ref: paths/rest_api_2_workflow.yaml
+  /rest/api/2/workflow/rule/config:
+    $ref: paths/rest_api_2_workflow_rule_config.yaml
+  /rest/api/2/workflow/rule/config/delete:
+    $ref: paths/rest_api_2_workflow_rule_config_delete.yaml
+  /rest/api/2/workflow/search:
+    $ref: paths/rest_api_2_workflow_search.yaml
+  /rest/api/2/workflow/transitions/{transitionId}/properties:
+    $ref: paths/rest_api_2_workflow_transitions_{transitionId}_properties.yaml
+  /rest/api/2/workflow/{entityId}:
+    $ref: paths/rest_api_2_workflow_{entityId}.yaml
+  /rest/api/2/workflowscheme:
+    $ref: paths/rest_api_2_workflowscheme.yaml
+  /rest/api/2/workflowscheme/project:
+    $ref: paths/rest_api_2_workflowscheme_project.yaml
+  /rest/api/2/workflowscheme/{id}:
+    $ref: paths/rest_api_2_workflowscheme_{id}.yaml
+  /rest/api/2/workflowscheme/{id}/createdraft:
+    $ref: paths/rest_api_2_workflowscheme_{id}_createdraft.yaml
+  /rest/api/2/workflowscheme/{id}/default:
+    $ref: paths/rest_api_2_workflowscheme_{id}_default.yaml
+  /rest/api/2/workflowscheme/{id}/draft:
+    $ref: paths/rest_api_2_workflowscheme_{id}_draft.yaml
+  /rest/api/2/workflowscheme/{id}/draft/default:
+    $ref: paths/rest_api_2_workflowscheme_{id}_draft_default.yaml
+  /rest/api/2/workflowscheme/{id}/draft/issuetype/{issueType}:
+    $ref: paths/rest_api_2_workflowscheme_{id}_draft_issuetype_{issueType}.yaml
+  /rest/api/2/workflowscheme/{id}/draft/publish:
+    $ref: paths/rest_api_2_workflowscheme_{id}_draft_publish.yaml
+  /rest/api/2/workflowscheme/{id}/draft/workflow:
+    $ref: paths/rest_api_2_workflowscheme_{id}_draft_workflow.yaml
+  /rest/api/2/workflowscheme/{id}/issuetype/{issueType}:
+    $ref: paths/rest_api_2_workflowscheme_{id}_issuetype_{issueType}.yaml
+  /rest/api/2/workflowscheme/{id}/workflow:
+    $ref: paths/rest_api_2_workflowscheme_{id}_workflow.yaml
+  /rest/api/2/worklog/deleted:
+    $ref: paths/rest_api_2_worklog_deleted.yaml
+  /rest/api/2/worklog/list:
+    $ref: paths/rest_api_2_worklog_list.yaml
+  /rest/api/2/worklog/updated:
+    $ref: paths/rest_api_2_worklog_updated.yaml
+  /rest/atlassian-connect/1/addons/{addonKey}/properties:
+    $ref: paths/rest_atlassian-connect_1_addons_{addonKey}_properties.yaml
+  /rest/atlassian-connect/1/addons/{addonKey}/properties/{propertyKey}:
+    $ref: >-
+      paths/rest_atlassian-connect_1_addons_{addonKey}_properties_{propertyKey}.yaml
+  /rest/atlassian-connect/1/app/module/dynamic:
+    $ref: paths/rest_atlassian-connect_1_app_module_dynamic.yaml
+  /rest/atlassian-connect/1/migration/field:
+    $ref: paths/rest_atlassian-connect_1_migration_field.yaml
+  /rest/atlassian-connect/1/migration/properties/{entityType}:
+    $ref: paths/rest_atlassian-connect_1_migration_properties_{entityType}.yaml
+  /rest/atlassian-connect/1/migration/workflow/rule/search:
+    $ref: paths/rest_atlassian-connect_1_migration_workflow_rule_search.yaml
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      description: You can access this resource via basic auth.
+      scheme: basic
+    OAuth2:
+      type: oauth2
+      description: OAuth2 scopes for Jira
+      flows:
+        authorizationCode:
+          authorizationUrl: https://auth.atlassian.com/authorize
+          tokenUrl: https://auth.atlassian.com/oauth/token
+          scopes:
+            read:jira-user: >-
+              View user information in Jira that you have access to, including
+              usernames, email addresses, and avatars.
+            read:jira-work: >-
+              Read project and issue data. Search for issues and objects
+              associated with issues (such as attachments and worklogs).
+            write:jira-work: >-
+              Create and edit issues in Jira, post comments, create worklogs,
+              and delete issues.
+            manage:jira-project: >-
+              Create and edit project settings and create new project-level
+              objects, for example, versions, components.
+            manage:jira-configuration: >-
+              Configure Jira settings that require the Jira administrators
+              permission, for example, create projects and custom fields, view
+              workflows, manage issue link types.
+            manage:jira-webhook: >-
+              Manage Jira webhooks. Enables an OAuth app to register and
+              unregister dynamic webhooks in Jira. It also provides for fetching
+              of registered webhooks.
+            read:application-role:jira: View application roles.
+            read:audit-log:jira: View audit logs.
+            read:avatar:jira: View system and custom avatars.
+            write:avatar:jira: Create and update system and custom avatars.
+            delete:avatar:jira: Delete system and custom avatars.
+            read:project.avatar:jira: Read project avatars.
+            write:project.avatar:jira: Create and update project avatars.
+            delete:project.avatar:jira: Delete project avatars.
+            read:dashboard:jira: View dashboards.
+            write:dashboard:jira: Create and update dashboards.
+            delete:dashboard:jira: Delete dashboards.
+            read:dashboard.property:jira: View dashboard properties.
+            write:dashboard.property:jira: Create and update dashboard properties.
+            delete:dashboard.property:jira: Delete dashboard properties.
+            read:filter:jira: View filters.
+            write:filter:jira: Create and update filters.
+            delete:filter:jira: Delete filters.
+            read:filter.column:jira: View filter columns.
+            write:filter.column:jira: Create and update filter columns.
+            delete:filter.column:jira: Delete filter columns.
+            read:filter.default-share-scope:jira: View filter default share scopes.
+            write:filter.default-share-scope:jira: Create and update filter default share scopes.
+            read:group:jira: View user groups.
+            write:group:jira: Create and update user groups.
+            delete:group:jira: Delete user groups.
+            read:license:jira: View licenses.
+            read:issue:jira: View issues.
+            write:issue:jira: Create and update issues.
+            delete:issue:jira: Delete issues.
+            read:issue-meta:jira: View issue meta.
+            send:notification:jira: Send notifications.
+            read:attachment:jira: View issue attachments.
+            write:attachment:jira: Create and update issue attachments.
+            delete:attachment:jira: Delete issue attachments.
+            read:comment:jira: View issue comments.
+            write:comment:jira: Create and update issue comments.
+            delete:comment:jira: Delete issue comments.
+            read:comment.property:jira: View issue comment properties.
+            write:comment.property:jira: Create and update issue comment properties.
+            delete:comment.property:jira: Delete issue comment properties.
+            read:field:jira: View fields.
+            write:field:jira: Create and update fields.
+            delete:field:jira: Delete fields.
+            read:field.default-value:jira: View field default values.
+            write:field.default-value:jira: Create and update field default values.
+            read:field.option:jira: View field options.
+            write:field.option:jira: Create and update field options.
+            delete:field.option:jira: Delete field options.
+            read:field-configuration-scheme:jira: View field configuration schemes.
+            write:field-configuration-scheme:jira: Create and update field configuration schemes.
+            delete:field-configuration-scheme:jira: Delete field configuration schemes.
+            read:custom-field-contextual-configuration:jira: Read custom field contextual configurations.
+            write:custom-field-contextual-configuration:jira: Save custom field contextual configurations.
+            read:field-configuration:jira: Read field configurations.
+            write:field-configuration:jira: Save field configurations.
+            delete:field-configuration:jira: Delete field configurations.
+            read:field.options:jira: Read field options.
+            read:issue-link:jira: View issue links.
+            write:issue-link:jira: Create and update issue links.
+            delete:issue-link:jira: Delete issue links.
+            read:issue-link-type:jira: View issue link types.
+            write:issue-link-type:jira: Create and update issue link types.
+            delete:issue-link-type:jira: Delete issue link types.
+            read:notification-scheme:jira: View notification schemes.
+            read:priority:jira: View priorities.
+            read:issue.property:jira: View issue properties.
+            write:issue.property:jira: Create and update issue properties.
+            delete:issue.property:jira: Delete issue properties.
+            read:issue.remote-link:jira: View issue remote links.
+            write:issue.remote-link:jira: Create and update issue remote links.
+            delete:issue.remote-link:jira: Delete issue remote links.
+            read:resolution:jira: View resolutions.
+            read:issue-details:jira: View issue details.
+            read:issue-security-scheme:jira: View issue security schemes.
+            read:issue-type:jira: View issue types.
+            write:issue-type:jira: Create and update issue types.
+            delete:issue-type:jira: Delete issue types.
+            read:issue-type-scheme:jira: View issue type schemes.
+            write:issue-type-scheme:jira: Create and update issue type schemes.
+            delete:issue-type-scheme:jira: Delete issue type schemes.
+            read:issue-type-screen-scheme:jira: View issue type screen schemes.
+            write:issue-type-screen-scheme:jira: Create and update issue type screen schemes.
+            delete:issue-type-screen-scheme:jira: Delete issue type screen schemes.
+            read:issue-type.property:jira: View issue type properties.
+            write:issue-type.property:jira: Create and update issue type properties.
+            delete:issue-type.property:jira: Delete issue type properties.
+            read:issue.watcher:jira: View issue watchers.
+            write:issue.watcher:jira: Create and update issue watchers.
+            read:issue-worklog:jira: View issue worklogs.
+            write:issue-worklog:jira: Create and update issue worklogs.
+            delete:issue-worklog:jira: Delete issue worklogs.
+            read:issue-worklog.property:jira: View issue worklog properties.
+            write:issue-worklog.property:jira: Create and update issue worklog properties.
+            delete:issue-worklog.property:jira: Delete issue worklog properties.
+            read:issue-field-values:jira: View issue field valueses.
+            read:issue-security-level:jira: View issue security levels.
+            read:issue-status:jira: View issue statuses.
+            read:issue-type-hierarchy:jira: Read issue type hierarchies.
+            read:issue.changelog:jira: View issue changelogs.
+            read:issue.transition:jira: View issue transitions.
+            read:issue.vote:jira: View issue votes.
+            write:issue.vote:jira: Create and update issue votes.
+            read:issue.votes:jira: View issue voteses.
+            read:issue-event:jira: Read issue events.
+            read:jira-expressions:jira: View jira expressions.
+            read:user:jira: View users.
+            read:user.columns:jira: View user columnses.
+            read:label:jira: View labels.
+            read:permission:jira: View permissions.
+            write:permission:jira: Create and update permissions.
+            delete:permission:jira: Delete permissions.
+            read:permission-scheme:jira: View permission schemes.
+            write:permission-scheme:jira: Create and update permission schemes.
+            delete:permission-scheme:jira: Delete permission schemes.
+            read:project:jira: View projects.
+            write:project:jira: Create and update projects.
+            delete:project:jira: >-
+              Delete projects and their details, such as issue types, project
+              lead, and avatars.
+            read:project-category:jira: View project categories.
+            write:project-category:jira: Create and update project categories.
+            delete:project-category:jira: Delete project categories.
+            read:project.component:jira: View project components.
+            write:project.component:jira: Create and update project components.
+            delete:project.component:jira: Delete project components.
+            read:project.property:jira: View project properties.
+            write:project.property:jira: Create and update project properties.
+            delete:project.property:jira: Delete project properties.
+            read:project-role:jira: View project roles.
+            write:project-role:jira: Create and update project roles.
+            delete:project-role:jira: Delete project roles.
+            read:project-version:jira: View project versions.
+            write:project-version:jira: Create and update project versions.
+            delete:project-version:jira: Delete project versions.
+            read:project.feature:jira: Read project features.
+            write:project.feature:jira: Save project features.
+            read:screen:jira: View screens.
+            write:screen:jira: Create and update screens.
+            delete:screen:jira: Delete screens.
+            read:screen-scheme:jira: View screen schemes.
+            write:screen-scheme:jira: Create and update screen schemes.
+            delete:screen-scheme:jira: Delete screen schemes.
+            read:screen-field:jira: View screen fields.
+            read:screen-tab:jira: View screen tabs.
+            write:screen-tab:jira: Create and update screen tabs.
+            delete:screen-tab:jira: Delete screen tabs.
+            read:screenable-field:jira: View screenable fields.
+            write:screenable-field:jira: Create and update screenable fields.
+            delete:screenable-field:jira: Delete screenable fields.
+            read:issue.time-tracking:jira: View issue time trackings.
+            write:issue.time-tracking:jira: Create and update issue time trackings.
+            read:user.property:jira: View user properties.
+            write:user.property:jira: Create and update user properties.
+            delete:user.property:jira: Delete user properties.
+            read:webhook:jira: View webhooks.
+            write:webhook:jira: Create and update webhooks.
+            delete:webhook:jira: Delete webhooks.
+            read:workflow:jira: View workflows.
+            write:workflow:jira: Create and update workflows.
+            delete:workflow:jira: Delete workflows.
+            read:workflow-scheme:jira: View workflow schemes.
+            write:workflow-scheme:jira: Create and update workflow schemes.
+            delete:workflow-scheme:jira: Delete workflow schemes.
+            read:status:jira: View statuses.
+            read:workflow.property:jira: View workflow properties.
+            write:workflow.property:jira: Create and update workflow properties.
+            delete:workflow.property:jira: Delete workflow properties.
+            delete:async-task:jira: Delete asynchronous task.
+            read:instance-configuration:jira: View instance configurations.
+            write:instance-configuration:jira: Create and update instance configurations.
+            read:jql:jira: View JQL.
+            validate:jql:jira: Validate JQL.
+            read:project-type:jira: View project types.
+            read:project.email:jira: View project emails.
+            write:project.email:jira: Create and update project emails.
+            read:role:jira: View roles.
+            read:user-configuration:jira: View user configurations.
+            write:user-configuration:jira: Create and update user configurations.
+            delete:user-configuration:jira: Delete user configurations.
+x-atlassian-narrative:
+  documents:
+    - title: About
+      anchor: about
+      body: >-
+        The Jira REST API enables you to interact with Jira programmatically.
+        Use this API to 
+
+        [build
+        apps](https://developer.atlassian.com/cloud/jira/platform/integrating-with-jira-cloud/),
+        script interactions with 
+
+        Jira, or develop any other type of integration. This page documents the
+        REST resources available in Jira Cloud, including 
+
+        the HTTP response codes and example requests and responses.
+    - title: Version
+      anchor: version
+      body: >
+        This documentation is for **version 2** of the Jira Cloud platform REST
+        API. 
+
+
+        The latest version of the Jira Cloud platform REST API is [version
+        3](https://developer.atlassian.com/cloud/jira/platform/rest/v3/), 
+
+        which is in beta. Version 2 and 3 of the API offer the same collection
+        of operations. However, version 3
+
+        provides support for the [Atlassian Document
+        Format](https://developer.atlassian.com/cloud/jira/platform/apis/document/structure/) 
+
+        (ADF). The ADF features in version 3 are under development.
+    - title: Authentication and authorization
+      anchor: authentication
+      body: >
+        ### Forge apps
+
+
+        For Forge apps, [REST API
+        scopes](https://developer.atlassian.com/cloud/jira/platform/scopes-for-oauth-2-3LO-and-forge-apps/) 
+
+        are used when authenticating with Jira Cloud platform. See [Add scopes
+        to call an Atlassian REST
+        API](https://developer.atlassian.com/platform/forge/add-scopes-to-call-an-atlassian-rest-api/)
+        for more details.
+
+
+        The URIs for Forge app REST API calls have this structure:
+
+
+        `/rest/api/3/<resource-name>`
+
+
+        For example, `/rest/api/3/issue/DEMO-1`
+
+
+        ### Connect apps
+
+
+        For Connect apps, authentication (JWT-based) is built into the Connect
+        libraries. Authorization is implemented using either 
+
+        scopes (shown as _App scope required_ for operations on this page) or
+        user impersonation. See 
+
+        [Security for Connect
+        apps](https://developer.atlassian.com/cloud/jira/platform/security-for-connect-apps/) 
+
+        for details.
+
+
+        The URIs for Connect app REST API calls have this structure:
+
+
+        `https://<site-url>/rest/api/3/<resource-name>`
+
+
+        For example, `https://your-domain.atlassian.net/rest/api/3/issue/DEMO-1`
+
+
+        ### Other integrations
+
+
+        For integrations that are not Forge or Connect apps, use OAuth 2.0
+        authorization code grants (3LO) for security 
+
+        (3LO scopes are shown as for operations _OAuth scopes required_). See 
+
+        [OAuth 2.0 (3LO)
+        apps](https://developer.atlassian.com/cloud/jira/platform/oauth-2-3lo-apps/) 
+
+        for details.
+
+
+        The URIs for OAuth 2.0 (3LO) app REST API calls have this structure:
+
+
+        `https://api.atlassian.com/ex/jira/<cloudId>dd/rest/api/3/<resource-name>`
+
+
+        For example,
+        `https://api.atlassian.com/ex/jira/35273b54-3f06-40d2-880f-dd28cf8daafa/rest/api/3/issue/DEMO-1`
+
+
+        ### Ad-hoc API calls
+
+
+        For personal scripts, bots, and ad-hoc execution of the REST APIs use
+        basic authentication. See [Basic auth for REST
+        APIs](https://developer.atlassian.com/cloud/jira/platform/basic-auth-for-rest-apis/)
+        for details. 
+
+
+        The URIs for basic authentication REST API calls have this structure:
+
+
+        `https://<site-url>/rest/api/3/<resource-name>`
+
+
+        For example, `https://your-domain.atlassian.net/rest/api/3/issue/DEMO-1`
+    - title: Permissions
+      anchor: permissions
+      body: >
+        ### Operation permissions
+
+
+        Most operations in this API require permissions. The calling user must
+        have the required permissions for an operation to 
+
+        use it. Note that for Connect apps, the app user must have the required
+        permissions for the operation and the app must 
+
+        have scopes that permit the operation.
+
+
+        A permission can be granted to a group, project role, or issue role that
+        the user is a member of, or granted directly to a user. 
+
+        See [Permissions overview](https://confluence.atlassian.com/x/FQiiLQ)
+        for details. The most common permissions are:
+
+
+        - **Administer the Cloud site**: Users in the _site-admins_ group have
+        this 
+
+        permission. See [Manage
+        groups](https://confluence.atlassian.com/x/24xjL) for details.
+
+        - **Administer Jira**: Granted by the _Jira Administrators_ global
+        permission. There is a default group for this permission. 
+
+        See [Manage groups](https://confluence.atlassian.com/x/24xjL) and
+        [Managing global permissions](https://confluence.atlassian.com/x/x4dKLg)
+        for details.
+
+        - **Administer a project in Jira**: Granted by the _Administer projects_
+        project permission for a project. This can be 
+
+        granted to a user, a group, a project role, and more. 
+
+        See [Managing project
+        permissions](https://confluence.atlassian.com/x/yodKLg) for details.
+
+        - **Access a project in Jira**: Granted by the _Browse projects_ project
+        permission for a project. This can be 
+
+        granted to a user, a group, a project role, and more. 
+
+        See [Managing project
+        permissions](https://confluence.atlassian.com/x/yodKLg) for details.
+
+        - **Access Jira**: Granted by the _Jira Users_ global permission. Users
+        in the default product access group (for example, 
+
+        _jira-software-users-acmesite_) have this permission. 
+
+        See [Manage groups](https://confluence.atlassian.com/x/24xjL) and 
+
+        [Managing global permissions](https://confluence.atlassian.com/x/x4dKLg)
+        for details.
+
+
+        ### Anonymous access
+
+
+        Some operations provide support for anonymous access. However, anonymous
+        access is only available if 
+
+        the Jira permission needed to access the object or records returned by
+        the operation is granted to 
+
+        the _Public_ group. See [Allowing anonymous access to your
+        project](https://confluence.atlassian.com/x/GDxxLg) 
+
+        for details.
+
+
+        If an operation is called anonymously and anonymous access is not
+        available, the operation will return 
+
+        an error. Note that not all operations that correspond to objects that
+        can be given public access 
+
+        provide for anonymous access.
+    - title: Expansion, pagination, and ordering
+      anchor: expansion
+      body: >+
+        ### Expansion
+
+
+        The Jira REST API uses resource expansion, which means that some parts
+        of a resource are not returned unless specified 
+
+        in the request. This simplifies responses and minimizes network traffic.
+
+
+        To expand part of a resource in a request, use the expand query
+        parameter and specify the object(s) to be expanded. 
+
+        If you need to expand nested objects, use the `.` dot notation. If you
+        need to expand multiple objects, use a 
+
+        comma-separated list. 
+
+
+        For example, the following request expands the `names` and
+        `renderedFields` properties for the _JRACLOUD-34423_ issue:
+
+
+        `GET issue/JRACLOUD-34423?expand=names,renderedFields`
+
+
+        To discover which object can be expanded, refer to the `expand` property
+        in the object. 
+
+        In the JSON example below, the resource declares `widgets` as
+        expandable.
+
+
+        ```json
+
+        {
+          "expand": "widgets", 
+          "self": "https://your-domain.atlassian.net/rest/api/3/resource/KEY-1", 
+          "widgets": {
+            "widgets": [],
+            "size": 5
+           }
+        }
+
+        ```
+
+
+        ### Pagination
+
+
+        The Jira REST API uses pagination to improve performance. Pagination is
+        enforced for operations that could return a large 
+
+        collection of items. When you make a request to a paginated resource,
+        the response wraps the returned array of values in 
+
+        a JSON object with paging metadata. For example:
+
+
+        ```json
+
+        {
+            "startAt" : 0,
+            "maxResults" : 10,
+            "total": 200,
+            "isLast": false,
+            "values": [
+                { /* result 0 */ },
+                { /* result 1 */ },
+                { /* result 2 */ }
+            ]
+        }
+
+        ```
+
+
+        *   `startAt` is the index of the first item returned in the page.
+
+        *   `maxResults` is the maximum number of items that a page can return.
+        Each operation can have a different limit for
+            the number of items returned, and these limits may change without notice. To find the maximum number of items 
+            that an operation could return, set `maxResults` to a large number—for example, over 1000—and if the returned value of `maxResults` is less than the requested value, the returned value is the maximum.
+        *    `total` is the total number of items contained in all pages. This
+        number **_may change_** as the client 
+
+        requests the subsequent pages, therefore the client should always assume
+        that the requested page can be empty. Note 
+
+        that this property is not returned for all operations.
+
+        *   `isLast` indicates whether the page returned is the last one. Note
+        that this property is not returned for all operations.
+
+
+        ### Ordering
+
+
+        Some operations support ordering the elements of a response by a field.
+        Check the documentation for the operation to 
+
+        confirm whether ordering of a response is supported and which fields can
+        be used. Responses are listed in ascending order 
+
+        by default. You can change the order using the `orderby` query parameter
+        with a `-` or `+` symbol. For example:
+
+
+        *   `?orderBy=name` to order by `name` field ascending.
+
+        *   `?orderBy=+name` to order by `name` field ascending.
+
+        *   `?orderBy=-name` to order by `name` field descending.
+
+
+    - title: Special headers
+      anchor: special-request-headers
+      body: >-
+        The following request and response headers define important metadata for
+        the Jira Cloud REST API resources.
+
+
+        -   `X-Atlassian-Token` (request): Operations that accept
+        multipart/form-data must include the `X-Atlassian-Token: no-check`
+
+        header in requests. Otherwise the request is blocked by cross-site
+        request forgery (CSRF/XSRF) protection.
+
+        -   `X-Force-Accept-Language` (request): controls how the standard HTTP
+        `Accept-Language` header is processed.
+
+        By default `Accept-Language` is ignored and the response is in the
+        language configured in the user's profile or,
+
+        when no language is configured for the user, the default Jira instance
+        language. For the response to recognize
+
+        `Accept-Language` send `X-Force-Accept-Language = true` as well. If
+        `Accept-Language` requests a language that Jira
+
+        can return the response is in that language, otherwise Jira returns the
+        response in the default language. If
+
+        `Accept-Language` is not specified the response is in the default
+        language.
+
+        -   `X-AAccountId` (response): This response header contains the
+        Atlassian account ID of the authenticated user.
+    - title: Anonymous operations
+      anchor: anonymous-operations
+      body: |2-
+         Jira provides for all permissions, except the [global permission](https://confluence.atlassian.com/x/x4dKLg) Administer Jira, to be assigned to *Anyone*. Once a permission is assigned to *Anyone*, anyone knowing a project's URL is able to use the features in Jira enabled by the permission. However, the Jira REST API does not enable anonymous access for operations by default. This means that an anonymous user who may be able to perform an action through Jira, may not be able to perform the same action where it's enabled by the REST API. 
+
+         The operations that provide anonymous access are annotated "This operation can be accessed anonymously."
+    - title: Asynchronous operations
+      anchor: async-operations
+      body: >-
+        Some Jira REST API operations may trigger long-running or
+        computationally expensive tasks. In these cases, the operation 
+
+        will schedule an asynchronous task and return a `303 (See Other)`
+        response, indicating the location of the queued task 
+
+        in the `Location` header. You can query this task to get progress
+        updates.
+
+
+        When the task finishes, the response object will contain the `result`
+        field. The content of the field is specific to the 
+
+        operation that created the task. Refer to the operation’s documentation
+        for more information.
+
+
+        Note that asynchronous tasks are not guaranteed to be run in order. In
+        other words, if you need your tasks to execute 
+
+        in a certain order, you should start a task only after the prerequisite
+        task(s) have finished.
+    - title: Experimental features
+      anchor: experimental
+      body: >
+        Features and methods marked as experimental may change without notice.
+        Feedback on experimental functionality is welcome. 
+
+        Report your suggestions and bugs in the [ACJIRA
+        project](https://ecosystem.atlassian.net/projects/ACJIRA) (preferred) or
+        use the 
+
+        **Give docs feedback** link at the top of this page. 
+    - title: Status codes
+      anchor: status-codes
+      body: >-
+        The Jira Cloud platform REST API uses the [standard HTTP status
+        codes](https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html).
+
+
+        Operations that return an error status code may also return a response
+        body containing details of the error or errors. 
+
+        The schema for the response body is shown below:
+
+
+
+        ```json
+
+        {
+          "id": "https://docs.atlassian.com/jira/REST/schema/error-collection#",
+          "title": "Error Collection",
+          "type": "object",
+          "properties": {
+            "errorMessages": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "errors": {
+              "type": "object",
+              "patternProperties": {
+                ".+": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            "status": { 
+              "type": "integer"
+            }
+          },
+          "additionalProperties": false
+        }
+
+        ```

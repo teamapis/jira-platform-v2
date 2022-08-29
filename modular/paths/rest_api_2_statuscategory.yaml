@@ -1,0 +1,40 @@
+get:
+  tags:
+    - Workflow status categories
+  summary: Get all status categories
+  description: |-
+    Returns a list of all status categories.
+
+    **[Permissions](#permissions) required:** Permission to access Jira.
+  operationId: getStatusCategories
+  parameters: []
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: ../components/schemas/StatusCategory.yaml
+          example: >-
+            [{"self":"https://your-domain.atlassian.net/rest/api/2/statuscategory/1","id":1,"key":"in-flight","colorName":"yellow","name":"In
+            Progress"},{"self":"https://your-domain.atlassian.net/rest/api/2/statuscategory/9","id":9,"key":"completed","colorName":"green"}]
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - read:jira-work
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - read:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:status:jira
+  x-atlassian-connect-scope: READ

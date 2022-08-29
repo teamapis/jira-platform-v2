@@ -1,0 +1,15 @@
+required:
+  - accountId
+  - contextId
+  - userFilter
+type: object
+properties:
+  contextId:
+    type: string
+    description: The ID of the context.
+  accountId:
+    type: string
+    description: The ID of the default user.
+  userFilter:
+    $ref: ./UserFilter.yaml
+description: Defaults for a Forge user custom field.

@@ -1,0 +1,40 @@
+type: object
+properties:
+  name:
+    type: string
+    description: The name of the workflow.
+    readOnly: true
+  description:
+    type: string
+    description: The description of the workflow.
+    readOnly: true
+  lastModifiedDate:
+    type: string
+    description: The datetime the workflow was last modified.
+    readOnly: true
+  lastModifiedUser:
+    type: string
+    description: >-
+      This property is no longer available and will be removed from the
+      documentation soon. See the [deprecation
+      notice](https://developer.atlassian.com/cloud/jira/platform/deprecation-notice-user-privacy-api-migration-guide/)
+      for details.
+    readOnly: true
+  lastModifiedUserAccountId:
+    type: string
+    description: The account ID of the user that last modified the workflow.
+    readOnly: true
+  steps:
+    type: integer
+    description: The number of steps included in the workflow.
+    format: int32
+    readOnly: true
+  scope:
+    description: The scope where this workflow applies
+    readOnly: true
+    allOf:
+      - $ref: ./Scope.yaml
+  default:
+    type: boolean
+additionalProperties: false
+description: Details about a workflow.

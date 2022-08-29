@@ -1,0 +1,19 @@
+required:
+  - contextId
+  - groupIds
+  - type
+type: object
+properties:
+  contextId:
+    type: string
+    description: The ID of the context.
+  groupIds:
+    uniqueItems: true
+    type: array
+    description: The IDs of the default groups.
+    items:
+      type: string
+      description: The IDs of the default groups.
+  type:
+    type: string
+description: The default value for a multiple group picker custom field.

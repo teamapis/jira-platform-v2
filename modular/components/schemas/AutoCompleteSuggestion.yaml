@@ -1,0 +1,12 @@
+type: object
+properties:
+  value:
+    type: string
+    description: The value of a suggested item.
+  displayName:
+    type: string
+    description: >-
+      The display name of a suggested item. If `fieldValue` or `predicateValue`
+      are provided, the matching text is highlighted with the HTML bold tag.
+additionalProperties: false
+description: A field auto-complete suggestion.

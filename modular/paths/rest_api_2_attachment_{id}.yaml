@@ -1,0 +1,115 @@
+get:
+  tags:
+    - Issue attachments
+  summary: Get attachment metadata
+  description: >-
+    Returns the metadata for an attachment. Note that the attachment itself is
+    not returned.
+
+
+    This operation can be accessed anonymously.
+
+
+    **[Permissions](#permissions) required:**
+
+     *  *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project that the issue is in.
+     *  If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue.
+  operationId: getAttachment
+  parameters:
+    - name: id
+      in: path
+      description: The ID of the attachment.
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/AttachmentMetadata.yaml
+          example: >-
+            {"id":10001,"self":"https://your-domain.atlassian.net/rest/api/2/attachments/10001","filename":"debuglog.txt","author":{"self":"https://your-domain.atlassian.net/rest/api/2/user?accountId=5b10a2844c20165700ede21g","key":"","accountId":"5b10a2844c20165700ede21g","accountType":"atlassian","name":"","avatarUrls":{"48x48":"https://avatar-management--avatars.server-location.prod.public.atl-paas.net/initials/MK-5.png?size=48&s=48","24x24":"https://avatar-management--avatars.server-location.prod.public.atl-paas.net/initials/MK-5.png?size=24&s=24","16x16":"https://avatar-management--avatars.server-location.prod.public.atl-paas.net/initials/MK-5.png?size=16&s=16","32x32":"https://avatar-management--avatars.server-location.prod.public.atl-paas.net/initials/MK-5.png?size=32&s=32"},"displayName":"Mia
+            Krystof","active":false},"created":"2022-08-25T16:11:12.595+0000","size":2460,"mimeType":"text/plain","content":"https://your-domain.atlassian.net/jira/secure/attachments/10001/debuglog.txt"}
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: Returned if the user does not have the necessary permission.
+    '404':
+      description: |-
+        Returned if:
+
+         *  the attachment is not found.
+         *  attachments are disabled in the Jira settings.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - read:jira-work
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - read:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:attachment:jira
+        - read:user:jira
+        - read:application-role:jira
+        - read:avatar:jira
+        - read:group:jira
+  x-atlassian-connect-scope: READ
+delete:
+  tags:
+    - Issue attachments
+  summary: Delete attachment
+  description: >-
+    Deletes an attachment from an issue.
+
+
+    This operation can be accessed anonymously.
+
+
+    **[Permissions](#permissions) required:** For the project holding the issue
+    containing the attachment:
+
+     *  *Delete own attachments* [project permission](https://confluence.atlassian.com/x/yodKLg) to delete an attachment created by the calling user.
+     *  *Delete all attachments* [project permission](https://confluence.atlassian.com/x/yodKLg) to delete an attachment created by any user.
+  operationId: removeAttachment
+  parameters:
+    - name: id
+      in: path
+      description: The ID of the attachment.
+      required: true
+      schema:
+        type: string
+  responses:
+    '204':
+      description: Returned if the request is successful.
+    '403':
+      description: Returned if the user does not have the necessary permission.
+    '404':
+      description: |-
+        Returned if:
+
+         *  the attachment is not found.
+         *  attachments are disabled in the Jira settings.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - write:jira-work
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - write:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - delete:attachment:jira
+  x-atlassian-connect-scope: DELETE

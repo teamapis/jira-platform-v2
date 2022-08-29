@@ -1,0 +1,22 @@
+required:
+  - conditions
+  - nodeType
+  - operator
+type: object
+properties:
+  operator:
+    type: string
+    description: The compound condition operator.
+    enum:
+      - AND
+      - OR
+  conditions:
+    type: array
+    description: The list of workflow conditions.
+    items:
+      $ref: ./WorkflowCondition.yaml
+  nodeType:
+    type: string
+description: >-
+  A compound workflow transition rule condition. This object returns `nodeType`
+  as `compound`.

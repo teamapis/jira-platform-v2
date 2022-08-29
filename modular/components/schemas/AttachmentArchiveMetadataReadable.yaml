@@ -1,0 +1,28 @@
+type: object
+properties:
+  id:
+    type: integer
+    description: The ID of the attachment.
+    format: int64
+    readOnly: true
+  name:
+    type: string
+    description: The name of the archive file.
+    readOnly: true
+  entries:
+    type: array
+    description: The list of the items included in the archive.
+    readOnly: true
+    items:
+      $ref: ./AttachmentArchiveItemReadable.yaml
+  totalEntryCount:
+    type: integer
+    description: The number of items included in the archive.
+    format: int64
+    readOnly: true
+  mediaType:
+    type: string
+    description: The MIME type of the attachment.
+    readOnly: true
+additionalProperties: false
+description: Metadata for an archive (for example a zip) and its contents.

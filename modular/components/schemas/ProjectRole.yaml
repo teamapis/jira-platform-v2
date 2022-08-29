@@ -1,0 +1,52 @@
+type: object
+properties:
+  self:
+    type: string
+    description: The URL the project role details.
+    format: uri
+    readOnly: true
+  name:
+    type: string
+    description: The name of the project role.
+  id:
+    type: integer
+    description: The ID of the project role.
+    format: int64
+    readOnly: true
+  description:
+    type: string
+    description: The description of the project role.
+    readOnly: true
+  actors:
+    type: array
+    description: The list of users who act in this role.
+    readOnly: true
+    items:
+      $ref: ./RoleActor.yaml
+  scope:
+    description: >-
+      The scope of the role. Indicated for roles associated with [next-gen
+      projects](https://confluence.atlassian.com/x/loMyO).
+    readOnly: true
+    allOf:
+      - $ref: ./Scope.yaml
+  translatedName:
+    type: string
+    description: The translated name of the project role.
+  currentUserRole:
+    type: boolean
+    description: Whether the calling user is part of this role.
+  default:
+    type: boolean
+    description: Whether this role is the default role for the project
+    readOnly: true
+  admin:
+    type: boolean
+    description: Whether this role is the admin role for the project.
+    readOnly: true
+  roleConfigurable:
+    type: boolean
+    description: Whether the roles are configurable for this project.
+    readOnly: true
+additionalProperties: false
+description: Details about the roles in a project.

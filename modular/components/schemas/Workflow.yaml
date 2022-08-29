@@ -1,0 +1,48 @@
+required:
+  - description
+  - id
+type: object
+properties:
+  id:
+    $ref: ./PublishedWorkflowId.yaml
+  description:
+    type: string
+    description: The description of the workflow.
+  transitions:
+    type: array
+    description: The transitions of the workflow.
+    items:
+      $ref: ./Transition.yaml
+  statuses:
+    type: array
+    description: The statuses of the workflow.
+    items:
+      $ref: ./WorkflowStatus.yaml
+  isDefault:
+    type: boolean
+    description: Whether this is the default workflow.
+  schemes:
+    type: array
+    description: The workflow schemes the workflow is assigned to.
+    items:
+      $ref: ./WorkflowSchemeIdName.yaml
+  projects:
+    type: array
+    description: The projects the workflow is assigned to, through workflow schemes.
+    items:
+      $ref: ./ProjectDetails.yaml
+  hasDraftWorkflow:
+    type: boolean
+    description: Whether the workflow has a draft version.
+  operations:
+    $ref: ./WorkflowOperations.yaml
+  created:
+    type: string
+    description: The creation date of the workflow.
+    format: date-time
+  updated:
+    type: string
+    description: The last edited date of the workflow.
+    format: date-time
+additionalProperties: false
+description: Details about a workflow.

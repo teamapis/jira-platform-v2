@@ -1,0 +1,27 @@
+type: object
+properties:
+  message:
+    type: string
+    description: The text on the announcement banner.
+    readOnly: true
+  isDismissible:
+    type: boolean
+    description: Flag indicating if the announcement banner can be dismissed by the user.
+    readOnly: true
+  isEnabled:
+    type: boolean
+    description: Flag indicating if the announcement banner is enabled or not.
+    readOnly: true
+  hashId:
+    type: string
+    description: Hash of the banner data. The client detects updates by comparing hash IDs.
+    readOnly: true
+  visibility:
+    type: string
+    description: Visibility of the announcement banner.
+    readOnly: true
+    enum:
+      - PUBLIC
+      - PRIVATE
+additionalProperties: false
+description: Announcement banner configuration.

@@ -1,0 +1,15 @@
+required:
+  - contextId
+  - type
+  - url
+type: object
+properties:
+  contextId:
+    type: string
+    description: The ID of the context.
+  url:
+    type: string
+    description: The default URL.
+  type:
+    type: string
+description: The default value for a URL custom field.

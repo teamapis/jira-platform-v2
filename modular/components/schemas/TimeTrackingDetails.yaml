@@ -1,0 +1,31 @@
+type: object
+properties:
+  originalEstimate:
+    type: string
+    description: The original estimate of time needed for this issue in readable format.
+    readOnly: true
+  remainingEstimate:
+    type: string
+    description: The remaining estimate of time needed for this issue in readable format.
+    readOnly: true
+  timeSpent:
+    type: string
+    description: Time worked on this issue in readable format.
+    readOnly: true
+  originalEstimateSeconds:
+    type: integer
+    description: The original estimate of time needed for this issue in seconds.
+    format: int64
+    readOnly: true
+  remainingEstimateSeconds:
+    type: integer
+    description: The remaining estimate of time needed for this issue in seconds.
+    format: int64
+    readOnly: true
+  timeSpentSeconds:
+    type: integer
+    description: Time worked on this issue in seconds.
+    format: int64
+    readOnly: true
+additionalProperties: false
+description: Time tracking details.

@@ -1,0 +1,58 @@
+get:
+  tags:
+    - Projects
+  summary: Get project issue type hierarchy
+  description: >-
+    Get the issue type hierarchy for a next-gen project.
+
+
+    The issue type hierarchy for a project consists of:
+
+     *  *Epic* at level 1 (optional).
+     *  One or more issue types at level 0 such as *Story*, *Task*, or *Bug*. Where the issue type *Epic* is defined, these issue types are used to break down the content of an epic.
+     *  *Subtask* at level -1 (optional). This issue type enables level 0 issue types to be broken down into components. Issues based on a level -1 issue type must have a parent issue.
+
+    **[Permissions](#permissions) required:** *Browse projects* [project
+    permission](https://confluence.atlassian.com/x/yodKLg) for the project.
+  operationId: getHierarchy
+  parameters:
+    - name: projectId
+      in: path
+      description: The ID of the project.
+      required: true
+      schema:
+        type: integer
+        format: int64
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ProjectIssueTypeHierarchy.yaml
+          example: >-
+            {"projectId":10030,"hierarchy":[{"entityId":"87c2e044-4ad4-487b-b2f9-16314f152370","level":0,"name":"Base","issueTypes":[{"id":10008,"entityId":"040f9d21-4182-48b7-a428-c3f0268dcacb","name":"Story","avatarId":10324},{"id":10001,"entityId":"a1f51536-9d24-43a6-8225-2c9d4f8a1ee5","name":"Bug","avatarId":10324}]},{"entityId":"62dca1b5-d8aa-4cf4-9d09-0287250e0a11","level":1,"name":"Epic","issueTypes":[{"id":10007,"entityId":"4b256b0b-2d61-4788-8409-17ec97cfc175","name":"Epic","avatarId":10179}]},{"entityId":"534c05cf-3d97-4592-9f7d-190bf25d04eb","level":-1,"name":"Subtask","issueTypes":[{"id":10009,"entityId":"7f74007b-ca7a-4bbd-ba60-b1d6eab44a0f","name":"Subtask","avatarId":10573}]}]}
+    '400':
+      description: Returned if the request is invalid.
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '404':
+      description: >-
+        Returned if the project is not found or the user does not have the
+        necessary permission.
+  deprecated: true
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - read:jira-work
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - read:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:issue-type:jira
+        - read:issue-type-hierarchy:jira
+  x-atlassian-connect-scope: READ

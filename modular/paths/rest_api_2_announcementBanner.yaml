@@ -1,0 +1,99 @@
+get:
+  tags:
+    - Announcement banner
+  summary: Get announcement banner configuration
+  description: >-
+    Returns the current announcement banner configuration.
+
+
+    **[Permissions](#permissions) required:** *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg).
+  operationId: getBanner
+  parameters: []
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/AnnouncementBannerConfiguration.yaml
+          example: >-
+            {"message":"This is a public, enabled, non-dismissible banner, set
+            using the
+            API","isDismissible":false,"isEnabled":true,"hashId":"9HN2FJK9DM8BHRWERVW3RRTGDJ4G4D5C","visibility":"public"}
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ErrorCollection.yaml
+    '403':
+      description: Returned if the user does not have the necessary permission.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ErrorCollection.yaml
+          example: '"Only admins can read banner configuration."'
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-configuration
+  x-experimental: true
+  x-atlassian-connect-scope: INACCESSIBLE
+put:
+  tags:
+    - Announcement banner
+  summary: Update announcement banner configuration
+  description: >-
+    Updates the announcement banner configuration.
+
+
+    **[Permissions](#permissions) required:** *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg).
+  operationId: setBanner
+  parameters: []
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/AnnouncementBannerConfigurationUpdate.yaml
+        example:
+          visibility: public
+          isEnabled: true
+          isDismissible: false
+          message: This is a public, enabled, non-dismissible banner, set using the API
+    required: true
+  responses:
+    '204':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema: {}
+    '400':
+      description: Returned if an invalid parameter is passed.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ErrorCollection.yaml
+          example: '"Banner message cannot be null."'
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ErrorCollection.yaml
+    '403':
+      description: Returned if the user does not have the necessary permission.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ErrorCollection.yaml
+          example: '"Only admins can update banner configuration."'
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-configuration
+  x-experimental: true
+  x-atlassian-connect-scope: INACCESSIBLE

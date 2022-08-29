@@ -1,0 +1,10 @@
+required:
+  - id
+type: object
+properties:
+  id:
+    type: string
+    description: The ID of the screen.
+additionalProperties: false
+description: The details of a transition screen.
+writeOnly: true

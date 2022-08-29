@@ -1,0 +1,28 @@
+type: object
+properties:
+  id:
+    type: integer
+    description: The ID of the link.
+    format: int64
+  self:
+    type: string
+    description: The URL of the link.
+    format: uri
+  globalId:
+    type: string
+    description: >-
+      The global ID of the link, such as the ID of the item on the remote
+      system.
+  application:
+    description: Details of the remote application the linked item is in.
+    allOf:
+      - $ref: ./Application.yaml
+  relationship:
+    type: string
+    description: Description of the relationship between the issue and the linked item.
+  object:
+    description: Details of the item linked to.
+    allOf:
+      - $ref: ./RemoteObject.yaml
+additionalProperties: false
+description: Details of an issue remote link.

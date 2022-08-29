@@ -1,0 +1,56 @@
+get:
+  tags:
+    - Avatars
+  summary: Get system avatars by type
+  description: >-
+    Returns a list of system avatar details by owner type, where the owner types
+    are issue type, project, or user.
+
+
+    This operation can be accessed anonymously.
+
+
+    **[Permissions](#permissions) required:** None.
+  operationId: getAllSystemAvatars
+  parameters:
+    - name: type
+      in: path
+      description: The avatar type.
+      required: true
+      schema:
+        type: string
+        example: project
+        enum:
+          - issuetype
+          - project
+          - user
+      x-showInExample: 'true'
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/SystemAvatars.yaml
+          example: >-
+            {"system":[{"id":"1000","isSystemAvatar":true,"isSelected":false,"isDeletable":false,"urls":{"16x16":"/secure/useravatar?size=xsmall&avatarId=10040&avatarType=project","24x24":"/secure/useravatar?size=small&avatarId=10040&avatarType=project","32x32":"/secure/useravatar?size=medium&avatarId=10040&avatarType=project","48x48":"/secure/useravatar?avatarId=10040&avatarType=project"}}]}
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '500':
+      description: Returned if an error occurs while retrieving the list of avatars.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-configuration
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-configuration
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:avatar:jira
+  x-atlassian-connect-scope: ADMIN

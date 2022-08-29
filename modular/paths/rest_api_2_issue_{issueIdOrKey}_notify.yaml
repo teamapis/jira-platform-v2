@@ -1,0 +1,86 @@
+post:
+  tags:
+    - Issues
+  summary: Send notification for issue
+  description: |-
+    Creates an email notification for an issue and adds it to the mail queue.
+
+    **[Permissions](#permissions) required:**
+
+     *  *Browse Projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project that the issue is in.
+     *  If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue.
+  operationId: notify
+  parameters:
+    - name: issueIdOrKey
+      in: path
+      description: ID or key of the issue that the notification is sent for.
+      required: true
+      schema:
+        type: string
+  requestBody:
+    description: The request object for the notification and recipients.
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/Notification.yaml
+        example:
+          htmlBody: >-
+            The <strong>latest</strong> test results for this ticket are now
+            available.
+          subject: Latest test results
+          textBody: The latest test results for this ticket are now available.
+          to:
+            voters: true
+            groupIds: []
+            watchers: true
+            groups:
+              - name: notification-group
+            reporter: false
+            assignee: false
+            users:
+              - accountId: 5b10a2844c20165700ede21g
+                active: false
+          restrict:
+            permissions:
+              - key: BROWSE
+            groupIds: []
+            groups:
+              - name: notification-group
+    required: true
+  responses:
+    '204':
+      description: Returned if the email is queued for sending.
+      content:
+        application/json:
+          schema: {}
+    '400':
+      description: |-
+        Returned if:
+
+         *  the recipient is the same as the calling user.
+         *  the recipient is invalid. For example, the recipient is set to the assignee, but the issue is unassigned.
+         *  the request is invalid. For example, required fields are missing or have invalid values.
+    '403':
+      description: |-
+        Returned if:
+
+         *  outgoing emails are disabled.
+         *  no SMTP server is configured.
+    '404':
+      description: Returned if the issue is not found.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - write:jira-work
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - write:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - send:notification:jira
+  x-atlassian-connect-scope: WRITE

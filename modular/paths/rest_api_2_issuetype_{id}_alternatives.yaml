@@ -1,0 +1,65 @@
+get:
+  tags:
+    - Issue types
+  summary: Get alternative issue types
+  description: >-
+    Returns a list of issue types that can be used to replace the issue type.
+    The alternative issue types are those assigned to the same workflow scheme,
+    field configuration scheme, and screen scheme.
+
+
+    This operation can be accessed anonymously.
+
+
+    **[Permissions](#permissions) required:** None.
+  operationId: getAlternativeIssueTypes
+  parameters:
+    - name: id
+      in: path
+      description: The ID of the issue type.
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: ../components/schemas/IssueTypeDetails.yaml
+          example: >-
+            [{"self":"https://your-domain.atlassian.net/rest/api/2/issueType/3","id":"3","description":"A
+            task that needs to be
+            done.","iconUrl":"https://your-domain.atlassian.net/secure/viewavatar?size=xsmall&avatarId=10299&avatarType=issuetype\",","name":"Task","subtask":false,"avatarId":1,"hierarchyLevel":0},{"self":"https://your-domain.atlassian.net/rest/api/2/issueType/1","id":"1","description":"A
+            problem with the
+            software.","iconUrl":"https://your-domain.atlassian.net/secure/viewavatar?size=xsmall&avatarId=10316&avatarType=issuetype\",","name":"Bug","subtask":false,"avatarId":10002,"entityId":"9d7dd6f7-e8b6-4247-954b-7b2c9b2a5ba2","hierarchyLevel":0,"scope":{"type":"PROJECT","project":{"id":"10000","key":"KEY","name":"Next
+            Gen Project"}}}]
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '404':
+      description: |-
+        Returned if:
+
+         *  the issue type is not found.
+         *  the user does not have the required permissions.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - read:jira-work
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - read:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:issue-type:jira
+        - read:project-category:jira
+        - read:project:jira
+        - read:avatar:jira
+  x-atlassian-connect-scope: READ

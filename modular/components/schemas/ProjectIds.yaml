@@ -1,0 +1,13 @@
+required:
+  - projectIds
+type: object
+properties:
+  projectIds:
+    type: array
+    description: The IDs of projects.
+    writeOnly: true
+    items:
+      type: string
+      writeOnly: true
+additionalProperties: false
+description: A list of project IDs.

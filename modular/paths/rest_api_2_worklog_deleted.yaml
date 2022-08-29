@@ -1,0 +1,60 @@
+get:
+  tags:
+    - Issue worklogs
+  summary: Get IDs of deleted worklogs
+  description: >-
+    Returns a list of IDs and delete timestamps for worklogs deleted after a
+    date and time.
+
+
+    This resource is paginated, with a limit of 1000 worklogs per page. Each
+    page lists worklogs from oldest to youngest. If the number of items in the
+    date range exceeds 1000, `until` indicates the timestamp of the youngest
+    item on the page. Also, `nextPage` provides the URL for the next page of
+    worklogs. The `lastPage` parameter is set to true on the last page of
+    worklogs.
+
+
+    This resource does not return worklogs deleted during the minute preceding
+    the request.
+
+
+    **[Permissions](#permissions) required:** Permission to access Jira.
+  operationId: getIdsOfWorklogsDeletedSince
+  parameters:
+    - name: since
+      in: query
+      description: >-
+        The date and time, as a UNIX timestamp in milliseconds, after which
+        deleted worklogs are returned.
+      schema:
+        type: integer
+        format: int64
+        default: 0
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ChangedWorklogs.yaml
+          example: >-
+            {"values":[{"worklogId":103,"updatedTime":1438013671562,"properties":[]},{"worklogId":104,"updatedTime":1438013672165,"properties":[]},{"worklogId":105,"updatedTime":1438013693136,"properties":[]}],"since":1438013671562,"until":1438013693136,"self":"https://your-domain.atlassian.net/api/~ver~/worklog/deleted?since=1438013671562","nextPage":"https://your-domain.atlassian.net/api/~ver~/worklog/deleted?since=1438013693136","lastPage":true}
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - read:jira-work
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - read:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:issue-worklog:jira
+        - read:issue-worklog.property:jira
+  x-atlassian-connect-scope: READ

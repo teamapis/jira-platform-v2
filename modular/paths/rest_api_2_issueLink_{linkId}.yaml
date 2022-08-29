@@ -1,0 +1,138 @@
+get:
+  tags:
+    - Issue links
+  summary: Get issue link
+  description: |-
+    Returns an issue link.
+
+    This operation can be accessed anonymously.
+
+    **[Permissions](#permissions) required:**
+
+     *  *Browse project* [project permission](https://confluence.atlassian.com/x/yodKLg) for all the projects containing the linked issues.
+     *  If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, permission to view both of the issues.
+  operationId: getIssueLink
+  parameters:
+    - name: linkId
+      in: path
+      description: The ID of the issue link.
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/IssueLink.yaml
+          example: >-
+            {"id":"10001","type":{"id":"1000","name":"Duplicate","inward":"Duplicated
+            by","outward":"Duplicates","self":"https://your-domain.atlassian.net/rest/api/2/issueLinkType/1000"},"inwardIssue":{"id":"10004","key":"PR-3","self":"https://your-domain.atlassian.net/rest/api/2/issue/PR-3","fields":{"status":{"self":"https://your-domain.atlassian.net/rest/api/2/status/5","description":"The
+            issue is
+            closed.","iconUrl":"https://your-domain.atlassian.net/images/icons/closed.gif","name":"Closed","id":"5","statusCategory":{"self":"https://your-domain.atlassian.net/rest/api/2/statuscategory/9","id":9,"key":"completed","colorName":"green"}},"priority":{"self":"https://your-domain.atlassian.net/rest/api/2/priority/5","statusColor":"#cfcfcf","description":"Very
+            little
+            impact.","iconUrl":"https://your-domain.atlassian.net/images/icons/priorities/trivial.png","name":"Trivial","id":"2"},"issuetype":{"self":"https://your-domain.atlassian.net/rest/api/2/issueType/1","id":"1","description":"A
+            problem with the
+            software.","iconUrl":"https://your-domain.atlassian.net/secure/viewavatar?size=xsmall&avatarId=10316&avatarType=issuetype\",","name":"Bug","subtask":false,"avatarId":10002,"entityId":"9d7dd6f7-e8b6-4247-954b-7b2c9b2a5ba2","hierarchyLevel":0,"scope":{"type":"PROJECT","project":{"id":"10000","key":"KEY","name":"Next
+            Gen
+            Project"}}}}},"outwardIssue":{"id":"10004L","key":"PR-2","self":"https://your-domain.atlassian.net/rest/api/2/issue/PR-2","fields":{"status":{"self":"https://your-domain.atlassian.net/rest/api/2/status/10000","description":"The
+            issue is currently being worked
+            on.","iconUrl":"https://your-domain.atlassian.net/images/icons/progress.gif","name":"In
+            Progress","id":"10000","statusCategory":{"self":"https://your-domain.atlassian.net/rest/api/2/statuscategory/1","id":1,"key":"in-flight","colorName":"yellow","name":"In
+            Progress"}},"priority":{"self":"https://your-domain.atlassian.net/rest/api/2/priority/3","statusColor":"#009900","description":"Major
+            loss of
+            function.","iconUrl":"https://your-domain.atlassian.net/images/icons/priorities/major.png","name":"Major","id":"1"},"issuetype":{"self":"https://your-domain.atlassian.net/rest/api/2/issueType/3","id":"3","description":"A
+            task that needs to be
+            done.","iconUrl":"https://your-domain.atlassian.net/secure/viewavatar?size=xsmall&avatarId=10299&avatarType=issuetype\",","name":"Task","subtask":false,"avatarId":1,"hierarchyLevel":0}}}}
+    '400':
+      description: Returned if the issue link ID is invalid.
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '404':
+      description: |-
+        Returned if:
+
+         *  issue linking is disabled.
+         *  the issue link is not found.
+         *  the user doesn't have the required permissions.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - read:jira-work
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - read:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:field:jira
+        - read:issue-link-type:jira
+        - read:issue:jira
+        - read:issue-type:jira
+        - read:priority:jira
+        - read:status:jira
+        - read:avatar:jira
+        - read:issue.time-tracking:jira
+        - read:project-category:jira
+        - read:project:jira
+        - read:user:jira
+  x-atlassian-connect-scope: READ
+delete:
+  tags:
+    - Issue links
+  summary: Delete issue link
+  description: |-
+    Deletes an issue link.
+
+    This operation can be accessed anonymously.
+
+    **[Permissions](#permissions) required:**
+
+     *  Browse project [project permission](https://confluence.atlassian.com/x/yodKLg) for all the projects containing the issues in the link.
+     *  *Link issues* [project permission](https://confluence.atlassian.com/x/yodKLg) for at least one of the projects containing issues in the link.
+     *  If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, permission to view both of the issues.
+  operationId: deleteIssueLink
+  parameters:
+    - name: linkId
+      in: path
+      description: The ID of the issue link.
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: 200 response
+    '204':
+      description: Returned if the request is successful.
+    '400':
+      description: Returned if the issue link ID is invalid.
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '404':
+      description: |-
+        Returned if:
+
+         *  issue linking is disabled.
+         *  the issue link is not found.
+         *  the user doesn't have the required permissions.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - write:jira-work
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - write:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - delete:issue-link:jira
+  x-atlassian-connect-scope: DELETE

@@ -1,0 +1,203 @@
+get:
+  tags:
+    - Issue custom field configuration (apps)
+  summary: Get custom field configurations
+  description: >-
+    Returns a [paginated](#pagination) list of configurations for a custom field
+    created by a [Forge app](https://developer.atlassian.com/platform/forge/).
+
+
+    The result can be filtered by one of these criteria:
+
+     *  `id`.
+     *  `fieldContextId`.
+     *  `issueId`.
+     *  `projectKeyOrId` and `issueTypeId`.
+
+    Otherwise, all configurations are returned.
+
+
+    **[Permissions](#permissions) required:** *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg). Jira permissions are
+    not required for the Forge app that created the custom field.
+  operationId: getCustomFieldConfiguration
+  parameters:
+    - name: fieldIdOrKey
+      in: path
+      description: The ID or key of the custom field, for example `customfield_10000`.
+      required: true
+      schema:
+        type: string
+    - name: id
+      in: query
+      description: >-
+        The list of configuration IDs. To include multiple configurations,
+        separate IDs with an ampersand: `id=10000&id=10001`. Can't be provided
+        with `fieldContextId`, `issueId`, `projectKeyOrId`, or `issueTypeId`.
+      schema:
+        uniqueItems: true
+        type: array
+        items:
+          type: integer
+          format: int64
+    - name: fieldContextId
+      in: query
+      description: >-
+        The list of field context IDs. To include multiple field contexts,
+        separate IDs with an ampersand:
+        `fieldContextId=10000&fieldContextId=10001`. Can't be provided with
+        `id`, `issueId`, `projectKeyOrId`, or `issueTypeId`.
+      schema:
+        uniqueItems: true
+        type: array
+        items:
+          type: integer
+          format: int64
+    - name: issueId
+      in: query
+      description: >-
+        The ID of the issue to filter results by. If the issue doesn't exist, an
+        empty list is returned. Can't be provided with `projectKeyOrId`, or
+        `issueTypeId`.
+      schema:
+        type: integer
+        format: int64
+    - name: projectKeyOrId
+      in: query
+      description: >-
+        The ID or key of the project to filter results by. Must be provided with
+        `issueTypeId`. Can't be provided with `issueId`.
+      schema:
+        type: string
+    - name: issueTypeId
+      in: query
+      description: >-
+        The ID of the issue type to filter results by. Must be provided with
+        `projectKeyOrId`. Can't be provided with `issueId`.
+      schema:
+        type: string
+    - name: startAt
+      in: query
+      description: >-
+        The index of the first item to return in a page of results (page
+        offset).
+      schema:
+        type: integer
+        format: int64
+        default: 0
+    - name: maxResults
+      in: query
+      description: The maximum number of items to return per page.
+      schema:
+        type: integer
+        format: int32
+        default: 100
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/PageBeanContextualConfiguration.yaml
+          example: >-
+            {"maxResults":1000,"startAt":0,"total":2,"isLast":true,"values":[{"id":"10000","fieldContextId":"10010"},{"id":"10001","fieldContextId":"10011","configuration":{"minValue":0,"maxValue":10000},"schema":{"properties":{"amount":{"type":"number"},"currency":{"type":"string"}},"required":["amount","currency"]}}]}
+    '400':
+      description: Returned if the request is invalid.
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: >-
+        Returned if the user is not a Jira admin or the request is not
+        authenticated as from the app that provided the field.
+    '404':
+      description: Returned if the custom field is not found.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-configuration
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-configuration
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:custom-field-contextual-configuration:jira
+  x-experimental: true
+  x-atlassian-connect-scope: ADMIN
+put:
+  tags:
+    - Issue custom field configuration (apps)
+  summary: Update custom field configurations
+  description: >-
+    Update the configuration for contexts of a custom field created by a [Forge
+    app](https://developer.atlassian.com/platform/forge/).
+
+
+    **[Permissions](#permissions) required:** *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg). Jira permissions are
+    not required for the Forge app that created the custom field.
+  operationId: updateCustomFieldConfiguration
+  parameters:
+    - name: fieldIdOrKey
+      in: path
+      description: The ID or key of the custom field, for example `customfield_10000`.
+      required: true
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/CustomFieldConfigurations.yaml
+        example:
+          configurations:
+            - id: '10000'
+            - schema:
+                properties:
+                  amount:
+                    type: number
+                  currency:
+                    type: string
+                required:
+                  - amount
+                  - currency
+              configuration:
+                minValue: 0
+                maxValue: 10000
+              id: '10001'
+    required: true
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema: {}
+    '400':
+      description: Returned if the request is invalid.
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: >-
+        Returned if the user is not a Jira admin or the request is not
+        authenticated as from the app that provided the field.
+    '404':
+      description: Returned if the custom field is not found.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-configuration
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-configuration
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - write:custom-field-contextual-configuration:jira
+  x-experimental: true
+  x-atlassian-connect-scope: ADMIN

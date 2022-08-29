@@ -1,0 +1,20 @@
+required:
+  - fieldConfigurationId
+  - fieldConfigurationSchemeId
+  - issueTypeId
+type: object
+properties:
+  fieldConfigurationSchemeId:
+    type: string
+    description: The ID of the field configuration scheme.
+  issueTypeId:
+    type: string
+    description: >-
+      The ID of the issue type or *default*. When set to *default* this field
+      configuration issue type item applies to all issue types without a field
+      configuration.
+  fieldConfigurationId:
+    type: string
+    description: The ID of the field configuration.
+additionalProperties: false
+description: The field configuration for an issue type.

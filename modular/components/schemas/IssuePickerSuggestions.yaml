@@ -1,0 +1,10 @@
+type: object
+properties:
+  sections:
+    type: array
+    description: A list of issues for an issue type suggested for use in auto-completion.
+    readOnly: true
+    items:
+      $ref: ./IssuePickerSuggestionsIssueType.yaml
+additionalProperties: false
+description: A list of issues suggested for use in auto-completion.

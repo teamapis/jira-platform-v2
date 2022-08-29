@@ -1,0 +1,213 @@
+get:
+  tags:
+    - Issue watchers
+  summary: Get issue watchers
+  description: >-
+    Returns the watchers for an issue.
+
+
+    This operation requires the **Allow users to watch issues** option to be
+    *ON*. This option is set in General configuration for Jira. See [Configuring
+    Jira application options](https://confluence.atlassian.com/x/uYXKM) for
+    details.
+
+
+    This operation can be accessed anonymously.
+
+
+    **[Permissions](#permissions) required:**
+
+     *  *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project that the issue is ini
+     *  If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue.
+     *  To see details of users on the watchlist other than themselves, *View voters and watchers* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project that the issue is in.
+  operationId: getIssueWatchers
+  parameters:
+    - name: issueIdOrKey
+      in: path
+      description: The ID or key of the issue.
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Returned if the request is successful
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/Watchers.yaml
+          example: >-
+            {"self":"https://your-domain.atlassian.net/rest/api/2/issue/EX-1/watchers","isWatching":false,"watchCount":1,"watchers":[{"self":"https://your-domain.atlassian.net/rest/api/2/user?accountId=5b10a2844c20165700ede21g","accountId":"5b10a2844c20165700ede21g","displayName":"Mia
+            Krystof","active":false}]}
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '404':
+      description: >-
+        Returned if the issue is not found or the user does not have permission
+        to view it.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - read:jira-work
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - read:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:issue.watcher:jira
+        - read:user:jira
+        - read:avatar:jira
+  x-atlassian-connect-scope: READ
+post:
+  tags:
+    - Issue watchers
+  summary: Add watcher
+  description: >-
+    Adds a user as a watcher of an issue by passing the account ID of the user.
+    For example, `"5b10ac8d82e05b22cc7d4ef5"`. If no user is specified the
+    calling user is added.
+
+
+    This operation requires the **Allow users to watch issues** option to be
+    *ON*. This option is set in General configuration for Jira. See [Configuring
+    Jira application options](https://confluence.atlassian.com/x/uYXKM) for
+    details.
+
+
+    **[Permissions](#permissions) required:**
+
+     *  *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project that the issue is in.
+     *  If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue.
+     *  To add users other than themselves to the watchlist, *Manage watcher list* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project that the issue is in.
+  operationId: addWatcher
+  parameters:
+    - name: issueIdOrKey
+      in: path
+      description: The ID or key of the issue.
+      required: true
+      schema:
+        type: string
+  requestBody:
+    description: >-
+      The account ID of the user. Note that username cannot be used due to
+      privacy changes.
+    content:
+      application/json:
+        schema:
+          type: string
+    required: true
+  responses:
+    '204':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema: {}
+    '400':
+      description: Returned if the request is invalid.
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: >-
+        Returned if the user does not have the permission to manage the watcher
+        list.
+    '404':
+      description: >-
+        Returned if the issue or the user is not found or the user does not have
+        permission to view the issue.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - write:jira-work
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - write:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - write:issue.watcher:jira
+  x-atlassian-connect-scope: WRITE
+delete:
+  tags:
+    - Issue watchers
+  summary: Delete watcher
+  description: >-
+    Deletes a user as a watcher of an issue.
+
+
+    This operation requires the **Allow users to watch issues** option to be
+    *ON*. This option is set in General configuration for Jira. See [Configuring
+    Jira application options](https://confluence.atlassian.com/x/uYXKM) for
+    details.
+
+
+    **[Permissions](#permissions) required:**
+
+     *  *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project that the issue is in.
+     *  If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue.
+     *  To remove users other than themselves from the watchlist, *Manage watcher list* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project that the issue is in.
+  operationId: removeWatcher
+  parameters:
+    - name: issueIdOrKey
+      in: path
+      description: The ID or key of the issue.
+      required: true
+      schema:
+        type: string
+    - name: username
+      in: query
+      description: >-
+        This parameter is no longer available. See the [deprecation
+        notice](https://developer.atlassian.com/cloud/jira/platform/deprecation-notice-user-privacy-api-migration-guide/)
+        for details.
+      schema:
+        type: string
+    - name: accountId
+      in: query
+      description: >-
+        The account ID of the user, which uniquely identifies the user across
+        all Atlassian products. For example, *5b10ac8d82e05b22cc7d4ef5*.
+        Required.
+      schema:
+        maxLength: 128
+        type: string
+        example: 5b10ac8d82e05b22cc7d4ef5
+      x-showInExample: 'true'
+  responses:
+    '204':
+      description: Returned if the request is successful.
+    '400':
+      description: Returned if `accountId` is not supplied.
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: >-
+        Returned if the user does not have the permission to manage the watcher
+        list.
+    '404':
+      description: >-
+        Returned if the issue or the user is not found or the user does not have
+        permission to view the issue.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - write:jira-work
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - write:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - write:issue.watcher:jira
+  x-atlassian-connect-scope: DELETE

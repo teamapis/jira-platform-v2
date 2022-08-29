@@ -1,0 +1,46 @@
+type: object
+properties:
+  votingEnabled:
+    type: boolean
+    description: >-
+      Whether the ability for users to vote on issues is enabled. See
+      [Configuring Jira application
+      options](https://confluence.atlassian.com/x/uYXKM) for details.
+    readOnly: true
+  watchingEnabled:
+    type: boolean
+    description: >-
+      Whether the ability for users to watch issues is enabled. See [Configuring
+      Jira application options](https://confluence.atlassian.com/x/uYXKM) for
+      details.
+    readOnly: true
+  unassignedIssuesAllowed:
+    type: boolean
+    description: >-
+      Whether the ability to create unassigned issues is enabled. See
+      [Configuring Jira application
+      options](https://confluence.atlassian.com/x/uYXKM) for details.
+    readOnly: true
+  subTasksEnabled:
+    type: boolean
+    description: Whether the ability to create subtasks for issues is enabled.
+    readOnly: true
+  issueLinkingEnabled:
+    type: boolean
+    description: Whether the ability to link issues is enabled.
+    readOnly: true
+  timeTrackingEnabled:
+    type: boolean
+    description: Whether the ability to track time is enabled. This property is deprecated.
+    readOnly: true
+  attachmentsEnabled:
+    type: boolean
+    description: Whether the ability to add attachments to issues is enabled.
+    readOnly: true
+  timeTrackingConfiguration:
+    description: The configuration of time tracking.
+    readOnly: true
+    allOf:
+      - $ref: ./TimeTrackingConfiguration.yaml
+additionalProperties: false
+description: Details about the configuration of Jira.

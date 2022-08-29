@@ -1,0 +1,19 @@
+type: object
+properties:
+  baseLevelId:
+    type: integer
+    description: >-
+      The ID of the base level. This property is deprecated, see [Change notice:
+      Removing hierarchy level IDs from next-gen
+      APIs](https://developer.atlassian.com/cloud/jira/platform/change-notice-removing-hierarchy-level-ids-from-next-gen-apis/).
+    format: int64
+  levels:
+    type: array
+    description: Details about the hierarchy level.
+    readOnly: true
+    items:
+      $ref: ./SimplifiedHierarchyLevel.yaml
+additionalProperties: false
+description: The project issue type hierarchy.
+xml:
+  name: hierarchy

@@ -1,0 +1,41 @@
+type: object
+properties:
+  expand:
+    type: string
+    description: >-
+      Expand options that include additional project issue create metadata
+      details in the response.
+    readOnly: true
+    xml:
+      attribute: true
+  self:
+    type: string
+    description: The URL of the project.
+    readOnly: true
+  id:
+    type: string
+    description: The ID of the project.
+    readOnly: true
+  key:
+    type: string
+    description: The key of the project.
+    readOnly: true
+  name:
+    type: string
+    description: The name of the project.
+    readOnly: true
+  avatarUrls:
+    description: >-
+      List of the project's avatars, returning the avatar size and associated
+      URL.
+    readOnly: true
+    allOf:
+      - $ref: ./AvatarUrlsBean.yaml
+  issuetypes:
+    type: array
+    description: List of the issue types supported by the project.
+    readOnly: true
+    items:
+      $ref: ./IssueTypeIssueCreateMetadata.yaml
+additionalProperties: false
+description: Details of the issue creation metadata for a project.

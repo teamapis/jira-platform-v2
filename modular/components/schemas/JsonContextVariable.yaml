@@ -1,0 +1,11 @@
+required:
+  - type
+type: object
+properties:
+  type:
+    type: string
+    description: Type of custom context variable.
+  value:
+    type: object
+    description: A JSON object containing custom content.
+description: A JSON object with custom content.

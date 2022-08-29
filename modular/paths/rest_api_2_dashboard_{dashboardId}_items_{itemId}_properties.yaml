@@ -1,0 +1,70 @@
+get:
+  tags:
+    - Dashboards
+  summary: Get dashboard item property keys
+  description: >-
+    Returns the keys of all properties for a dashboard item.
+
+
+    This operation can be accessed anonymously.
+
+
+    **[Permissions](#permissions) required:** The user must be the owner of the
+    dashboard or have the dashboard shared with them. Note, users with the
+    *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg) are considered owners
+    of the System dashboard. The System dashboard is considered to be shared
+    with all other users, and is accessible to anonymous users when Jira’s
+    anonymous access is permitted.
+  operationId: getDashboardItemPropertyKeys
+  parameters:
+    - name: dashboardId
+      in: path
+      description: The ID of the dashboard.
+      required: true
+      schema:
+        type: string
+    - name: itemId
+      in: path
+      description: The ID of the dashboard item.
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/PropertyKeys.yaml
+          example: >-
+            {"keys":[{"self":"https://your-domain.atlassian.net/rest/api/2/issue/EX-2/properties/issue.support","key":"issue.support"}]}
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '404':
+      description: >-
+        Returned if the dashboard or dashboard item is not found, or the
+        dashboard is not owned by or shared with the user.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - read:jira-work
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - read:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:dashboard.property:jira
+        - read:comment.property:jira
+        - read:issue-type.property:jira
+        - read:issue-worklog.property:jira
+        - read:issue.property:jira
+        - read:project.property:jira
+        - read:user.property:jira
+        - read:workflow.property:jira
+  x-atlassian-connect-scope: READ

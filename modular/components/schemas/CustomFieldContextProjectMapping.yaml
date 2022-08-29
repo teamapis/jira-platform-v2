@@ -1,0 +1,18 @@
+required:
+  - contextId
+type: object
+properties:
+  contextId:
+    type: string
+    description: The ID of the context.
+    readOnly: true
+  projectId:
+    type: string
+    description: The ID of the project.
+    readOnly: true
+  isGlobalContext:
+    type: boolean
+    description: Whether context is global.
+    readOnly: true
+additionalProperties: false
+description: Details of a context to project association.

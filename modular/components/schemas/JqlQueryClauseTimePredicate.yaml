@@ -1,0 +1,19 @@
+required:
+  - operand
+  - operator
+type: object
+properties:
+  operator:
+    type: string
+    description: The operator between the field and the operand.
+    enum:
+      - before
+      - after
+      - from
+      - to
+      - 'on'
+      - during
+      - by
+  operand:
+    $ref: ./JqlQueryClauseOperand.yaml
+description: A time predicate for a temporal JQL clause.

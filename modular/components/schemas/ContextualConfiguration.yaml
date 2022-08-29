@@ -1,0 +1,18 @@
+required:
+  - fieldContextId
+  - id
+type: object
+properties:
+  id:
+    type: string
+    description: The ID of the configuration.
+  fieldContextId:
+    type: string
+    description: The ID of the field context the configuration is associated with.
+    readOnly: true
+  configuration:
+    description: The field configuration.
+  schema:
+    description: The field value schema.
+additionalProperties: false
+description: Details of the contextual configuration for a custom field.

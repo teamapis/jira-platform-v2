@@ -1,0 +1,10 @@
+required:
+  - type
+type: object
+properties:
+  object:
+    type: object
+    description: The default JSON object.
+  type:
+    type: string
+description: The default value for a Forge object custom field.

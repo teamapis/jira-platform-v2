@@ -1,0 +1,23 @@
+required:
+  - field
+  - operator
+  - predicates
+type: object
+properties:
+  field:
+    $ref: ./JqlQueryField.yaml
+  operator:
+    type: string
+    description: The operator applied to the field.
+    enum:
+      - changed
+  predicates:
+    type: array
+    description: The list of time predicates.
+    items:
+      $ref: ./JqlQueryClauseTimePredicate.yaml
+description: >-
+  A clause that asserts whether a field was changed. For example, `status
+  CHANGED AFTER startOfMonth(-1M)`.See
+  [CHANGED](https://confluence.atlassian.com/x/dgiiLQ#Advancedsearching-operatorsreference-CHANGEDCHANGED)
+  for more information about the CHANGED operator.

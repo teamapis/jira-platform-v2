@@ -1,0 +1,99 @@
+get:
+  tags:
+    - Users
+  summary: Bulk get users
+  description: >-
+    Returns a [paginated](#pagination) list of the users specified by one or
+    more account IDs.
+
+
+    **[Permissions](#permissions) required:** Permission to access Jira.
+  operationId: bulkGetUsers
+  parameters:
+    - name: startAt
+      in: query
+      description: >-
+        The index of the first item to return in a page of results (page
+        offset).
+      schema:
+        type: integer
+        format: int64
+        default: 0
+    - name: maxResults
+      in: query
+      description: The maximum number of items to return per page.
+      schema:
+        type: integer
+        format: int32
+        default: 10
+    - name: username
+      in: query
+      description: >-
+        This parameter is no longer available and will be removed from the
+        documentation soon. See the [deprecation
+        notice](https://developer.atlassian.com/cloud/jira/platform/deprecation-notice-user-privacy-api-migration-guide/)
+        for details.
+      schema:
+        type: array
+        items:
+          type: string
+    - name: key
+      in: query
+      description: >-
+        This parameter is no longer available and will be removed from the
+        documentation soon. See the [deprecation
+        notice](https://developer.atlassian.com/cloud/jira/platform/deprecation-notice-user-privacy-api-migration-guide/)
+        for details.
+      schema:
+        type: array
+        items:
+          type: string
+    - name: accountId
+      in: query
+      description: >-
+        The account ID of a user. To specify multiple users, pass multiple
+        `accountId` parameters. For example,
+        `accountId=5b10a2844c20165700ede21g&accountId=5b10ac8d82e05b22cc7d4ef5`.
+      required: true
+      schema:
+        maxLength: 128
+        type: array
+        example: 5b10ac8d82e05b22cc7d4ef5
+        items:
+          maxLength: 128
+          type: string
+          example: 5b10ac8d82e05b22cc7d4ef5
+      x-showInExample: 'true'
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/PageBeanUser.yaml
+          example: >-
+            {"maxResults":100,"startAt":0,"total":1,"isLast":true,"values":[{"self":"https://your-domain.atlassian.net/rest/api/2/user?accountId=5b10a2844c20165700ede21g","accountId":"5b10a2844c20165700ede21g","accountType":"atlassian","emailAddress":"mia@example.com","avatarUrls":{"48x48":"https://avatar-management--avatars.server-location.prod.public.atl-paas.net/initials/MK-5.png?size=48&s=48","24x24":"https://avatar-management--avatars.server-location.prod.public.atl-paas.net/initials/MK-5.png?size=24&s=24","16x16":"https://avatar-management--avatars.server-location.prod.public.atl-paas.net/initials/MK-5.png?size=16&s=16","32x32":"https://avatar-management--avatars.server-location.prod.public.atl-paas.net/initials/MK-5.png?size=32&s=32"},"displayName":"Mia
+            Krystof","active":true,"timeZone":"Australia/Sydney"}]}
+    '400':
+      description: Returned if `accountID` is missing.
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - read:jira-user
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - read:jira-user
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:application-role:jira
+        - read:group:jira
+        - read:user:jira
+        - read:avatar:jira
+  x-experimental: true
+  x-atlassian-connect-scope: READ

@@ -1,0 +1,13 @@
+type: object
+properties:
+  name:
+    type: string
+    description: The unique name for the issue type. The maximum length is 60 characters.
+  description:
+    type: string
+    description: The description of the issue type.
+  avatarId:
+    type: integer
+    description: The ID of an issue type avatar.
+    format: int64
+additionalProperties: false

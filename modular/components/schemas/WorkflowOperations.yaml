@@ -1,0 +1,13 @@
+required:
+  - canDelete
+  - canEdit
+type: object
+properties:
+  canEdit:
+    type: boolean
+    description: Whether the workflow can be updated.
+  canDelete:
+    type: boolean
+    description: Whether the workflow can be deleted.
+additionalProperties: false
+description: Operations allowed on a workflow

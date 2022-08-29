@@ -1,0 +1,20 @@
+type: object
+properties:
+  type:
+    type: string
+    description: |-
+      Last used value type:
+
+       *  *TRACKED*: field is tracked and a last used date is available.
+       *  *NOT\_TRACKED*: field is not tracked, last used date is not available.
+       *  *NO\_INFORMATION*: field is tracked, but no last used date is available.
+    enum:
+      - TRACKED
+      - NOT_TRACKED
+      - NO_INFORMATION
+  value:
+    type: string
+    description: The date when the value of the field last changed.
+    format: date-time
+additionalProperties: false
+description: Information about the most recent use of a field.

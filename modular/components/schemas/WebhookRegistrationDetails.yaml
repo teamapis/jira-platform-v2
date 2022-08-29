@@ -1,0 +1,18 @@
+required:
+  - url
+  - webhooks
+type: object
+properties:
+  webhooks:
+    type: array
+    description: A list of webhooks.
+    items:
+      $ref: ./WebhookDetails.yaml
+  url:
+    type: string
+    description: >-
+      The URL that specifies where to send the webhooks. This URL must use the
+      same base URL as the Connect app. Only a single URL per app is allowed to
+      be registered.
+additionalProperties: false
+description: Details of webhooks to register.

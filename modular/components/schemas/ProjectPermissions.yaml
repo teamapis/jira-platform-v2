@@ -1,0 +1,8 @@
+type: object
+properties:
+  canEdit:
+    type: boolean
+    description: Whether the logged user can edit the project.
+    readOnly: true
+additionalProperties: false
+description: Permissions which a user has on a project.

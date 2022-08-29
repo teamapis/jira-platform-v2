@@ -1,0 +1,139 @@
+get:
+  tags:
+    - JQL
+  summary: Get field reference data (GET)
+  description: >-
+    Returns reference data for JQL searches. This is a downloadable version of
+    the documentation provided in [Advanced searching - fields
+    reference](https://confluence.atlassian.com/x/gwORLQ) and [Advanced
+    searching - functions reference](https://confluence.atlassian.com/x/hgORLQ),
+    along with a list of JQL-reserved words. Use this information to assist with
+    the programmatic creation of JQL queries or the validation of queries built
+    in a custom query builder.
+
+
+    To filter visible field details by project or collapse non-unique fields by
+    field type then [Get field reference data
+    (POST)](#api-rest-api-2-jql-autocompletedata-post) can be used.
+
+
+    This operation can be accessed anonymously.
+
+
+    **[Permissions](#permissions) required:** None.
+  operationId: getAutoComplete
+  parameters: []
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/JQLReferenceData.yaml
+          example: >-
+            {"visibleFieldNames":[{"value":"summary","displayName":"summary","orderable":"true","searchable":"true","operators":["~","!~","is","is
+            not"],"types":["java.lang.String"]},{"value":"Sprint","displayName":"Sprint
+            -
+            cf[10880]","orderable":"true","searchable":"true","auto":"true","cfid":"cf[10880]","operators":["=","!=","in","not
+            in","is","is
+            not"],"types":["com.atlassian.greenhopper.service.sprint.Sprint"]}],"visibleFunctionNames":[{"value":"standardIssueTypes()","displayName":"standardIssueTypes()","isList":"true","types":["com.atlassian.jira.issue.issuetype.IssueType"]}],"jqlReservedWords":["empty","and","or","in","distinct"]}
+    '401':
+      description: Returned if the authentication credentials are incorrect.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - read:jira-work
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - read:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:field:jira
+  x-atlassian-connect-scope: READ
+post:
+  tags:
+    - JQL
+  summary: Get field reference data (POST)
+  description: >-
+    Returns reference data for JQL searches. This is a downloadable version of
+    the documentation provided in [Advanced searching - fields
+    reference](https://confluence.atlassian.com/x/gwORLQ) and [Advanced
+    searching - functions reference](https://confluence.atlassian.com/x/hgORLQ),
+    along with a list of JQL-reserved words. Use this information to assist with
+    the programmatic creation of JQL queries or the validation of queries built
+    in a custom query builder.
+
+
+    This operation can filter the custom fields returned by project. Invalid
+    project IDs in `projectIds` are ignored. System fields are always returned.
+
+
+    It can also return the collapsed field for custom fields. Collapsed fields
+    enable searches to be performed across all fields with the same name and of
+    the same field type. For example, the collapsed field `Component -
+    Component[Dropdown]` enables dropdown fields `Component - cf[10061]` and
+    `Component - cf[10062]` to be searched simultaneously.
+
+
+    **[Permissions](#permissions) required:** None.
+  operationId: getAutoCompletePost
+  parameters: []
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/SearchAutoCompleteFilter.yaml
+        example:
+          projectIds:
+            - 10000
+            - 10001
+            - 10002
+          includeCollapsedFields: true
+    required: true
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/JQLReferenceData.yaml
+          example: >-
+            {"visibleFieldNames":[{"value":"summary","displayName":"summary","orderable":"true","searchable":"true","operators":["~","!~","is","is
+            not"],"types":["java.lang.String"]},{"value":"cf[10061]","displayName":"Component
+            -
+            cf[10061]","orderable":"true","auto":"true","cfid":"cf[10061]","operators":["=","!=","in","not
+            in","is","is
+            not"],"types":["com.atlassian.jira.issue.customfields.option.Option"]},{"value":"cf[10062]","displayName":"Component
+            -
+            cf[10062]","orderable":"true","auto":"true","cfid":"cf[10062]","operators":["=","!=","in","not
+            in","is","is
+            not"],"types":["com.atlassian.jira.issue.customfields.option.Option"]},{"value":"\"Component[Dropdown]\"","displayName":"Component
+            -
+            Component[Dropdown]","searchable":"true","auto":"true","operators":["=","!=","in","not
+            in","is","is
+            not"],"types":["com.atlassian.jira.issue.customfields.option.Option"]}],"visibleFunctionNames":[{"value":"standardIssueTypes()","displayName":"standardIssueTypes()","isList":"true","types":["com.atlassian.jira.issue.issuetype.IssueType"]}],"jqlReservedWords":["empty","and","or","in","distinct"]}
+    '400':
+      description: Returned if the request is not valid.
+    '401':
+      description: Returned if the authentication credentials are incorrect.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - read:jira-work
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - read:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:field:jira
+  x-atlassian-connect-scope: READ

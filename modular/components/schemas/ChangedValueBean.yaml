@@ -1,0 +1,16 @@
+type: object
+properties:
+  fieldName:
+    type: string
+    description: The name of the field changed.
+    readOnly: true
+  changedFrom:
+    type: string
+    description: The value of the field before the change.
+    readOnly: true
+  changedTo:
+    type: string
+    description: The value of the field after the change.
+    readOnly: true
+additionalProperties: false
+description: Details of names changed in the record event.

@@ -1,0 +1,41 @@
+get:
+  tags:
+    - Jira settings
+  summary: Get global settings
+  description: >-
+    Returns the [global settings](https://confluence.atlassian.com/x/qYXKM) in
+    Jira. These settings determine whether optional features (for example,
+    subtasks, time tracking, and others) are enabled. If time tracking is
+    enabled, this operation also returns the time tracking configuration.
+
+
+    **[Permissions](#permissions) required:** Permission to access Jira.
+  operationId: getConfiguration
+  parameters: []
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/Configuration.yaml
+          example: >-
+            {"votingEnabled":true,"watchingEnabled":true,"unassignedIssuesAllowed":false,"subTasksEnabled":false,"issueLinkingEnabled":true,"timeTrackingEnabled":true,"attachmentsEnabled":true,"timeTrackingConfiguration":{"workingHoursPerDay":8.0,"workingDaysPerWeek":5.0,"timeFormat":"pretty","defaultUnit":"day"}}
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - read:jira-user
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - read:jira-user
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:instance-configuration:jira
+        - read:issue.time-tracking:jira
+  x-atlassian-connect-scope: READ

@@ -1,0 +1,54 @@
+type: object
+properties:
+  id:
+    type: integer
+    description: >-
+      The ID of the hierarchy level. This property is deprecated, see [Change
+      notice: Removing hierarchy level IDs from next-gen
+      APIs](https://developer.atlassian.com/cloud/jira/platform/change-notice-removing-hierarchy-level-ids-from-next-gen-apis/).
+    format: int64
+  name:
+    type: string
+    description: The name of this hierarchy level.
+  aboveLevelId:
+    type: integer
+    description: >-
+      The ID of the level above this one in the hierarchy. This property is
+      deprecated, see [Change notice: Removing hierarchy level IDs from next-gen
+      APIs](https://developer.atlassian.com/cloud/jira/platform/change-notice-removing-hierarchy-level-ids-from-next-gen-apis/).
+    format: int64
+  belowLevelId:
+    type: integer
+    description: >-
+      The ID of the level below this one in the hierarchy. This property is
+      deprecated, see [Change notice: Removing hierarchy level IDs from next-gen
+      APIs](https://developer.atlassian.com/cloud/jira/platform/change-notice-removing-hierarchy-level-ids-from-next-gen-apis/).
+    format: int64
+  projectConfigurationId:
+    type: integer
+    description: >-
+      The ID of the project configuration. This property is deprecated, see
+      [Change oticen: Removing hierarchy level IDs from next-gen
+      APIs](https://developer.atlassian.com/cloud/jira/platform/change-notice-removing-hierarchy-level-ids-from-next-gen-apis/).
+    format: int64
+  level:
+    type: integer
+    description: The level of this item in the hierarchy.
+    format: int32
+  issueTypeIds:
+    type: array
+    description: The issue types available in this hierarchy level.
+    items:
+      type: integer
+      format: int64
+  externalUuid:
+    type: string
+    description: >-
+      The external UUID of the hierarchy level. This property is deprecated, see
+      [Change notice: Removing hierarchy level IDs from next-gen
+      APIs](https://developer.atlassian.com/cloud/jira/platform/change-notice-removing-hierarchy-level-ids-from-next-gen-apis/).
+    format: uuid
+  hierarchyLevelNumber:
+    type: integer
+    format: int32
+additionalProperties: false

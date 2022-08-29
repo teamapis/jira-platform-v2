@@ -1,0 +1,63 @@
+put:
+  tags:
+    - Issue custom field values (apps)
+  summary: Update custom field value
+  description: >-
+    Updates the value of a custom field on one or more issues. Custom fields can
+    only be updated by the Forge app that created them.
+
+
+    **[Permissions](#permissions) required:** Only the app that created the
+    custom field can update its values with this operation.
+  operationId: updateCustomFieldValue
+  parameters:
+    - name: fieldIdOrKey
+      in: path
+      description: The ID or key of the custom field. For example, `customfield_10010`.
+      required: true
+      schema:
+        type: string
+    - name: generateChangelog
+      in: query
+      description: Whether to generate a changelog for this update.
+      schema:
+        type: boolean
+        default: true
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/CustomFieldValueUpdateDetails.yaml
+        example:
+          updates:
+            - issueIds:
+                - 10010
+              value: new value
+    required: true
+  responses:
+    '204':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema: {}
+    '400':
+      description: Returned if the request is invalid.
+    '403':
+      description: >-
+        Returned if the request is not authenticated as the app that provided
+        the field.
+    '404':
+      description: Returned if the field is not found.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2: []
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes: []
+    - state: Beta
+      scheme: OAuth2
+      scopes: []
+  x-experimental: true
+  x-atlassian-connect-scope: INACCESSIBLE

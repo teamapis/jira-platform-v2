@@ -1,0 +1,17 @@
+type: object
+properties:
+  id:
+    type: integer
+    description: The ID of the context.
+    format: int64
+    readOnly: true
+  name:
+    type: string
+    description: The name of the context.
+    readOnly: true
+  scope:
+    description: The scope of the context.
+    allOf:
+      - $ref: ./Scope.yaml
+additionalProperties: false
+description: A context.

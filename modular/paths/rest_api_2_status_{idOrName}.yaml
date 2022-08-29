@@ -1,0 +1,63 @@
+get:
+  tags:
+    - Workflow statuses
+  summary: Get status
+  description: >-
+    Returns a status. The status must be associated with an active workflow to
+    be returned.
+
+
+    If a name is used on more than one status, only the status found first is
+    returned. Therefore, identifying the status by its ID may be preferable.
+
+
+    This operation can be accessed anonymously.
+
+
+    [Permissions](#permissions) required: None.
+  operationId: getStatus
+  parameters:
+    - name: idOrName
+      in: path
+      description: The ID or name of the status.
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/StatusDetails.yaml
+          example: >-
+            {"self":"https://your-domain.atlassian.net/rest/api/2/status/10000","description":"The
+            issue is currently being worked
+            on.","iconUrl":"https://your-domain.atlassian.net/images/icons/progress.gif","name":"In
+            Progress","id":"10000","statusCategory":{"self":"https://your-domain.atlassian.net/rest/api/2/statuscategory/1","id":1,"key":"in-flight","colorName":"yellow","name":"In
+            Progress"}}
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '404':
+      description: |-
+        Returned if:
+
+         *  the status is not found.
+         *  the status is not associated with a workflow.
+         *  the user does not have the required permissions.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - read:jira-work
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - read:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:status:jira
+  x-atlassian-connect-scope: READ

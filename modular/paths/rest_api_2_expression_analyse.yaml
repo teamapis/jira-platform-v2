@@ -1,0 +1,105 @@
+post:
+  tags:
+    - Jira expressions
+  summary: Analyse Jira expression
+  description: >-
+    Analyses and validates Jira expressions.
+
+
+    As an experimental feature, this operation can also attempt to type-check
+    the expressions.
+
+
+    Learn more about Jira expressions in the
+    [documentation](https://developer.atlassian.com/cloud/jira/platform/jira-expressions/).
+
+
+    **[Permissions](#permissions) required**: None.
+  operationId: analyseExpression
+  parameters:
+    - name: check
+      in: query
+      description: |-
+        The check to perform:
+
+         *  `syntax` Each expression's syntax is checked to ensure the expression can be parsed. Also, syntactic limits are validated. For example, the expression's length.
+         *  `type` EXPERIMENTAL. Each expression is type checked and the final type of the expression inferred. Any type errors that would result in the expression failure at runtime are reported. For example, accessing properties that don't exist or passing the wrong number of arguments to functions. Also performs the syntax check.
+         *  `complexity` EXPERIMENTAL. Determines the formulae for how many [expensive operations](https://developer.atlassian.com/cloud/jira/platform/jira-expressions/#expensive-operations) each expression may execute.
+      schema:
+        type: string
+        default: syntax
+        enum:
+          - syntax
+          - type
+          - complexity
+  requestBody:
+    description: The Jira expressions to analyse.
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/JiraExpressionForAnalysis.yaml
+        example:
+          contextVariables:
+            listOfStrings: List<String>
+            record: '{ a: Number, b: String }'
+            value: User
+          expressions:
+            - issues.map(issue => issue.properties['property_key'])
+    required: true
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/JiraExpressionsAnalysis.yaml
+          example: >-
+            {"results":[{"expression":"analysed
+            expression","errors":[{"line":1,"column":4,"message":"!, -, typeof,
+            (, IDENTIFIER, null, true, false, NUMBER, STRING, TEMPLATE_LITERAL,
+            new, [ or { expected, >
+            encountered.","type":"syntax"},{"message":"Jira expression is too
+            long (1040), limit: 1000
+            characters","type":"other"},{"message":"Jira expression has too many
+            nodes (150), limit: 100
+            leaves","type":"other"}],"valid":false},{"expression":"issues.map(i
+            => {idAndKey: [i.id, i.key], summary: i.summary, comments:
+            i.comments})","valid":true,"type":"List<{idAndKey: [Number, String],
+            summary: String, comments:
+            List<Comment>}>","complexity":{"expensiveOperations":"N","variables":{"N":"issues"}}},{"expression":"issues.map(i
+            => i.id > '0')","errors":[{"expression":"i.id > 0","message":"Can't
+            compare Number to
+            String.","type":"type"}],"valid":false,"type":"TypeError"}]}
+    '400':
+      description: 400 response
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ErrorCollection.yaml
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '404':
+      description: 404 response
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ErrorCollection.yaml
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - read:jira-work
+        - read:jira-user
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - read:jira-work
+        - read:jira-user
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:field:jira
+        - read:jira-expressions:jira
+  x-atlassian-connect-scope: READ

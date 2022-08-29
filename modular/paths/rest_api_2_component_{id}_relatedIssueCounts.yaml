@@ -1,0 +1,46 @@
+get:
+  tags:
+    - Project components
+  summary: Get component issues count
+  description: |-
+    Returns the counts of issues assigned to the component.
+
+    This operation can be accessed anonymously.
+
+    **[Permissions](#permissions) required:** None.
+  operationId: getComponentRelatedIssues
+  parameters:
+    - name: id
+      in: path
+      description: The ID of the component.
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ComponentIssuesCount.yaml
+          example: >-
+            {"self":"https://your-domain.atlassian.net/rest/api/2/component/10000","issueCount":23}
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '404':
+      description: Returned if the component is not found.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - read:jira-work
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - read:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes: []
+  x-atlassian-connect-scope: READ

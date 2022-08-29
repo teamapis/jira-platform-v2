@@ -1,0 +1,33 @@
+get:
+  tags:
+    - Project key and name validation
+  summary: Get valid project key
+  description: >-
+    Validates a project key and, if the key is invalid or in use, generates a
+    valid random string for the project key.
+
+
+    **[Permissions](#permissions) required:** None.
+  operationId: getValidProjectKey
+  parameters:
+    - name: key
+      in: query
+      description: The project key.
+      schema:
+        type: string
+        example: HSP
+      x-showInExample: 'true'
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            type: string
+          example: '"VPNE"'
+    '401':
+      description: Returned if the authentication credentials are incorrect.
+  deprecated: false
+  security:
+    - basicAuth: []
+  x-atlassian-connect-scope: READ

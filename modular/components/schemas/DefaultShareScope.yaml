@@ -1,0 +1,20 @@
+required:
+  - scope
+type: object
+properties:
+  scope:
+    type: string
+    description: |-
+      The scope of the default sharing for new filters and dashboards:
+
+       *  `AUTHENTICATED` Shared with all logged-in users.
+       *  `GLOBAL` Shared with all logged-in users. This shows as `AUTHENTICATED` in the response.
+       *  `PRIVATE` Not shared with any users.
+    enum:
+      - GLOBAL
+      - AUTHENTICATED
+      - PRIVATE
+additionalProperties: false
+description: Details of the scope of the default sharing for new filters and dashboards.
+xml:
+  name: defaultShareScope

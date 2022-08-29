@@ -1,0 +1,41 @@
+get:
+  tags:
+    - App properties
+  summary: Get app properties
+  description: >-
+    Gets all the properties of an app.
+
+
+    **[Permissions](#permissions) required:** Only a Connect app whose key
+    matches `addonKey` can make this request.
+  operationId: AddonPropertiesResource.getAddonProperties_get
+  parameters:
+    - name: addonKey
+      in: path
+      description: The key of the app, as defined in its descriptor.
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/PropertyKeys.yaml
+          example:
+            keys:
+              - self: >-
+                  https://your-domain.atlassian.net/jira/rest/atlassian-connect/1/addon/example.app.key/properties/propertyKey
+                key: propertyKey
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/OperationMessage.yaml
+          example:
+            message: Access to this resource must be authenticated as an app.
+            statusCode: 401
+  deprecated: false
+  x-atlassian-connect-scope: NONE

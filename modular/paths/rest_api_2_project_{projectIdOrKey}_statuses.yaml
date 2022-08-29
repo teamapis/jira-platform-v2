@@ -1,0 +1,63 @@
+get:
+  tags:
+    - Projects
+  summary: Get all statuses for project
+  description: >-
+    Returns the valid statuses for a project. The statuses are grouped by issue
+    type, as each project has a set of valid issue types and each issue type has
+    a set of valid statuses.
+
+
+    This operation can be accessed anonymously.
+
+
+    **[Permissions](#permissions) required:** *Browse Projects* [project
+    permission](https://confluence.atlassian.com/x/yodKLg) for the project.
+  operationId: getAllStatuses
+  parameters:
+    - name: projectIdOrKey
+      in: path
+      description: The project ID or project key (case sensitive).
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: ../components/schemas/IssueTypeWithStatus.yaml
+          example: >-
+            [{"self":"https://your-domain.atlassian.net/rest/api/2/issueType/3","id":"3","name":"Task","subtask":false,"statuses":[{"self":"https://your-domain.atlassian.net/rest/api/2/status/10000","description":"The
+            issue is currently being worked
+            on.","iconUrl":"https://your-domain.atlassian.net/images/icons/progress.gif","name":"In
+            Progress","id":"10000"},{"self":"https://your-domain.atlassian.net/rest/api/2/status/5","description":"The
+            issue is
+            closed.","iconUrl":"https://your-domain.atlassian.net/images/icons/closed.gif","name":"Closed","id":"5"}]}]
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '404':
+      description: >-
+        Returned if the project is not found or the user does not have
+        permission to view it.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - read:jira-work
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - read:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:issue-status:jira
+        - read:issue-type:jira
+        - read:status:jira
+  x-atlassian-connect-scope: READ

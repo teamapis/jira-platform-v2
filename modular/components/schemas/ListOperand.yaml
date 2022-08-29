@@ -1,0 +1,11 @@
+required:
+  - values
+type: object
+properties:
+  values:
+    minLength: 1
+    type: array
+    description: The list of operand values.
+    items:
+      $ref: ./JqlQueryUnitaryOperand.yaml
+description: An operand that is a list of values.

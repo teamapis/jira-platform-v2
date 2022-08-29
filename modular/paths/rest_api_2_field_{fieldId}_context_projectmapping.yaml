@@ -1,0 +1,87 @@
+get:
+  tags:
+    - Issue custom field contexts
+  summary: Get project mappings for custom field context
+  description: >-
+    Returns a [paginated](#pagination) list of context to project mappings for a
+    custom field. The result can be filtered by `contextId`. Otherwise, all
+    mappings are returned. Invalid IDs are ignored.
+
+
+    **[Permissions](#permissions) required:** *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg).
+  operationId: getProjectContextMapping
+  parameters:
+    - name: fieldId
+      in: path
+      description: The ID of the custom field, for example `customfield\_10000`.
+      required: true
+      schema:
+        type: string
+    - name: contextId
+      in: query
+      description: >-
+        The list of context IDs. To include multiple context, separate IDs with
+        ampersand: `contextId=10000&contextId=10001`.
+      schema:
+        uniqueItems: true
+        type: array
+        items:
+          type: integer
+          format: int64
+    - name: startAt
+      in: query
+      description: >-
+        The index of the first item to return in a page of results (page
+        offset).
+      schema:
+        type: integer
+        format: int64
+        default: 0
+    - name: maxResults
+      in: query
+      description: The maximum number of items to return per page.
+      schema:
+        type: integer
+        format: int32
+        default: 50
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: >-
+              ../components/schemas/PageBeanCustomFieldContextProjectMapping.yaml
+          example: >-
+            {"maxResults":100,"startAt":0,"total":2,"isLast":true,"values":[{"contextId":"10025","projectId":"10001"},{"contextId":"10026","isGlobalContext":true}]}
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: Returned if the user does not have the required permissions.
+      content:
+        application/json:
+          example: >-
+            {"errorMessages":["Only Jira administrators can access custom field
+            contexts."],"errors":{}}
+    '404':
+      description: Returned if the custom field is not found.
+      content:
+        application/json:
+          example: '{"errorMessages":["The custom field was not found."],"errors":{}}'
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-configuration
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-configuration
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:field:jira
+  x-experimental: true
+  x-atlassian-connect-scope: READ

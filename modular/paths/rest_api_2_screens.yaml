@@ -1,0 +1,183 @@
+get:
+  tags:
+    - Screens
+  summary: Get screens
+  description: >-
+    Returns a [paginated](#pagination) list of all screens or those specified by
+    one or more screen IDs.
+
+
+    **[Permissions](#permissions) required:** *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg).
+  operationId: getScreens
+  parameters:
+    - name: startAt
+      in: query
+      description: >-
+        The index of the first item to return in a page of results (page
+        offset).
+      schema:
+        type: integer
+        format: int64
+        default: 0
+    - name: maxResults
+      in: query
+      description: The maximum number of items to return per page.
+      schema:
+        type: integer
+        format: int32
+        default: 100
+    - name: id
+      in: query
+      description: >-
+        The list of screen IDs. To include multiple IDs, provide an
+        ampersand-separated list. For example, `id=10000&id=10001`.
+      schema:
+        uniqueItems: true
+        type: array
+        items:
+          type: integer
+          format: int64
+    - name: queryString
+      in: query
+      description: >-
+        String used to perform a case-insensitive partial match with screen
+        name.
+      schema:
+        type: string
+        default: ''
+    - name: scope
+      in: query
+      description: >-
+        The scope filter string. To filter by multiple scope, provide an
+        ampersand-separated list. For example, `scope=GLOBAL&scope=PROJECT`.
+      schema:
+        uniqueItems: true
+        type: array
+        items:
+          type: string
+          enum:
+            - GLOBAL
+            - TEMPLATE
+            - PROJECT
+    - name: orderBy
+      in: query
+      description: |-
+        [Order](#ordering) the results by a field:
+
+         *  `id` Sorts by screen ID.
+         *  `name` Sorts by screen name.
+      schema:
+        type: string
+        enum:
+          - name
+          - '-name'
+          - +name
+          - id
+          - '-id'
+          - +id
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/PageBeanScreen.yaml
+          example: >-
+            {"self":"https://your-domain.atlassian.net/rest/api/2/screens","maxResults":100,"startAt":0,"total":3,"isLast":true,"values":[{"id":1,"name":"Default
+            Screen","description":"Provides for the update all system
+            fields."},{"id":2,"name":"Workflow Screen","description":"This
+            screen is used in the workflow and enables you to assign
+            issues."},{"id":3,"name":"Resolve Issue
+            Screen","description":"Offers the ability to set resolution, change
+            fix versions, and assign an issue."}]}
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: Returned if the user does not have the necessary permission.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-project
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-project
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:project:jira
+        - read:screen:jira
+        - read:avatar:jira
+        - read:project-category:jira
+  x-atlassian-connect-scope: ADMIN
+post:
+  tags:
+    - Screens
+  summary: Create screen
+  description: >-
+    Creates a screen with a default field tab.
+
+
+    **[Permissions](#permissions) required:** *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg).
+  operationId: createScreen
+  parameters: []
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/ScreenDetails.yaml
+        example:
+          name: Resolve Security Issue Screen
+          description: Enables changes to resolution and linked issues.
+    required: true
+  responses:
+    '201':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/Screen.yaml
+          example: >-
+            {"id":10005,"name":"Resolve Security Issue
+            Screen","description":"Enables changes to resolution and linked
+            issues."}
+    '400':
+      description: Returned if the request is not valid.
+      content:
+        application/json:
+          example: >-
+            {"errorMessages":["The name is used by another
+            screen."],"errors":{}}
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: Returned if the user does not have the required permissions.
+      content:
+        application/json:
+          example: >-
+            {"errorMessages":["Only Jira administrators can manage
+            screens."],"errors":{}}
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-project
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-project
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:project:jira
+        - read:screen:jira
+        - write:screen:jira
+        - read:avatar:jira
+        - read:project-category:jira
+  x-experimental: true
+  x-atlassian-connect-scope: ADMIN

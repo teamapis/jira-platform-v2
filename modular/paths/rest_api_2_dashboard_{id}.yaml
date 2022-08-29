@@ -1,0 +1,223 @@
+get:
+  tags:
+    - Dashboards
+  summary: Get dashboard
+  description: >-
+    Returns a dashboard.
+
+
+    This operation can be accessed anonymously.
+
+
+    **[Permissions](#permissions) required:** None.
+
+
+    However, to get a dashboard, the dashboard must be shared with the user or
+    the user must own it. Note, users with the *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg) are considered owners
+    of the System dashboard. The System dashboard is considered to be shared
+    with all other users.
+  operationId: getDashboard
+  parameters:
+    - name: id
+      in: path
+      description: The ID of the dashboard.
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/Dashboard.yaml
+          example: >-
+            {"id":"10000","isFavourite":false,"name":"System
+            Dashboard","popularity":1,"self":"https://your-domain.atlassian.net/rest/api/2/dashboard/10000","sharePermissions":[{"type":"global"}],"view":"https://your-domain.atlassian.net/secure/Dashboard.jspa?selectPageId=10000"}
+    '400':
+      description: 400 response
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ErrorCollection.yaml
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ErrorCollection.yaml
+    '404':
+      description: >-
+        Returned if the dashboard is not found or the dashboard is not owned by
+        or shared with the user.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - read:jira-work
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - read:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:dashboard:jira
+        - read:group:jira
+        - read:project:jira
+        - read:project-role:jira
+        - read:user:jira
+        - read:application-role:jira
+        - read:avatar:jira
+        - read:issue-type-hierarchy:jira
+        - read:issue-type:jira
+        - read:project-category:jira
+        - read:project-version:jira
+        - read:project.component:jira
+  x-atlassian-connect-scope: READ
+put:
+  tags:
+    - Dashboards
+  summary: Update dashboard
+  description: >-
+    Updates a dashboard, replacing all the dashboard details with those
+    provided.
+
+
+    **[Permissions](#permissions) required:** None
+
+
+    The dashboard to be updated must be owned by the user.
+  operationId: updateDashboard
+  parameters:
+    - name: id
+      in: path
+      description: The ID of the dashboard to update.
+      required: true
+      schema:
+        type: string
+  requestBody:
+    description: Replacement dashboard details.
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/DashboardDetails.yaml
+        example:
+          editPermissions: []
+          name: Auditors dashboard
+          description: A dashboard to help auditors identify sample of issues to check.
+          sharePermissions:
+            - type: global
+    required: true
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/Dashboard.yaml
+          example: >-
+            {"id":"10000","isFavourite":false,"name":"System
+            Dashboard","popularity":1,"self":"https://your-domain.atlassian.net/rest/api/2/dashboard/10000","sharePermissions":[{"type":"global"}],"view":"https://your-domain.atlassian.net/secure/Dashboard.jspa?selectPageId=10000"}
+    '400':
+      description: Returned if the request is not valid.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ErrorCollection.yaml
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ErrorCollection.yaml
+    '404':
+      description: >-
+        Returned if the dashboard is not found or the dashboard is not owned by
+        the user.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ErrorCollection.yaml
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - write:jira-work
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - write:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:dashboard:jira
+        - read:group:jira
+        - read:project:jira
+        - read:project-role:jira
+        - read:user:jira
+        - write:dashboard:jira
+        - read:application-role:jira
+        - read:avatar:jira
+        - read:issue-type-hierarchy:jira
+        - read:issue-type:jira
+        - read:project-category:jira
+        - read:project-version:jira
+        - read:project.component:jira
+  x-experimental: true
+  x-atlassian-connect-scope: WRITE
+delete:
+  tags:
+    - Dashboards
+  summary: Delete dashboard
+  description: |-
+    Deletes a dashboard.
+
+    **[Permissions](#permissions) required:** None
+
+    The dashboard to be deleted must be owned by the user.
+  operationId: deleteDashboard
+  parameters:
+    - name: id
+      in: path
+      description: The ID of the dashboard.
+      required: true
+      schema:
+        type: string
+  responses:
+    '204':
+      description: Returned if the dashboard is deleted.
+    '400':
+      description: 400 response
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ErrorCollection.yaml
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/ErrorCollection.yaml
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - write:jira-work
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - write:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - delete:dashboard:jira
+  x-experimental: true
+  x-atlassian-connect-scope: DELETE

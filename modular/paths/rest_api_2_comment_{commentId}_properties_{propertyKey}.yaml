@@ -1,0 +1,195 @@
+get:
+  tags:
+    - Issue comment properties
+  summary: Get comment property
+  description: |-
+    Returns the value of a comment property.
+
+    This operation can be accessed anonymously.
+
+    **[Permissions](#permissions) required:**
+
+     *  *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project.
+     *  If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue.
+     *  If the comment has visibility restrictions, belongs to the group or has the role visibility is restricted to.
+  operationId: getCommentProperty
+  parameters:
+    - name: commentId
+      in: path
+      description: The ID of the comment.
+      required: true
+      schema:
+        type: string
+    - name: propertyKey
+      in: path
+      description: The key of the property.
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/EntityProperty.yaml
+          example: >-
+            {"key":"issue.support","value":{"system.conversation.id":"b1bf38be-5e94-4b40-a3b8-9278735ee1e6","system.support.time":"1m"}}
+    '400':
+      description: Returned if the request is invalid.
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: Returned if the user does not have the necessary permission.
+    '404':
+      description: Returned if the comment or the property is not found.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - read:jira-work
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - read:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:comment.property:jira
+  x-atlassian-connect-scope: READ
+put:
+  tags:
+    - Issue comment properties
+  summary: Set comment property
+  description: >-
+    Creates or updates the value of a property for a comment. Use this resource
+    to store custom data against a comment.
+
+
+    The value of the request body must be a
+    [valid](http://tools.ietf.org/html/rfc4627), non-empty JSON blob. The
+    maximum length is 32768 characters.
+
+
+    **[Permissions](#permissions) required:** either of:
+
+     *  *Edit All Comments* [project permission](https://confluence.atlassian.com/x/yodKLg) to create or update the value of a property on any comment.
+     *  *Edit Own Comments* [project permission](https://confluence.atlassian.com/x/yodKLg) to create or update the value of a property on a comment created by the user.
+
+    Also, when the visibility of a comment is restricted to a role or group the
+    user must be a member of that role or group.
+  operationId: setCommentProperty
+  parameters:
+    - name: commentId
+      in: path
+      description: The ID of the comment.
+      required: true
+      schema:
+        type: string
+    - name: propertyKey
+      in: path
+      description: The key of the property. The maximum length is 255 characters.
+      required: true
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        schema: {}
+    required: true
+  responses:
+    '200':
+      description: Returned if the comment property is updated.
+      content:
+        application/json:
+          schema: {}
+    '201':
+      description: Returned if the comment property is created.
+      content:
+        application/json:
+          schema: {}
+    '400':
+      description: Returned if the request is invalid.
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: Returned if the user does not have the necessary permission.
+    '404':
+      description: Returned if the comment is not found.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - write:jira-work
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - write:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - write:comment.property:jira
+  x-atlassian-connect-scope: WRITE
+delete:
+  tags:
+    - Issue comment properties
+  summary: Delete comment property
+  description: >-
+    Deletes a comment property.
+
+
+    **[Permissions](#permissions) required:** either of:
+
+     *  *Edit All Comments* [project permission](https://confluence.atlassian.com/x/yodKLg) to delete a property from any comment.
+     *  *Edit Own Comments* [project permission](https://confluence.atlassian.com/x/yodKLg) to delete a property from a comment created by the user.
+
+    Also, when the visibility of a comment is restricted to a role or group the
+    user must be a member of that role or group.
+  operationId: deleteCommentProperty
+  parameters:
+    - name: commentId
+      in: path
+      description: The ID of the comment.
+      required: true
+      schema:
+        type: string
+    - name: propertyKey
+      in: path
+      description: The key of the property.
+      required: true
+      schema:
+        type: string
+  responses:
+    '204':
+      description: Returned if the request is successful.
+    '400':
+      description: Returned if the request is invalid.
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: Returned if the user does not have the necessary permission.
+    '404':
+      description: >-
+        Returned if the comment or the property is not found or the user has the
+        necessary project permissions but isn't a member of the role or group
+        visibility of the comment is restricted to.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - write:jira-work
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - write:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - delete:comment.property:jira
+  x-atlassian-connect-scope: DELETE

@@ -1,0 +1,10 @@
+type: object
+properties:
+  updateValueList:
+    type: array
+    description: The list of custom field update details.
+    items:
+      $ref: ./ConnectCustomFieldValue.yaml
+additionalProperties: false
+description: Details of updates for a custom field.
+writeOnly: true

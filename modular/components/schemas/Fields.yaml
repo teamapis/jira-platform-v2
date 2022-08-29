@@ -1,0 +1,36 @@
+type: object
+properties:
+  summary:
+    type: string
+    description: The summary description of the linked issue.
+    readOnly: true
+  status:
+    description: The status of the linked issue.
+    readOnly: true
+    allOf:
+      - $ref: ./StatusDetails.yaml
+  priority:
+    description: The priority of the linked issue.
+    readOnly: true
+    allOf:
+      - $ref: ./Priority.yaml
+  assignee:
+    description: The assignee of the linked issue.
+    readOnly: true
+    allOf:
+      - $ref: ./UserDetails.yaml
+  timetracking:
+    description: The time tracking of the linked issue.
+    readOnly: true
+    allOf:
+      - $ref: ./TimeTrackingDetails.yaml
+  issuetype:
+    description: The type of the linked issue.
+    $ref: ./IssueTypeDetails.yaml
+  issueType:
+    description: The type of the linked issue.
+    readOnly: true
+    allOf:
+      - $ref: ./IssueTypeDetails.yaml
+additionalProperties: false
+description: Key fields from the linked issue.

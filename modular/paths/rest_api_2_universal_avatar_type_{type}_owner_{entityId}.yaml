@@ -1,0 +1,197 @@
+get:
+  tags:
+    - Avatars
+  summary: Get avatars
+  description: |-
+    Returns the system and custom avatars for a project or issue type.
+
+    This operation can be accessed anonymously.
+
+    **[Permissions](#permissions) required:**
+
+     *  for custom project avatars, *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project the avatar belongs to.
+     *  for custom issue type avatars, *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for at least one project the issue type is used in.
+     *  for system avatars, none.
+  operationId: getAvatars
+  parameters:
+    - name: type
+      in: path
+      description: The avatar type.
+      required: true
+      schema:
+        type: string
+        enum:
+          - project
+          - issuetype
+    - name: entityId
+      in: path
+      description: The ID of the item the avatar is associated with.
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/Avatars.yaml
+          example: >-
+            {"system":[{"id":"1000","isSystemAvatar":true,"isSelected":false,"isDeletable":false,"urls":{"16x16":"https://your-domain.atlassian.net/secure/viewavatar?size=xsmall&avatarId=10040&avatarType=project","24x24":"https://your-domain.atlassian.net/secure/viewavatar?size=small&avatarId=10040&avatarType=project","32x32":"https://your-domain.atlassian.net/secure/viewavatar?size=medium&avatarId=10040&avatarType=project","48x48":"https://your-domain.atlassian.net/secure/viewavatar?avatarId=10040&avatarType=project"}}],"custom":[{"id":"1010","isSystemAvatar":false,"isSelected":false,"isDeletable":true,"urls":{"16x16":"https://your-domain.atlassian.net/secure/viewavatar?size=xsmall&avatarId=10080&avatarType=project","24x24":"https://your-domain.atlassian.net/secure/viewavatar?size=small&avatarId=10080&avatarType=project","32x32":"https://your-domain.atlassian.net/secure/viewavatar?size=medium&avatarId=10080&avatarType=project","48x48":"https://your-domain.atlassian.net/secure/viewavatar?avatarId=10080&avatarType=project"}}]}
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '404':
+      description: >-
+        Returned if the avatar type is invalid, the associated item ID is
+        missing, or the item is not found.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-configuration
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-configuration
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:avatar:jira
+  x-atlassian-connect-scope: ADMIN
+post:
+  tags:
+    - Avatars
+  summary: Load avatar
+  description: >-
+    Loads a custom avatar for a project or issue type.
+
+
+    Specify the avatar's local file location in the body of the request. Also,
+    include the following headers:
+
+     *  `X-Atlassian-Token: no-check` To prevent XSRF protection blocking the request, for more information see [Special Headers](#special-request-headers).
+     *  `Content-Type: image/image type` Valid image types are JPEG, GIF, or PNG.
+
+    For example:  
+
+    `curl --request POST `
+
+
+    `--user email@example.com:<api_token> `
+
+
+    `--header 'X-Atlassian-Token: no-check' `
+
+
+    `--header 'Content-Type: image/< image_type>' `
+
+
+    `--data-binary "<@/path/to/file/with/your/avatar>" `
+
+
+    `--url
+    'https://your-domain.atlassian.net/rest/api/2/universal_avatar/type/{type}/owner/{entityId}'`
+
+
+    The avatar is cropped to a square. If no crop parameters are specified, the
+    square originates at the top left of the image. The length of the square's
+    sides is set to the smaller of the height or width of the image.
+
+
+    The cropped image is then used to create avatars of 16x16, 24x24, 32x32, and
+    48x48 in size.
+
+
+    After creating the avatar use:
+
+     *  [Update issue type](#api-rest-api-2-issuetype-id-put) to set it as the issue type's displayed avatar.
+     *  [Set project avatar](#api-rest-api-2-project-projectIdOrKey-avatar-put) to set it as the project's displayed avatar.
+
+    **[Permissions](#permissions) required:** *Administer Jira* [global
+    permission](https://confluence.atlassian.com/x/x4dKLg).
+  operationId: storeAvatar
+  parameters:
+    - name: type
+      in: path
+      description: The avatar type.
+      required: true
+      schema:
+        type: string
+        enum:
+          - project
+          - issuetype
+    - name: entityId
+      in: path
+      description: The ID of the item the avatar is associated with.
+      required: true
+      schema:
+        type: string
+    - name: x
+      in: query
+      description: The X coordinate of the top-left corner of the crop region.
+      schema:
+        type: integer
+        format: int32
+        default: 0
+    - name: 'y'
+      in: query
+      description: The Y coordinate of the top-left corner of the crop region.
+      schema:
+        type: integer
+        format: int32
+        default: 0
+    - name: size
+      in: query
+      description: The length of each side of the crop region.
+      required: true
+      schema:
+        type: integer
+        format: int32
+  requestBody:
+    content:
+      '*/*':
+        schema: {}
+    required: true
+  responses:
+    '201':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/Avatar.yaml
+          example: >-
+            {"id":"1000","isSystemAvatar":true,"isSelected":false,"isDeletable":false,"urls":{"16x16":"/secure/useravatar?size=xsmall&avatarId=10040&avatarType=project","24x24":"/secure/useravatar?size=small&avatarId=10040&avatarType=project","32x32":"/secure/useravatar?size=medium&avatarId=10040&avatarType=project","48x48":"/secure/useravatar?avatarId=10040&avatarType=project"}}
+    '400':
+      description: |-
+        Returned if:
+
+         *  an image isn't included in the request.
+         *  the image type is unsupported.
+         *  the crop parameters extend the crop area beyond the edge of the image.
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '403':
+      description: Returned if the user does not have the necessary permissions.
+    '404':
+      description: >-
+        Returned if the avatar type is invalid, the associated item ID is
+        missing, or the item is not found.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - manage:jira-configuration
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - manage:jira-configuration
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - write:avatar:jira
+        - read:avatar:jira
+  x-atlassian-connect-scope: ADMIN

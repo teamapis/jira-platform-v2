@@ -1,0 +1,47 @@
+get:
+  tags:
+    - Issue resolutions
+  summary: Get resolution
+  description: |-
+    Returns an issue resolution value.
+
+    **[Permissions](#permissions) required:** Permission to access Jira.
+  operationId: getResolution
+  parameters:
+    - name: id
+      in: path
+      description: The ID of the issue resolution value.
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Returned if the request is successful.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/Resolution.yaml
+          example: >-
+            {"self":"https://your-domain.atlassian.net/rest/api/2/resolution/1","id":"10000","description":"A
+            fix for this issue is checked into the tree and
+            tested.","name":"Fixed"}
+    '401':
+      description: Returned if the authentication credentials are incorrect or missing.
+    '404':
+      description: Returned if the issue resolution value is not found.
+  deprecated: false
+  security:
+    - basicAuth: []
+    - OAuth2:
+        - read:jira-work
+    - {}
+  x-atlassian-oauth2-scopes:
+    - state: Current
+      scheme: OAuth2
+      scopes:
+        - read:jira-work
+    - state: Beta
+      scheme: OAuth2
+      scopes:
+        - read:resolution:jira
+  x-atlassian-connect-scope: READ
