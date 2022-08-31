@@ -64,7 +64,7 @@ get:
     - OAuth2:
         - read:jira-work
   x-experimental: true
-  x-atlassian-connect-scope: INACCESSIBLE
+  x-atlassian-connect-scope: NONE
 post:
   tags:
     - UI modifications (apps)
@@ -125,4 +125,4 @@ post:
     - OAuth2:
         - read:jira-work
   x-experimental: true
-  x-atlassian-connect-scope: INACCESSIBLE
+  x-atlassian-connect-scope: NONE

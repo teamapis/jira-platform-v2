@@ -12,6 +12,9 @@ properties:
       type: string
   simplified:
     type: boolean
+  boardId:
+    type: integer
+    format: int64
   boardName:
     type: string
   simpleBoard:
@@ -23,7 +26,4 @@ properties:
     type: string
   queueCategory:
     type: string
-  boardId:
-    type: integer
-    format: int64
 additionalProperties: false

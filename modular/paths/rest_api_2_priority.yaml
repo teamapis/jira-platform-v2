@@ -102,4 +102,4 @@ post:
     - OAuth2:
         - manage:jira-configuration
   x-experimental: true
-  x-atlassian-connect-scope: INACCESSIBLE
+  x-atlassian-connect-scope: ADMIN

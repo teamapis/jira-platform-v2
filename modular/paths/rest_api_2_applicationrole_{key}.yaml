@@ -29,7 +29,7 @@ get:
           schema:
             $ref: ../components/schemas/ApplicationRole.yaml
           example: >-
-            {"key":"jira-software","groups":["jira-software-users","jira-testers"],"groupDetails":[{"name":"jira-testers","groupId":"42c8955c-63d7-42c8-9520-63d7aca0625","self":"https://your-domain.atlassian.net/rest/api/2/group?groupId=42c8955c-63d7-42c8-9520-63d7aca0625"},{"name":"jira-software-users","groupId":"276f955c-63d7-42c8-9520-92d01dca0625","self":"https://your-domain.atlassian.net/rest/api/2/group?groupId=276f955c-63d7-42c8-9520-92d01dca0625"}],"name":"Jira
+            {"key":"jira-software","groups":["jira-software-users","jira-testers"],"groupDetails":[{"name":"jira-software-users","groupId":"276f955c-63d7-42c8-9520-92d01dca0625","self":"https://your-domain.atlassian.net/rest/api/2/group?groupId=276f955c-63d7-42c8-9520-92d01dca0625"},{"name":"jira-testers","groupId":"42c8955c-63d7-42c8-9520-63d7aca0625","self":"https://your-domain.atlassian.net/rest/api/2/group?groupId=42c8955c-63d7-42c8-9520-63d7aca0625"}],"name":"Jira
             Software","defaultGroups":["jira-software-users"],"defaultGroupsDetails":[{"name":"jira-software-users","groupId":"276f955c-63d7-42c8-9520-92d01dca0625","self":"https://your-domain.atlassian.net/rest/api/2/group?groupId=276f955c-63d7-42c8-9520-92d01dca0625"}],"selectedByDefault":false,"defined":false,"numberOfSeats":10,"remainingSeats":5,"userCount":5,"userCountDescription":"5
             developers","hasUnlimitedSeats":false,"platform":false}
     '401':

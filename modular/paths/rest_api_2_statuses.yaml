@@ -67,7 +67,7 @@ get:
       scopes:
         - read:workflow:jira
   x-experimental: true
-  x-atlassian-connect-scope: INACCESSIBLE
+  x-atlassian-connect-scope: READ
 put:
   tags:
     - Status
@@ -124,7 +124,7 @@ put:
       scopes:
         - write:workflow:jira
   x-experimental: true
-  x-atlassian-connect-scope: INACCESSIBLE
+  x-atlassian-connect-scope: ADMIN
 post:
   tags:
     - Status
@@ -190,7 +190,7 @@ post:
       scopes:
         - write:workflow:jira
   x-experimental: true
-  x-atlassian-connect-scope: INACCESSIBLE
+  x-atlassian-connect-scope: ADMIN
 delete:
   tags:
     - Status
@@ -246,4 +246,4 @@ delete:
       scopes:
         - write:workflow:jira
   x-experimental: true
-  x-atlassian-connect-scope: INACCESSIBLE
+  x-atlassian-connect-scope: ADMIN

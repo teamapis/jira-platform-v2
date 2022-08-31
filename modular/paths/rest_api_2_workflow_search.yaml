@@ -114,7 +114,7 @@ get:
             Workflow
             Scheme"}],"projects":[{"self":"project/EX","id":"10000","key":"EX","name":"Example","projectTypeKey":"ProjectTypeKey{key='software'}","simplified":false,"avatarUrls":{"48x48":"secure/projectavatar?size=large&pid=10000","24x24":"secure/projectavatar?size=small&pid=10000","16x16":"secure/projectavatar?size=xsmall&pid=10000","32x32":"secure/projectavatar?size=medium&pid=10000"},"projectCategory":{"id":"10000","description":"Project
             category description","name":"A project
-            category"}}],"hasDraftWorkflow":true,"operations":{"canEdit":true,"canDelete":false},"created":"2022-08-25T16:11:18.964+0000","updated":"2022-08-25T16:11:18.964+0000"}]}
+            category"}}],"hasDraftWorkflow":true,"operations":{"canEdit":true,"canDelete":false},"created":"2022-08-31T08:40:21.355+0000","updated":"2022-08-31T08:40:21.355+0000"}]}
     '401':
       description: Returned if the authentication credentials are incorrect or missing.
     '403':

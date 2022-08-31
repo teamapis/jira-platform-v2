@@ -13,18 +13,24 @@ properties:
     type: string
     description: The unique identifier for the component.
     readOnly: true
-  project:
-    type: string
-    description: The key of the project to which the component is assigned.
-    readOnly: true
   description:
     type: string
     description: The description for the component.
     readOnly: true
-  lead:
-    description: The user details for the component's lead user.
-    allOf:
-      - $ref: ./User.yaml
+  self:
+    type: string
+    description: The URL for this count of the issues contained in the component.
+    format: uri
+    readOnly: true
+  projectId:
+    type: integer
+    description: Not used.
+    format: int64
+    readOnly: true
+  project:
+    type: string
+    description: The key of the project to which the component is assigned.
+    readOnly: true
   assigneeType:
     type: string
     description: >-
@@ -43,10 +49,22 @@ properties:
       - COMPONENT_LEAD
       - PROJECT_LEAD
       - UNASSIGNED
-  self:
-    type: string
-    description: The URL for this count of the issues contained in the component.
-    format: uri
+  lead:
+    description: The user details for the component's lead user.
+    allOf:
+      - $ref: ./User.yaml
+  realAssignee:
+    description: >-
+      The user assigned to issues created with this component, when
+      `assigneeType` does not identify a valid assignee.
+    allOf:
+      - $ref: ./User.yaml
+  isAssigneeTypeValid:
+    type: boolean
+    description: >-
+      Whether a user is associated with `assigneeType`. For example, if the
+      `assigneeType` is set to `COMPONENT_LEAD` but the component lead is not
+      set, then `false` is returned.
     readOnly: true
   assignee:
     description: >-
@@ -55,11 +73,6 @@ properties:
       this component.
     allOf:
       - $ref: ./User.yaml
-  projectId:
-    type: integer
-    description: Not used.
-    format: int64
-    readOnly: true
   realAssigneeType:
     type: string
     description: >-
@@ -78,18 +91,5 @@ properties:
       - COMPONENT_LEAD
       - PROJECT_LEAD
       - UNASSIGNED
-  isAssigneeTypeValid:
-    type: boolean
-    description: >-
-      Whether a user is associated with `assigneeType`. For example, if the
-      `assigneeType` is set to `COMPONENT_LEAD` but the component lead is not
-      set, then `false` is returned.
-    readOnly: true
-  realAssignee:
-    description: >-
-      The user assigned to issues created with this component, when
-      `assigneeType` does not identify a valid assignee.
-    allOf:
-      - $ref: ./User.yaml
 additionalProperties: false
 description: Details about a component with a count of the issues it contains.

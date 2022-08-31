@@ -10,13 +10,17 @@ properties:
     type: boolean
   elements:
     type: object
-  floatingPointNumber:
+  object:
+    type: boolean
+  valueNode:
     type: boolean
   pojo:
     type: boolean
   number:
     type: boolean
   integralNumber:
+    type: boolean
+  floatingPointNumber:
     type: boolean
   int:
     type: boolean
@@ -37,10 +41,6 @@ properties:
   containerNode:
     type: boolean
   missingNode:
-    type: boolean
-  object:
-    type: boolean
-  valueNode:
     type: boolean
   numberValue:
     type: number

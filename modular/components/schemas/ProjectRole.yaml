@@ -40,13 +40,13 @@ properties:
     type: boolean
     description: Whether this role is the default role for the project
     readOnly: true
-  admin:
-    type: boolean
-    description: Whether this role is the admin role for the project.
-    readOnly: true
   roleConfigurable:
     type: boolean
     description: Whether the roles are configurable for this project.
+    readOnly: true
+  admin:
+    type: boolean
+    description: Whether this role is the admin role for the project.
     readOnly: true
 additionalProperties: false
 description: Details about the roles in a project.

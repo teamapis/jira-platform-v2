@@ -61,7 +61,7 @@ put:
     - OAuth2:
         - read:jira-work
   x-experimental: true
-  x-atlassian-connect-scope: INACCESSIBLE
+  x-atlassian-connect-scope: NONE
 delete:
   tags:
     - UI modifications (apps)
@@ -98,4 +98,4 @@ delete:
     - basicAuth: []
     - OAuth2: []
   x-experimental: true
-  x-atlassian-connect-scope: INACCESSIBLE
+  x-atlassian-connect-scope: NONE

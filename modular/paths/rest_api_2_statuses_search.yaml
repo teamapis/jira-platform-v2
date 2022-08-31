@@ -92,4 +92,4 @@ get:
       scopes:
         - read:workflow:jira
   x-experimental: true
-  x-atlassian-connect-scope: INACCESSIBLE
+  x-atlassian-connect-scope: READ
