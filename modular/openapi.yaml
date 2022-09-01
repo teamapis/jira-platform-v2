@@ -944,6 +944,8 @@ paths:
     $ref: paths/rest_api_2_priority.yaml
   /rest/api/2/priority/default:
     $ref: paths/rest_api_2_priority_default.yaml
+  /rest/api/2/priority/move:
+    $ref: paths/rest_api_2_priority_move.yaml
   /rest/api/2/priority/search:
     $ref: paths/rest_api_2_priority_search.yaml
   /rest/api/2/priority/{id}:

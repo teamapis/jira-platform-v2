@@ -1,11 +1,11 @@
 type: object
 properties:
-  included:
+  excluded:
     uniqueItems: true
     type: array
     items:
       type: string
-  excluded:
+  included:
     uniqueItems: true
     type: array
     items:

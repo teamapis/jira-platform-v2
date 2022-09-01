@@ -54,7 +54,7 @@ get:
             resolution is
             empty","viewUrl":"https://your-domain.atlassian.net/issues/?filter=10010","searchUrl":"https://your-domain.atlassian.net/rest/api/2/search?jql=assignee+in+%28currentUser%28%29%29+and+resolution+is+empty","favourite":true,"favouritedCount":0,"sharePermissions":[{"id":10000,"type":"global"},{"id":10010,"type":"project","project":{"self":"https://your-domain.atlassian.net/rest/api/2/project/EX","id":"10000","key":"EX","name":"Example","avatarUrls":{"48x48":"https://your-domain.atlassian.net/secure/projectavatar?size=large&pid=10000","24x24":"https://your-domain.atlassian.net/secure/projectavatar?size=small&pid=10000","16x16":"https://your-domain.atlassian.net/secure/projectavatar?size=xsmall&pid=10000","32x32":"https://your-domain.atlassian.net/secure/projectavatar?size=medium&pid=10000"},"projectCategory":{"self":"https://your-domain.atlassian.net/rest/api/2/projectCategory/10000","id":"10000","name":"FIRST","description":"First
             Project
-            Category"},"simplified":false,"style":"classic","insight":{"totalIssueCount":100,"lastIssueUpdateTime":"2022-08-31T08:40:10.439+0000"}}}],"editPermissions":[],"subscriptions":{"size":0,"items":[],"max-results":0,"start-index":0,"end-index":0}}]
+            Category"},"simplified":false,"style":"classic","insight":{"totalIssueCount":100,"lastIssueUpdateTime":"2022-09-01T06:50:38.232+0000"}}}],"editPermissions":[],"subscriptions":{"size":0,"items":[],"max-results":0,"start-index":0,"end-index":0}}]
     '401':
       description: Returned if the authentication credentials are incorrect or missing.
   deprecated: false

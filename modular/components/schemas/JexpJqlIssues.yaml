@@ -17,11 +17,11 @@ properties:
   validation:
     type: string
     description: Determines how to validate the JQL query and treat the validation results.
-    default: strict
     enum:
       - strict
       - warn
       - none
+    default: strict
 additionalProperties: false
 description: >-
   The JQL specifying the issues available in the evaluated Jira expression under

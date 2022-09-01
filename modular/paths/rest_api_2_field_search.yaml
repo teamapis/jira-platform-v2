@@ -111,7 +111,7 @@ get:
             {"maxResults":50,"startAt":0,"total":2,"isLast":false,"values":[{"id":"customfield_10000","name":"Approvers","schema":{"type":"array","items":"user","custom":"com.atlassian.jira.plugin.system.customfieldtypes:multiuserpicker","customId":10000},"description":"Contains
             users needed for approval. This custom field was created by Jira
             Service
-            Desk.","key":"customfield_10000","isLocked":true,"searcherKey":"com.atlassian.jira.plugin.system.customfieldtypes:userpickergroupsearcher","screensCount":2,"contextsCount":2,"lastUsed":{"type":"TRACKED","value":"2019-09-12T10:10:00.990+0000"}},{"id":"customfield_10001","name":"Change
+            Desk.","key":"customfield_10000","isLocked":true,"searcherKey":"com.atlassian.jira.plugin.system.customfieldtypes:userpickergroupsearcher","screensCount":2,"contextsCount":2,"lastUsed":{"type":"TRACKED","value":"2019-09-12T10:10:00.510+0000"}},{"id":"customfield_10001","name":"Change
             reason","schema":{"type":"option","custom":"com.atlassian.jira.plugin.system.customfieldtypes:select","customId":10001},"description":"Choose
             the reason for the change
             request","key":"customfield_10001","isLocked":false,"searcherKey":"com.atlassian.jira.plugin.system.customfieldtypes:multiselectsearcher","screensCount":2,"contextsCount":2,"lastUsed":{"type":"NOT_TRACKED"}}]}

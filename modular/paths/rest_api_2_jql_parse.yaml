@@ -23,11 +23,11 @@ post:
          *  `none` No validation is performed. If JQL query is correctly formed, the query structure is returned.
       schema:
         type: string
-        default: strict
         enum:
           - strict
           - warn
           - none
+        default: strict
   requestBody:
     content:
       application/json:

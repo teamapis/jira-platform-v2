@@ -57,7 +57,6 @@ get:
          *  `id` Sorts by issue type screen scheme ID.
       schema:
         type: string
-        default: id
         enum:
           - name
           - '-name'
@@ -65,6 +64,7 @@ get:
           - id
           - '-id'
           - +id
+        default: id
     - name: expand
       in: query
       description: >-

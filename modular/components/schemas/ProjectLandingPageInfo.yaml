@@ -6,10 +6,6 @@ properties:
     type: string
   projectType:
     type: string
-  attributes:
-    type: object
-    additionalProperties:
-      type: string
   simplified:
     type: boolean
   boardId:
@@ -26,4 +22,8 @@ properties:
     type: string
   queueCategory:
     type: string
+  attributes:
+    type: object
+    additionalProperties:
+      type: string
 additionalProperties: false

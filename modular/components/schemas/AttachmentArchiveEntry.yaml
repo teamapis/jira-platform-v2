@@ -1,15 +1,15 @@
 type: object
 properties:
-  abbreviatedName:
-    type: string
   entryIndex:
     type: integer
     format: int64
+  abbreviatedName:
+    type: string
+  mediaType:
+    type: string
   name:
     type: string
   size:
     type: integer
     format: int64
-  mediaType:
-    type: string
 additionalProperties: false

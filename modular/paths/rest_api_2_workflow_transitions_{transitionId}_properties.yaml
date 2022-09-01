@@ -54,10 +54,10 @@ get:
         *draft* for draft workflows.
       schema:
         type: string
-        default: live
         enum:
           - live
           - draft
+        default: live
   responses:
     '200':
       description: 200 response
@@ -232,10 +232,10 @@ post:
         draft workflows. Active workflows cannot be edited.
       schema:
         type: string
-        default: live
         enum:
           - live
           - draft
+        default: live
   requestBody:
     content:
       application/json:

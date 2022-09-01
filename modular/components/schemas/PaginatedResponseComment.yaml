@@ -3,12 +3,12 @@ properties:
   total:
     type: integer
     format: int64
-  maxResults:
-    type: integer
-    format: int32
   startAt:
     type: integer
     format: int64
+  maxResults:
+    type: integer
+    format: int32
   results:
     type: array
     items:

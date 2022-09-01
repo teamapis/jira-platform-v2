@@ -31,7 +31,7 @@ get:
           schema:
             $ref: ../components/schemas/ProjectIssueTypeHierarchy.yaml
           example: >-
-            {"projectId":10030,"hierarchy":[{"entityId":"3c222ede-4802-4671-832f-552fee96fad8","level":0,"name":"Base","issueTypes":[{"id":10008,"entityId":"6f2c36a5-7682-4784-8f24-94547ec93692","name":"Story","avatarId":10324},{"id":10001,"entityId":"85f6c16c-2dc9-44b9-8aa5-f9ffef6e6cfd","name":"Bug","avatarId":10324}]},{"entityId":"a1d7ae57-9968-46a0-bb9a-12e38ac436a5","level":1,"name":"Epic","issueTypes":[{"id":10007,"entityId":"2c4d782f-b027-478c-b9c8-8083f97ba2de","name":"Epic","avatarId":10179}]},{"entityId":"44cd7e1b-7390-42f6-9fa9-918ba41aa130","level":-1,"name":"Subtask","issueTypes":[{"id":10009,"entityId":"1b9c3121-9f64-481a-8986-286ffe57367e","name":"Subtask","avatarId":10573}]}]}
+            {"projectId":10030,"hierarchy":[{"entityId":"4569f0df-5560-4bf6-9eff-bac283ed51a6","level":0,"name":"Base","issueTypes":[{"id":10008,"entityId":"b8046598-7cec-441a-8cb6-bfb694c93c93","name":"Story","avatarId":10324},{"id":10001,"entityId":"c1c47bea-32d3-455f-8a3e-ef5a3e1a8923","name":"Bug","avatarId":10324}]},{"entityId":"61a42a25-61d2-4e9c-9fa3-f182f6100d6b","level":1,"name":"Epic","issueTypes":[{"id":10007,"entityId":"db7b27c0-1d77-4ede-af0c-6d61703259a2","name":"Epic","avatarId":10179}]},{"entityId":"cb1cc950-3921-4c68-aec5-85f1db05d4d1","level":-1,"name":"Subtask","issueTypes":[{"id":10009,"entityId":"7b54e49a-f61c-49a0-80e5-0aee91dbc61d","name":"Subtask","avatarId":10573}]}]}
     '400':
       description: Returned if the request is invalid.
     '401':

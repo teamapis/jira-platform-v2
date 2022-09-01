@@ -27,11 +27,11 @@ post:
          *  `complexity` EXPERIMENTAL. Determines the formulae for how many [expensive operations](https://developer.atlassian.com/cloud/jira/platform/jira-expressions/#expensive-operations) each expression may execute.
       schema:
         type: string
-        default: syntax
         enum:
           - syntax
           - type
           - complexity
+        default: syntax
   requestBody:
     description: The Jira expressions to analyse.
     content:

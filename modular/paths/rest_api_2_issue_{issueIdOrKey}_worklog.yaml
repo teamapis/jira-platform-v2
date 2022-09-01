@@ -158,12 +158,12 @@ post:
          *  `auto` Reduces the estimate by the value of `timeSpent` in the worklog.
       schema:
         type: string
-        default: auto
         enum:
           - new
           - leave
           - manual
           - auto
+        default: auto
     - name: newEstimate
       in: query
       description: >-

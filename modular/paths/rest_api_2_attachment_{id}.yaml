@@ -31,7 +31,7 @@ get:
             $ref: ../components/schemas/AttachmentMetadata.yaml
           example: >-
             {"id":10001,"self":"https://your-domain.atlassian.net/rest/api/2/attachments/10001","filename":"debuglog.txt","author":{"self":"https://your-domain.atlassian.net/rest/api/2/user?accountId=5b10a2844c20165700ede21g","key":"","accountId":"5b10a2844c20165700ede21g","accountType":"atlassian","name":"","avatarUrls":{"48x48":"https://avatar-management--avatars.server-location.prod.public.atl-paas.net/initials/MK-5.png?size=48&s=48","24x24":"https://avatar-management--avatars.server-location.prod.public.atl-paas.net/initials/MK-5.png?size=24&s=24","16x16":"https://avatar-management--avatars.server-location.prod.public.atl-paas.net/initials/MK-5.png?size=16&s=16","32x32":"https://avatar-management--avatars.server-location.prod.public.atl-paas.net/initials/MK-5.png?size=32&s=32"},"displayName":"Mia
-            Krystof","active":false},"created":"2022-08-31T08:40:14.727+0000","size":2460,"mimeType":"text/plain","content":"https://your-domain.atlassian.net/jira/secure/attachments/10001/debuglog.txt"}
+            Krystof","active":false},"created":"2022-09-01T06:50:39.563+0000","size":2460,"mimeType":"text/plain","content":"https://your-domain.atlassian.net/jira/secure/attachments/10001/debuglog.txt"}
     '401':
       description: Returned if the authentication credentials are incorrect or missing.
     '403':

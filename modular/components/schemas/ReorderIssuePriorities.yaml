@@ -1,0 +1,25 @@
+required:
+  - ids
+type: object
+properties:
+  ids:
+    type: array
+    description: >-
+      The list of issue IDs to be reordered. Cannot contain duplicates nor after
+      ID.
+    writeOnly: true
+    items:
+      type: string
+      writeOnly: true
+  after:
+    type: string
+    description: The ID of the priority. Required if `position` isn't provided.
+    writeOnly: true
+  position:
+    type: string
+    description: >-
+      The position for issue priorities to be moved to. Required if `after`
+      isn't provided.
+    writeOnly: true
+additionalProperties: false
+description: Change the order of issue priorities.

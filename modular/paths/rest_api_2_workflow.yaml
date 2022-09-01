@@ -962,7 +962,7 @@ post:
             $ref: ../components/schemas/WorkflowIDs.yaml
           example: >-
             {"name":"Workflow
-            1","entityId":"7984b709-7f24-4c7f-b790-c3e52b5e43d9"}
+            1","entityId":"9e061762-8978-4334-8974-410b40853afc"}
     '400':
       description: Returned if the request is not valid.
       content:

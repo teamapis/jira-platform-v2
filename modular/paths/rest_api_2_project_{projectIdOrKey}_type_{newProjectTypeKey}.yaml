@@ -55,7 +55,7 @@ put:
             Gen
             Project"}}}],"url":"https://www.example.com","email":"from-jira@example.com","assigneeType":"PROJECT_LEAD","versions":[],"name":"Example","roles":{"Developers":"https://your-domain.atlassian.net/rest/api/2/project/EX/role/10000"},"avatarUrls":{"48x48":"https://your-domain.atlassian.net/secure/projectavatar?size=large&pid=10000","24x24":"https://your-domain.atlassian.net/secure/projectavatar?size=small&pid=10000","16x16":"https://your-domain.atlassian.net/secure/projectavatar?size=xsmall&pid=10000","32x32":"https://your-domain.atlassian.net/secure/projectavatar?size=medium&pid=10000"},"projectCategory":{"self":"https://your-domain.atlassian.net/rest/api/2/projectCategory/10000","id":"10000","name":"FIRST","description":"First
             Project
-            Category"},"simplified":false,"style":"classic","properties":{"propertyKey":"propertyValue"},"insight":{"totalIssueCount":100,"lastIssueUpdateTime":"2022-08-31T08:40:10.439+0000"}}
+            Category"},"simplified":false,"style":"classic","properties":{"propertyKey":"propertyValue"},"insight":{"totalIssueCount":100,"lastIssueUpdateTime":"2022-09-01T06:50:38.232+0000"}}
     '400':
       description: Returned if the request is not valid.
     '401':

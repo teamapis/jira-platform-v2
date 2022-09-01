@@ -48,7 +48,7 @@ get:
             {"id":1,"value":"Team 1","properties":{"leader":{"name":"Leader
             Name","email":"lname@example.com"},"members":42,"description":"The
             team's
-            description","founded":"2016-06-06"},"config":{"scope":{"projects":[],"projects2":[{"id":1001,"attributes":["notSelectable"]},{"id":1002,"attributes":["notSelectable"]}],"global":{}},"attributes":[]}}
+            description","founded":"2016-06-06"},"config":{"scope":{"projects":[],"projects2":[{"id":1002,"attributes":["notSelectable"]},{"id":1001,"attributes":["notSelectable"]}],"global":{}},"attributes":[]}}
     '400':
       description: Returned if the field is not found or does not support options.
     '403':
@@ -127,10 +127,10 @@ put:
               projects2:
                 - attributes:
                     - notSelectable
-                  id: 1001
+                  id: 1002
                 - attributes:
                     - notSelectable
-                  id: 1002
+                  id: 1001
               projects: []
               global: {}
             attributes: []
@@ -153,7 +153,7 @@ put:
             {"id":1,"value":"Team 1","properties":{"leader":{"name":"Leader
             Name","email":"lname@example.com"},"members":42,"description":"The
             team's
-            description","founded":"2016-06-06"},"config":{"scope":{"projects":[],"projects2":[{"id":1001,"attributes":["notSelectable"]},{"id":1002,"attributes":["notSelectable"]}],"global":{}},"attributes":[]}}
+            description","founded":"2016-06-06"},"config":{"scope":{"projects":[],"projects2":[{"id":1002,"attributes":["notSelectable"]},{"id":1001,"attributes":["notSelectable"]}],"global":{}},"attributes":[]}}
     '400':
       description: >-
         Returned if the option is invalid, or the *ID* in the request object

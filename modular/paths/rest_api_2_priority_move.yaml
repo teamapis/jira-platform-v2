@@ -1,22 +1,25 @@
 put:
   tags:
     - Issue priorities
-  summary: Set default priority
+  summary: Move priorities
   description: >-
-    Sets default issue priority.
+    Changes the order of issue priorities.
 
 
     **[Permissions](#permissions) required:** *Administer Jira* [global
     permission](https://confluence.atlassian.com/x/x4dKLg).
-  operationId: setDefaultPriority
+  operationId: movePriorities
   parameters: []
   requestBody:
     content:
       application/json:
         schema:
-          $ref: ../components/schemas/SetDefaultPriorityRequest.yaml
+          $ref: ../components/schemas/ReorderIssuePriorities.yaml
         example:
-          id: '3'
+          ids:
+            - '10004'
+            - '10005'
+          after: '10003'
     required: true
   responses:
     '204':
@@ -30,7 +33,9 @@ put:
         application/json:
           schema:
             $ref: ../components/schemas/ErrorCollection.yaml
-          example: '{"errorMessages":["The id has to be provided."],"errors":{}}'
+          example: >-
+            {"errorMessages":["The ids must contain no more than 1,000
+            items."],"errors":{}}
     '401':
       description: Returned if the authentication credentials are incorrect or missing.
       content:

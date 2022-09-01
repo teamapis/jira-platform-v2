@@ -142,12 +142,12 @@ put:
          *  `auto` Updates the estimate by the difference between the original and updated value of `timeSpent` or `timeSpentSeconds`.
       schema:
         type: string
-        default: auto
         enum:
           - new
           - leave
           - manual
           - auto
+        default: auto
     - name: newEstimate
       in: query
       description: >-
@@ -296,12 +296,12 @@ delete:
          *  `auto` Reduces the estimate by the value of `timeSpent` in the worklog.
       schema:
         type: string
-        default: auto
         enum:
           - new
           - leave
           - manual
           - auto
+        default: auto
     - name: newEstimate
       in: query
       description: >-

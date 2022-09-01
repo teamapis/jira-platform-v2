@@ -2,25 +2,15 @@ maxProperties: 10
 minProperties: 1
 type: object
 properties:
-  array:
-    type: boolean
-  fields:
-    type: object
-  'null':
-    type: boolean
   elements:
     type: object
-  object:
-    type: boolean
-  valueNode:
+  floatingPointNumber:
     type: boolean
   pojo:
     type: boolean
   number:
     type: boolean
   integralNumber:
-    type: boolean
-  floatingPointNumber:
     type: boolean
   int:
     type: boolean
@@ -41,6 +31,10 @@ properties:
   containerNode:
     type: boolean
   missingNode:
+    type: boolean
+  object:
+    type: boolean
+  valueNode:
     type: boolean
   numberValue:
     type: number
@@ -90,4 +84,10 @@ properties:
     type: string
   fieldNames:
     type: object
+  array:
+    type: boolean
+  fields:
+    type: object
+  'null':
+    type: boolean
 additionalProperties: false

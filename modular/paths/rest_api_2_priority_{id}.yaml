@@ -28,7 +28,7 @@ get:
     '401':
       description: Returned if the authentication credentials are incorrect.
     '404':
-      description: Returned if the issue priority is not found.
+      description: Returned if the issue priority isn't found.
   deprecated: false
   security:
     - basicAuth: []
@@ -81,7 +81,7 @@ put:
         application/json:
           schema: {}
     '400':
-      description: Returned if the request is not valid.
+      description: Returned if the request isn't valid.
       content:
         application/json:
           schema:
@@ -96,7 +96,7 @@ put:
           schema:
             $ref: ../components/schemas/ErrorCollection.yaml
     '403':
-      description: Returned if the user does not have the necessary permission.
+      description: Returned if the user doesn't have the necessary permission.
       content:
         application/json:
           schema:
@@ -105,7 +105,7 @@ put:
             {"errorMessages":["Only Jira administrators can access issue
             priorities."],"errors":{}}
     '404':
-      description: Returned if the issue priority is not found.
+      description: Returned if the issue priority isn't found.
       content:
         application/json:
           schema:

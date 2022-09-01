@@ -73,7 +73,7 @@ post:
             $ref: ../components/schemas/PriorityId.yaml
           example: '{"id":"10001"}'
     '400':
-      description: Returned if the request is not valid.
+      description: Returned if the request isn't valid.
       content:
         application/json:
           schema:
@@ -88,7 +88,7 @@ post:
           schema:
             $ref: ../components/schemas/ErrorCollection.yaml
     '403':
-      description: Returned if the user does not have the necessary permission.
+      description: Returned if the user doesn't have the necessary permission.
       content:
         application/json:
           schema:

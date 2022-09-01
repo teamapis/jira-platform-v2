@@ -5,32 +5,18 @@ properties:
     description: Count of issues for the component.
     format: int64
     readOnly: true
-  name:
+  project:
     type: string
-    description: The name for the component.
-    readOnly: true
-  id:
-    type: string
-    description: The unique identifier for the component.
+    description: The key of the project to which the component is assigned.
     readOnly: true
   description:
     type: string
     description: The description for the component.
     readOnly: true
-  self:
-    type: string
-    description: The URL for this count of the issues contained in the component.
-    format: uri
-    readOnly: true
-  projectId:
-    type: integer
-    description: Not used.
-    format: int64
-    readOnly: true
-  project:
-    type: string
-    description: The key of the project to which the component is assigned.
-    readOnly: true
+  lead:
+    description: The user details for the component's lead user.
+    allOf:
+      - $ref: ./User.yaml
   assigneeType:
     type: string
     description: >-
@@ -49,10 +35,23 @@ properties:
       - COMPONENT_LEAD
       - PROJECT_LEAD
       - UNASSIGNED
-  lead:
-    description: The user details for the component's lead user.
+  self:
+    type: string
+    description: The URL for this count of the issues contained in the component.
+    format: uri
+    readOnly: true
+  assignee:
+    description: >-
+      The details of the user associated with `assigneeType`, if any. See
+      `realAssignee` for details of the user assigned to issues created with
+      this component.
     allOf:
       - $ref: ./User.yaml
+  projectId:
+    type: integer
+    description: Not used.
+    format: int64
+    readOnly: true
   realAssignee:
     description: >-
       The user assigned to issues created with this component, when
@@ -66,13 +65,6 @@ properties:
       `assigneeType` is set to `COMPONENT_LEAD` but the component lead is not
       set, then `false` is returned.
     readOnly: true
-  assignee:
-    description: >-
-      The details of the user associated with `assigneeType`, if any. See
-      `realAssignee` for details of the user assigned to issues created with
-      this component.
-    allOf:
-      - $ref: ./User.yaml
   realAssigneeType:
     type: string
     description: >-
@@ -91,5 +83,13 @@ properties:
       - COMPONENT_LEAD
       - PROJECT_LEAD
       - UNASSIGNED
+  name:
+    type: string
+    description: The name for the component.
+    readOnly: true
+  id:
+    type: string
+    description: The unique identifier for the component.
+    readOnly: true
 additionalProperties: false
 description: Details about a component with a count of the issues it contains.

@@ -96,7 +96,6 @@ get:
         default value is used.
       schema:
         type: string
-        default: xsmall
         enum:
           - xsmall
           - xsmall@2x
@@ -119,6 +118,7 @@ get:
           - xxxlarge
           - xxxlarge@2x
           - xxxlarge@3x
+        default: xsmall
     - name: caseInsensitive
       in: query
       description: Whether the search for groups should be case insensitive.
